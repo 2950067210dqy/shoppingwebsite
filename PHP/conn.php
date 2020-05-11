@@ -3,10 +3,9 @@ if (!session_id()) session_start();
 date_default_timezone_set('PRC');//临时设置中国时区
 header("content-type:text/html;charset=utf8");
 global $conn;
-$url="47.94.164.171";
-$password="2591215997as";
-//$url="localhost";
-//$password="";
+
+$url="localhost";
+$password="";
 $conn=mysqli_connect($url,"root",$password,"shopping",3306);
 mysqli_query($conn,"set names 'UTF8'");
 function selectAllNoWhere($table,$flag,$conn){
