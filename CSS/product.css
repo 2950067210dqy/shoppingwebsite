@@ -1,0 +1,395 @@
+*{
+	padding: 0;
+	margin: 0;
+	list-style: none;
+	background-color: rgb(255,255,255);
+	text-decoration: none;
+	}
+.topnav{
+	position: sticky;
+	top: 0px;
+	width: 100%;
+	height: 10%;
+	overflow: hidden;
+	background-color: rgb(245,245,245);
+	border-bottom: 2px solid silver;
+	z-index: 100;
+	}
+.topnavin{
+	color: rgb(54,54,54);
+	padding-bottom: 25px;
+	padding-top: 10px;
+	font-size: 12px;
+	width: 90%;
+	height: 100%;
+	margin: 0 auto;
+	background-color: rgb(245,245,245);
+	}
+.visitsum{
+	background-color: rgb(245,245,245);
+	color: rgb(54,54,54);
+	}
+.topnav a{
+	background-color: rgb(245,245,245);
+	color: rgb(54,54,54);
+	}
+.place{
+	float: left;
+	padding-left: 10px;
+	width: 5%;
+	height: 100%;
+	background-color: rgb(245,245,245);
+	}
+.nav{
+	float: right;
+	width: 91%;
+	height: 100%;
+	background-color: rgb(245,245,245);
+	}
+.topnavul{
+	background-color: rgb(245,245,245);
+	}
+.topnavul li{
+	display: block;
+	float: right;
+	margin-left: 15px;
+	background-color: rgb(245,245,245);
+	}
+.topnavul li a:hover{
+	color: rgb(241,1,128);
+	}
+
+
+
+.logo_search{
+	width: 70%;
+	margin: 0 auto;
+	
+	}
+.logoleft{
+	float: left;
+	
+	height: 110px;
+	}
+.logoright{
+	float: left;
+	
+	height: 58px;
+	padding-top: 2%;
+	overflow: hidden;
+	margin-left: 17px;
+	}
+.search{
+	float: right;
+	width: 530px;
+	height: 50px;
+	overflow: hidden;
+	}
+.searchinput_shopcarinput {
+	
+	
+	}
+.searchinput_shopcarinput input[type="text"]{
+	width: 350px;
+	height: 30px;
+	border: 3px solid rgb(250,42,131);
+	
+	
+	}
+.searchinput_shopcarinput input[type="submit"]{
+	border: none;
+	width: 50px;
+	height: 30px;
+	background-image: url("../IMG/search.png");
+	background-repeat: no-repeat;
+	background-size: cover;
+	box-shadow: -3px 35px 15px -3px #888888;
+	}
+.shopcar{
+	margin-left: 10px;
+	border: 3px solid rgb(207,207,207);
+	background: rgb(246,247,249);
+	width: 80px;
+	height: 70px;
+	}
+.shopcar_img{
+	padding: 0 ;
+	height: 100%;
+	}
+.shopcar_word{
+	color: black;
+	}
+.shopcar_msg{
+	width: 40px;
+	padding: 0 ;
+	background: rgb(240,5,129);
+	border-radius: 25px;
+	color:white;
+	height: 100%;
+	}
+/*推荐recommend*/
+.recommend {
+	float:right;
+	margin-right: 120px;
+	}
+.recommend ul{
+	
+	}
+.recommend li{
+	
+	
+	display: block;
+	float: right;
+	margin-left: 15px;
+	}
+.recommend li a{
+	font-size: 12px;
+	color: rgb(54,54,54);
+	}
+
+
+
+
+/*商品详情界面*/
+
+.product_information{
+	width: 69%;
+	margin: 0 auto;
+	height: auto;
+	border: 1px solid black;
+	}
+.product_img{
+	margin: 2%;
+	float: left;
+	}
+.new_img{
+	position: absolute;
+	display: none;
+	}
+.information{
+	float: right;
+	width: 60%;
+	margin-top: 3%;
+	}
+.product_title{
+	font-size: 16px;
+	color: #666666;
+	}
+.sale_price{
+	background-color:rgb(242,242,242);
+	width: 100%;
+	height: auto;
+	margin-top: 4%;
+	}
+.price{
+	background-color: inherit;
+	}
+.price font{
+	background-color: inherit;
+	}
+.sale{
+	margin-top: 4%;
+	background-color: inherit;
+	}
+.sale font{
+	background-color: inherit;
+	}
+
+.num input{
+	margin-top: 5%;
+	text-align: center;
+	font-size: 30px;
+	width: 60px;
+	height: 40px;
+	}
+.buy_shopcar{
+	margin-top: 10%;
+	}
+.buy_shopcar button{
+	width: 150px;
+	height: 60px;
+	text-align: center;
+	color: white;
+	font-size: 16px;
+	background-color: #df3033;
+	}
+.buy_shopcar button:nth-child(2){
+	margin-left: 5%;
+	}
+.tip{
+	margin-top: 5%;
+	margin-bottom: 10%;
+	}
+/*
+推荐区
+*/
+.shopRecommend{
+	width: 67%;margin: 0 auto;
+	}
+.shopRecommend table{
+	border-top: 5px solid #999999;
+	border-bottom:5px solid #999999;
+	width: 100%;
+	}
+.shopRecommend th{
+	border-bottom:  1px solid #e4393c;
+	background: #999999;
+	}
+
+.shopRecommend th div{
+	color: white;
+	font-size: 25px;
+	background: #e4393c;
+	}
+.shopRecommend th div a{
+	background: white;
+	border-radius: 50%;
+	}
+.shopItem{
+	padding: 10px;
+	border: 1px solid rgb(233,233,233);
+	margin-top: 10%;
+	height: 350px;
+	width: 100%;
+	}
+.shopItem:hover{
+	border: 1px solid rgb(255,68,0);
+	}
+.shopItem img{
+	display: block;
+	width: 100%;
+	height: auto;
+	}
+
+.shopItem p{
+	margin-top: 10px;
+	}
+.item_title{
+	color: #666666;
+	font-size: 12px;
+	}
+.item_title:hover{
+	color: #e4393c;
+	}
+.item_merchant{
+	color: #999999;
+	font-size: 12px;
+	}
+.item_merchant:hover{
+	color: #e4393c;
+	}
+.item_merchant_place{
+	color: #999999;
+	font-size: 12px;
+	}
+
+/**
+评论区
+**/
+.shoppost{
+	width: 67%;margin: 0 auto;
+	}
+.shoppost_title{
+	color: white;
+	font-size: 25px;
+	background: #e4393c;
+	text-align: center;
+	font-weight: bolder;
+
+	}
+.Media {
+	width: 67%;margin: 0 auto;
+	display: flex;
+	align-items: flex-start;
+	border-top: 1px solid #999999;
+	}
+.Media input[type=button]{
+	width: 50px;
+	}
+.Media input[type=submit]{
+	width: 50px;
+	float: right;
+	border: none;
+	border-bottom: 1px solid silver;
+	cursor: pointer;
+	color: red;
+	}
+
+
+.Media-figure {
+	margin-right: 1em;
+	border-radius: 50%;
+	}
+
+.Media-body {
+	flex: 1;
+	margin-left: 5%;
+	}
+.tipOfReply{
+	width: 40%;margin: 0 auto;
+
+	}
+.tipOfReply:hover{
+	color: #999999;
+	}
+.reply {
+	width: 60%;
+	margin-left: 30%;
+	display: none;
+	}
+.huifu,.huifus{
+	display: none;
+	}
+.recommendTA{
+	width: 70%;margin: 0 auto;
+	}
+.recommendTA textarea{
+	margin-top: 5%;
+	width: 100%;
+	height: 150px;
+	border: 1px solid #00a1d6;
+	background-color: #F4F5F7;
+	}
+.recommendTA textarea::-webkit-input-placeholder{
+	color: #333333;
+	font-size: 17px;
+	}
+.recommendTA textarea::-moz-placeholder{
+	color: #333333;
+	font-size: 17px;
+	}
+.recommendTA textarea::-ms-input-placeholder{
+	color: #333333;
+	font-size: 17px;
+	}
+.recommendTA input[type=submit],input[type=reset]{
+	background-color: #00a1d6;
+	width: 49%;
+	height: 50px;
+	color: white;
+	font-size: 12px;
+	}
+.recommendTA textarea:hover{
+	background-color: white;
+	border: 1px solid #e4393c;
+	}
+.recommendTA input[type=submit]:hover,input[type=reset]:hover{
+	background-color: #00a1a6;
+	}
+
+
+
+
+
+
+
+.footer{
+	margin-top: 60px;
+	width: 100%;
+	height: 100px;
+	background-color: rgb(246,249,250);
+	border-top: rgb(252,252,252);
+	padding-top: 20px;
+	}
+
+

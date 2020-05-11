@@ -1,0 +1,544 @@
+ *{
+    padding: 0;
+     margin: 0;
+     list-style: none;
+     background-color: rgb(255,255,255);
+     text-decoration: none;
+     
+}
+ .well ul li{
+     background-color: rgb(245,245,245);
+     }
+ .topnav{
+     position: sticky;
+     top: 0;
+     width: 100%;
+     height: 10%;
+     overflow: hidden;
+     background-color: rgb(245,245,245);
+     border-bottom: 2px solid silver;
+     z-index: 100;
+ }
+.topnavin{
+    color: rgb(54,54,54);
+    padding-bottom: 25px;
+    padding-top: 10px;
+    font-size: 12px;
+    width: 90%;
+    height: 100%;
+    margin: 0 auto;
+    background-color: rgb(245,245,245);
+}
+.visitsum{
+    background-color: rgb(245,245,245);
+    color: rgb(54,54,54);
+}
+.topnav a{
+    background-color: rgb(245,245,245);
+    color: rgb(54,54,54);
+}
+.place{
+    float: left;
+    padding-left: 10px;
+    width: 5%;
+    height: 100%;
+    background-color: rgb(245,245,245);
+}
+.nav{
+    float: right;
+    width: 91%;
+    height: 100%;
+    background-color: rgb(245,245,245);
+}
+.topnavul{
+    background-color: rgb(245,245,245);
+}
+.topnavul li{
+     display: block;
+    float: right;
+    margin-left: 15px;
+    background-color: rgb(245,245,245);
+           }
+.topnavul li a:hover{
+   color: rgb(241,1,128);
+}
+
+
+
+.logo_search{
+    width: 70%;
+    margin: 0 auto;
+
+}
+.logoleft{
+float: left;
+
+    height: 110px;
+}
+.logoright{
+    float: left;
+
+    height: 58px;
+    padding-top: 2%;
+    overflow: hidden;
+    margin-left: 17px;
+}
+.search{
+    float: right;
+    width: 530px;
+    height: 50px;
+    overflow: hidden;
+}
+.searchinput_shopcarinput {
+
+
+}
+.searchinput_shopcarinput input[type="text"]{
+    width: 350px;
+    height: 30px;
+    border: 3px solid rgb(250,42,131);
+
+
+}
+ .searchinput_shopcarinput input[type="submit"]{
+     border: none;
+     width: 50px;
+     height: 30px;
+     background-image: url("../IMG/search.png");
+     background-repeat: no-repeat;
+     background-size: cover;
+     box-shadow: -3px 35px 15px -3px #888888;
+ }
+ .shopcar{
+     margin-left: 10px;
+    border: 3px solid rgb(207,207,207);
+     background: rgb(246,247,249);
+     width: 80px;
+     height: 70px;
+ }
+ .shopcar_img{
+     padding: 0 ;
+    height: 100%;
+ }
+ .shopcar_word{
+     color: black;
+ }
+ .shopcar_msg{
+     width: 40px;
+     padding: 0 ;
+     background: rgb(240,5,129);
+     border-radius: 25px;
+     color:white;
+     height: 100%;
+ }
+ /*推荐recommend*/
+.recommend {
+    float:right;
+    margin-right: 120px;
+}
+.recommend ul{
+
+}
+.recommend li{
+
+
+    display: block;
+    float: right;
+    margin-left: 15px;
+}
+.recommend li a{
+    font-size: 12px;
+    color: rgb(54,54,54);
+}
+
+
+
+
+
+.menu{
+    width: 100%;
+    height: 50px;
+
+    overflow: hidden;
+
+}
+/*菜单商品分类*/
+.menu_category{
+    background: rgb(241,1,128);
+    height: 100%;
+    width: 11%;
+    float: left;
+    padding-top: 10px;
+    padding-left: 10px;
+}
+/*.menu_category:hover .category{*/
+/*    display: block;*/
+/*}*/
+.menuul{
+
+}
+.menuul li {
+
+    margin-top: 13px;
+    display: block;
+    float: left;
+    margin-right: 33px;
+}
+.menuul li a{
+    color: black;
+}
+.menuul li a:hover{
+    color: rgb(241,1,128);
+}
+
+
+.product_category{
+    background-color: rgb(241,1,128);color: white;font-size: 13px;height: 100%;
+    }
+/*category为菜单子项商品分类的实现伪类后的效果*/
+.category{
+z-index: 2;
+    background: rgb(241,1,128);
+    color: white;
+    width: 140px;
+    height: 360px;
+    position: absolute;
+    left: 220px;
+   top: 170px;
+display: none;
+}
+.category ul {
+    background: rgb(241,1,128);
+    color: white;
+    font-size: 13px;
+}
+.category ul li{
+    background: rgb(241,1,128);
+    color: white;
+   margin: 20px;
+    margin-top: 30px;
+}
+.category ul li a{
+    background: rgb(241,1,128);
+    color: white;
+}
+ .category ul li a:hover{
+     background: white;
+     color: black;
+ }
+ 
+.category1,.category2,.category3,.category4,
+.category5,.category6,.category7,.category8,
+.category9,.category10,.category11,.category12{
+    background-color: white;
+    width: 1000px;
+    height: 575px;
+    z-index: 2;
+    position: absolute;
+    left: 360px;
+    top: 220px;
+    display: none;
+    }
+ .category1 ul li,.category2 ul li,.category3 ul li,.category4 ul li,
+ .category5 ul li,.category6 ul li,.category7 ul li,.category8 ul li,
+ .category9 ul li,.category10 ul li,.category11 ul li,.category12 ul li{
+     display: inline;
+     font-size: 17px;
+     color: #888888;
+     margin-left: 30px;
+     }
+ .category1 ul li a,.category2 ul li a,.category3 ul li a,.category4 ul li a,
+ .category5 ul li a,.category6 ul li a,.category7 ul li a,.category8 ul li a,
+ .category9 ul li a,.category10 ul li a,.category11 ul li a,.category12 ul li a{
+     font-size: 17px;
+     color: #888888;
+     }
+ .category1 ul li a:hover,.category2 ul li a:hover,.category3 ul li a:hover,.category4 ul li a:hover,
+ .category5 ul li a:hover,.category6 ul li a:hover,.category7 ul li a:hover,.category8 ul li a:hover,
+ .category9 ul li a:hover,.category10 ul li a:hover,.category11 ul li a:hover,.category12 ul li a:hover{
+     color:rgb(241,1,128);
+     }
+ .category1 ul li:first-child,.category2 ul li:first-child,.category3 ul li:first-child,.category4 ul li:first-child,
+ .category5 ul li:first-child,.category6 ul li:first-child,.category7 ul li:first-child,.category8 ul li:first-child,
+ .category9 ul li:first-child,.category10 ul li:first-child,.category11 ul li:first-child,.category12 ul li:first-child,
+ .category1 ul li:nth-child(2),.category2 ul li:nth-child(2),.category3 ul li:nth-child(2),.category4 ul li:nth-child(2),
+ .category5 ul li:nth-child(2),.category6 ul li:nth-child(2),.category7 ul li:nth-child(2),.category8 ul li:nth-child(2),
+ .category9 ul li:nth-child(2),.category10 ul li:nth-child(2),.category11 ul li:nth-child(2),.category12 ul li:nth-child(2)
+ {
+     font-weight: bolder;
+     font-size: 19px;
+     margin-left: 30px;
+     margin-right: 20px;
+     color: black;
+     }
+ 
+ 
+ /*轮播*/
+ .banner_lunbo{
+         width: 100%;
+         height: 440px;
+         border: 1px solid black;
+         background-image: url("../IMG/banner.jpg");
+         background-repeat: no-repeat;
+         background-size: cover;
+     
+     }
+ /*最外层盒子样式处理：
+     1.设置与轮播图高宽一致
+     2.设置纵向距顶部50px，水平居中
+     3.设置自己为固定位置
+     */
+ .outer{
+     height:395px;
+     width: 1065px;
+     margin: 50px auto;
+     position:relative;
+     background: transparent;
+     }
+ .img li{
+     position: absolute;
+     top: 0;
+     left: 0;
+     }
+ .img li img{
+    
+     border: white 10px solid;
+     border-radius: 5px;
+     width: 100%;
+     height: 100%;
+     }
+ /*顺序按钮区域处理：
+ 1.设置脱离文档流
+ 2.通过设置text-align、width使其整体水平居中
+ 3.设置距离底部20px
+ */
+ .num{
+     position: absolute;
+     text-align: center;
+     width: 100%;
+     bottom: 20px;
+     background: transparent;
+     }
+ /*顺序按钮处理:
+	1.将其设置为行级及块级兼容显示
+	2.设置其宽高
+	3.设置背景色及字体颜色
+	4.设置字体水平居中
+	5.通过设置line-height与height一致，使其字体纵向居中
+	6.设置其样式为圆形
+	7.增加按钮左右间距
+	*/
+ .num li{
+     display: inline-block;
+     width: 20px;
+     height: 20px;
+     background-color: darkgray;
+     color: white;
+     text-align: center;
+     line-height: 20px;
+     margin: 0 20px;
+     }
+
+ /*左、右按钮相同部分处理:
+  1.设置其脱离文档流
+  2.设置其宽高
+  3.设置背景色及字体颜色
+  4.设置字体水平居中
+  5.通过设置line-height与height一致，使其字体纵向居中
+  6.通过设置top、margin-top使其整体纵向居中
+  7.默认不显示
+  */
+ .btn1{
+     display: none;
+     position: absolute;
+     width: 20px;
+     height: 50px;
+     background-color: darkgray;
+     color: white;
+     text-align: center;
+     line-height: 50px;
+     top: 50%;
+     margin-top: -25px;
+     
+     }
+ /*左侧按钮处理:
+ 设置左侧为0
+ */
+ .left_btn{
+     left: 0;
+     }
+ /*右侧按钮处理:
+  设置右侧为0
+  */
+ .right_btn{
+     right: 0;
+     }
+ /*鼠标悬浮至轮播图区域时左、右按钮处理:
+  1.设置左右按钮显示样式为行级块级兼容
+  2.设置鼠标放置在左右按钮时样式为小手
+  */
+ .outer:hover .btn1{
+     display: inline-block;
+     cursor: pointer;
+     }
+ /*设置顺序按钮初始按钮样式:
+  设置为红色（由于样式级别问题会导致设置无效，可通过两种方式解决：
+  1.后面加上!important
+  2.将css定位写详细，比如：.outer .num .current{……
+  ）
+  */
+ .current{
+     background-color: red!important;
+     }
+
+
+
+/*商品展示*/
+/*.masonry{*/
+/*    width: 70%;*/
+/*    margin: 0 auto;*/
+/*    column-count: 4;*/
+/*    column-gap: 10px;*/
+/*    height: auto;*/
+/*    }*/
+ .boy_clothes_title{
+     width: 100%;
+     font-size: 20px;
+     color: white;
+     background-color: rgb(241,1,128);
+     border: 1px silver solid;
+     cursor: pointer;
+     }
+ .boy_clothes_title a{
+     color: white;
+     background-color:inherit;
+     }
+ .boy_clothes_title a:hover{
+     color: #666666;
+     }
+ .girl_clothes_title{
+     width: 100%;
+     font-size: 20px;
+     color: white;
+     background-color: rgb(241,1,128);
+     cursor: pointer;
+     border: 1px silver solid;
+     }
+ .girl_clothes_title a{
+     color: white;
+     background-color:inherit;
+     }
+ .girl_clothes_title a:hover{
+     color: #666666;
+     }
+ 
+ .row .col-lg-12 .row .col-lg-2 {
+     border: 1px solid black;
+     background-color:#666666;
+     color: white;
+     }
+ .row .col-lg-12 .row .col-lg-2 a{
+     background-color: inherit;
+     color: inherit;
+     }
+ 
+ 
+/* 主要商品展示*/
+.item{
+    /*padding: 10px;*/
+    border: 1px solid rgb(233,233,233);
+    height:350px;
+    margin-top: 10%;
+    width: 100%;
+    }
+.item:hover{
+    border: 1px solid rgb(255,68,0);
+    }
+.item img{
+    display: block;
+    width: 100%;
+    height:auto;
+    }
+
+.item p{
+    margin-top: 10px;
+    }
+.item_title{
+    color: #666666;
+    font-size: 12px;
+    }
+.item_title:hover{
+    color: #e4393c;
+    }
+.item_merchant{
+    color: #999999;
+    font-size: 12px;
+    }
+ .item_merchant:hover{
+     color: #e4393c;
+     }
+ .item_merchant_place{
+
+     color: #999999;
+     font-size: 12px;
+     }
+ 
+ 
+ 
+ 
+
+/* */
+/*.information{*/
+/*    margin: 0 auto;*/
+/*    width: 70%;*/
+
+/*}*/
+/*.lunboextend{*/
+/*    width: 100%;*/
+/*    height: 60px;*/
+/*    margin-left: -14.5px;*/
+/*    border: 15px solid white;*/
+/*    border-top: none;*/
+/*    outline: 1px solid  rgb(185,185,185);*/
+
+
+/*}*/
+/*.huakuai{*/
+/*    margin: 0 auto;*/
+/*    height: 50px;*/
+/*    width: 40%;*/
+
+
+/*}*/
+/*.huakuaileft{*/
+/*    height: 100%;*/
+/*    width: 45%;*/
+
+/*    float: left;*/
+/*    font-size: 11px;*/
+/*    color: black;*/
+/*   padding-top: 16px;*/
+/*    padding-left: 20px;*/
+/*    overflow: hidden;*/
+/*}*/
+/*.huakuairight{*/
+/*    height: 100%;*/
+/*    width: 45%;*/
+/*    font-size: 11px;*/
+/*    color: black;*/
+/*    float: right;*/
+/*    padding-top: 16px;*/
+/*    padding-right: 10px;*/
+/*}*/
+
+
+ .footer{
+     margin-top: 60px;
+     width: 100%;
+     height: 100px;
+     background-color: rgb(246,249,250);
+     border-top: rgb(252,252,252);
+     padding-top: 20px;
+ }
+
+
