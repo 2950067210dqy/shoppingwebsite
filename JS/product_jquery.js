@@ -28,15 +28,26 @@ $(document).ready(
 			}
 		}
 	);
-	$('.setMessageIn').click(
-		function () {
-			if($('.setMessageIn').val()==="回复"){
-				$('.setMessageIn').val('隐藏回复框');
-			}else{
-				$('.setMessageIn').val('回复');
+		$('.setMessageIn').click(
+			function () {
+				if ($('.setMessageIn').val() === "回复") {
+					$('.setMessageIn').val('隐藏回复框');
+				} else {
+					$('.setMessageIn').val('回复');
+				}
+				$('.huifus').slideToggle('fast');
 			}
-			$('.huifus').slideToggle('fast');
-		}
-	);
+		);
+		$('#shopcar').click(
+			function () {
+				if ($('#isLogin').val() == "no") {
+					if (confirm('进入购物车需要登录哦？是否前往登录？')) {
+						location.assign('../HTML/logoin.php');
+					}
+				} else {
+					location.assign('../HTML/shopcar.php');
+				}
+			}
+		);
 	}
 );

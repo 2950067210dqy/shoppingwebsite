@@ -30,14 +30,6 @@ if(isset($_POST['online'])){
 <!--
 			存储数据
 -->
-<!--用来存储登录的状态-->
-<input type="hidden" value="<?php
-if (isset($_SESSION['id'])){
-	echo 'yes';
-}else{
-	echo 'no';
-}
-?>" id="isLogin">
 <!--用来存储这个商品的多级评论条数-->
 <input type="hidden" value="
 <?php
@@ -57,19 +49,33 @@ $RecordCount=null;
 if (isset($_GET['id'])){
 	$sql="select diary_id from diary where product_id = {$_GET['id']} and product_type='{$_GET['type']}'";
 	$result=$conn->query($sql);
-	$RecordCount=$result->num_rows;
+	$RecordCount = $result -> num_rows;
 	echo $RecordCount;
 }
 ?>" id="singleNums">
 <!--用来存储评论的从哪显示-->
 <!--<input type="hidden" value="5" id="postNum">-->
-<!--用来存储当前商品的ID-->
-<input type="hidden" value="<?php echo $_GET['id']?>" id="productid">
-
 
 
 <!--网页主体-->
-<div class="main" >
+<div class="main">
+	<!--
+			存储数据
+-->
+	<!--用来存储登录的状态-->
+	<input type="hidden" value="<?php
+	if (isset($_SESSION['id'])) {
+		echo 'yes';
+	} else {
+		echo 'no';
+	}
+	?>" id="isLogin">
+	<!--用来存储当前商品的ID-->
+	<input type="hidden" v-model="product.product_id=<?php echo $_GET['id'] ?>" id="productid">
+	<!--用来存储当前商品的类型-->
+	<input type="hidden" v-model="product.product_type='<?php echo $_GET['type'] ?>'" id="producttype">
+	
+	
 	<div class="topnav">
 		<div class="topnavin">
 			<div class="place" onclick="">
@@ -78,7 +84,7 @@ if (isset($_GET['id'])){
 			<div class="nav">
 				<ul class="topnavul">
 					<li>
-						<a href='index.php' target='_self' >返回主页</a>
+						<a href='index.php' target='_self'>返回主页</a>
 					</li>
 					<li style="color: rgb(157,157,157); font-weight: bold">
 						/
@@ -194,18 +200,25 @@ if (isset($_GET['id'])){
 			
 			
 			</div>
-<!--			搜索框/购物车-->
+			<!--			搜索框/购物车-->
 			<div style="margin-top: 25px">
 				<div class="search">
 					<div class="searchinput_shopcarinput">
 						<form action="../PHP/server.php" method="post">
 							<input type="text" max="10" placeholder="请输入你要查找的商品" name="searchtext">
-							<input type="submit" name="search"  value="">
+							<input type="submit" name="search" value="">
 							<span class="shopcar">
-                        <a href="#">
+                        <a href="javascript:void(0)" id="shopcar">
                             <span class="shopcar_img"><img src="../IMG/shopcar.png" width="25" height="25"> </span>
                             <span class="shopcar_word">购物车</span>
-                            <span class="shopcar_msg">{{shopnum}}</span>
+	                        <span class="shopcar_msg">
+		                       {{shopnum+<?php if (!isset($_SESSION['id'])) echo 0; elseif (isset($_SESSION['shopnum'])) echo $_SESSION['shopnum'];
+		                        else {
+			                        $sql = "select id from shopcar where user_id = {$_SESSION['id']}";
+			                        $result = $conn -> query($sql);
+			                        echo $result -> num_rows;
+		                        } ?>}}
+	                        </span>
                         </a>
                     </span>
 						
@@ -259,8 +272,8 @@ if (isset($_GET['id'])){
 		</div>
 	</div>
 	
-
-<!--	商品详情信息-->
+	
+	<!--	商品详情信息-->
 	<?php
 	if (isset($_GET['id'])){
 		$id=intval($_GET['id']);
@@ -275,17 +288,18 @@ if (isset($_GET['id'])){
 		</div>
 		<div class="information">
 			<div class="product_title">
-				<?php echo $row['title'];?>
+				<?php echo $row['title']; ?>
 			</div>
 			<div class="product_title">
-				<font size="2px" color="#999999"><a href="<?php echo $row['merchant_addre']?>">❥<?php echo $row['merchant'];?></a></font>
+				<font size="2px" color="#999999"><a
+							href="<?php echo $row['merchant_addre'] ?>">❥<?php echo $row['merchant']; ?></a></font>
 			</div>
 			<div class="sale_price">
 				<div class="price">
 					<font size="2px" color="#999999">沁&nbsp;&nbsp;柚&nbsp;&nbsp;价</font>
 					<font style="margin-left: 2%;" color="#e4393c" size="6px" id="price">
 						￥
-						{{price=<?php echo intval($row['price']);?>}}
+						{{product.price=<?php echo intval($row['price']); ?>}}
 					</font>
 				</div>
 				<div class="sale">
@@ -295,20 +309,20 @@ if (isset($_GET['id'])){
 			</div>
 			
 			
-				<div class="num">
-					<font size="2px" color="#999999">数&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;量</font>
-					<input type="button" value="-" @click="cutCount" :disabled="isabled[0]">
-					<input type="tel" v-model="count" @keyup="check" @blur="checkAnother">
-					<input type="button" value="+" @click="addCount" :disabled="isabled[1]">
-					<br>
-					<br>
-					<br>
-					<font size="2px" color="#999999" >总&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;价</font>
-					<font style="margin-left: 2%;" color="#e4393c" size="6px">
-						￥{{price*count}}
-					</font>
-				</div>
-				
+			<div class="num">
+				<font size="2px" color="#999999">数&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;量</font>
+				<input type="button" value="-" @click="cutCount" :disabled="isabled[0]">
+				<input type="tel" v-model="product.count" @keyup="check" @blur="checkAnother">
+				<input type="button" value="+" @click="addCount" :disabled="isabled[1]">
+				<br>
+				<br>
+				<br>
+				<font size="2px" color="#999999">总&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;价</font>
+				<font style="margin-left: 2%;" color="#e4393c" size="6px">
+					￥{{product.price*product.count}}
+				</font>
+			</div>
+			
 			<div class="buy_shopcar">
 				<button type="button">立即购买</button>
 				<button type="button" @click="addShopNum">加入购物车</button>
@@ -324,7 +338,7 @@ if (isset($_GET['id'])){
 		</div>
 	</div>
 	
-<!--	推荐区-->
+	<!--	推荐区-->
 	<div class="shopRecommend text-center" id="container">
 		<table >
 			<tr>
@@ -368,14 +382,14 @@ if (isset($_GET['id'])){
 		
 	</div>
 	
-<!--	刷新猜你喜欢-->
+	<!--	刷新猜你喜欢-->
 	<div class="text-center" id="refresh">
 	<a  href="javascript:void(0)" style="cursor: pointer" id="<?php echo $_GET['type']?>" onclick="loadXMLDoc(this.id)">点击刷新...</a>
 	</div>
 	
 	
 	
-<!--	评论区-->
+	<!--	评论区-->
 	<?php
 //	评论区楼层
 	$postid=1;
@@ -386,6 +400,7 @@ if (isset($_GET['id'])){
 <!--		评价容器 异步请求获取-->
 		<div id="postcontainer" >
 			<?PHP
+			//			页码
 			$pageSize=8;
 			if(isset($_GET['Page'])&&(int)$_GET['Page']>0){
 				$page=$_GET['Page'];
@@ -410,48 +425,57 @@ if (isset($_GET['id'])){
 						<?php
 						//					检测是否为管理员
 						if($row['isadmin']=='true') {
-							if(isset($_SESSION['id'])&&$row['user_id']==$_SESSION['id']){
-								echo "<font color='red' size='4'>[管理员]</font><font color='#8a2be2' size='4'>[自己]</font>{$row['name']}({$row['username']}):";
+							if(isset($_SESSION['id'])&&$row['user_id']==$_SESSION['id']) {
+								echo "<a class='btn btn-success' href='javascript:void(0)'>管理员</a><a class='btn btn-warning' href='javascript:void(0)'>自己</a>{$row['name']}({$row['username']}):";
 							}
-							else{
-								echo "<font color='red' size='4'>[管理员]</font>{$row['name']}({$row['username']}):";
+							else {
+								echo "<a class='btn btn-success' href='javascript:void(0)'>管理员</a>{$row['name']}({$row['username']}):";
 							}
 							
 						}
 //					检测是否为当前用户
-						elseif(isset($_SESSION['id'])&&$row['user_id']==$_SESSION['id']){
-							echo "<font color='#8a2be2' size='4'>[自己]</font>{$row['name']}({$row['username']}):";
+						elseif(isset($_SESSION['id'])&&$row['user_id']==$_SESSION['id']) {
+							echo "<a class='btn btn-warning' href='javascript:void(0)'>自己</a>{$row['name']}({$row['username']}):";
 						}
 						else{
 							echo "{$row['name']}({$row['username']}):";
 						}
 						?>
-						<p class="Media-body">
-							<?php echo $row['content']?>
+						
+						<p class="Media-body text-center">
+							<span class="text-right" style="display: block">
 							<!--								一级评论(删除评论按钮)(修改评论按钮)当为管理员或当前用户才会显示-->
 							<?php
 							if (isset($_SESSION['id'])&&($_SESSION['isadmin']=='true'||$row['user_id']==$_SESSION['id'])){
 								echo "
-<input  type='submit' value='X' onclick='location.assign(\"../PHP/deletePost.php?diary_id={$row['diary_id']}&reply=pinglun\");'>
-<input  type='submit' value='修改' onclick='location.assign(\"../HTML/updatepost.php?diary_id={$row['diary_id']}&reply=pinglun&product_id=$id&floor_id=$postid&type={$_GET['type']}\")'>
+								<a href='../HTML/updatepost.php?diary_id={$row['diary_id']}&reply=pinglun&product_id=$id&floor_id=$postid&type={$_GET['type']}' class='btn btn-primary'>修改</a>
+								<a href='../PHP/deletePost.php?diary_id={$row['diary_id']}&reply=pinglun' class='btn btn-danger'>X</a>
 ";
 							}
 							?>
+						</span>
 							<br>
 							<br>
 							<br>
-							<span style="float: left">		<?php echo $row['time']?></span>
-							<span style="float: right"> <input type="button" value="评论" class="setMessage" id="setMessage<?php echo $row['diary_id']?>" > </span>
+							<?php echo $row['content'] ?>
+							<br>
+							<br>
+							<br>
+							<br>
+							<span style="float: left">		<?php echo $row['time'] ?></span>
+							<span style="float: right"> <a href="javascript:void(0)"
+							                               id="setMessage<?php echo $row['diary_id'] ?>"
+							                               class="btn btn-default setMessage">评论</a> </span>
 						</p>
 					</div>
 					
 					
 					<?php
 //		         查找多级评论		通过一级评论来查找是否有一级评论的回复评论
-					$sql2=" select * from user u  join reply r on r.diary_id={$row['diary_id']} and r.user_id=u.id order by reply_id";
-					$result2=$conn->query($sql2);
-					$row2=null;
-					if($result2->num_rows>0) {
+					$sql2 = " select * from user u  join reply r on r.diary_id={$row['diary_id']} and r.user_id=u.id order by reply_id";
+					$result2 = $conn -> query($sql2);
+					$row2 = null;
+					if ($result2 -> num_rows > 0) {
 						echo "<p class=\"tipOfReply\"><a  @click=\"hideMessage\" href='javascript:void(0)'>--------该楼还有{$result2->num_rows}条评论，请点击查看详情--------</a></p>";
 						while ($row2=$result2->fetch_assoc())
 						{
@@ -466,16 +490,16 @@ if (isset($_GET['id'])){
 									<?php
 									//					检测是否为管理员
 									if($row2['isadmin']=='true') {
-										if($row2['user_id']==$_SESSION['id']){
-											echo "<font color='red' size='4'>[管理员]</font><font color='#8a2be2' size='4'>[自己]</font>{$row2['name']}({$row2['username']}):";
-										}else{
-											echo "<font color='red' size='4'>[管理员]</font>{$row2['name']}({$row2['username']}):";
+										if($row2['user_id']==$_SESSION['id']) {
+											echo "<a class='btn btn-success' href='javascript:void(0)'>管理员</a><a class='btn btn-warning' href='javascript:void(0)'>自己</a>{$row2['name']}({$row2['username']}):";
+										}else {
+											echo "<a class='btn btn-success' href='javascript:void(0)'>管理员</a>{$row2['name']}({$row2['username']}):";
 										}
 										
 									}
 //					检测是否为当前用户
-									elseif($row2['user_id']==$_SESSION['id']){
-										echo "<font color='#8a2be2' size='4'>[自己]</font>{$row2['name']}({$row2['username']}):";
+									elseif($row2['user_id']==$_SESSION['id']) {
+										echo "<a class='btn btn-warning' href='javascript:void(0)'>自己</a>{$row2['name']}({$row2['username']}):";
 									}
 									else{
 										echo "{$row2['name']}({$row2['username']}):";
@@ -491,44 +515,45 @@ if (isset($_GET['id'])){
 											$row3=$result3->fetch_assoc();
 											//检测是否为当前用户
 											if($row3['isadmin']=='true') {
-												if(isset($_SESSION['id'])&&$row3['id']==$_SESSION['id']){
-													echo "回复@<font color='red' size='4'>[管理员]</font><font color='#8a2be2' size='4'>[自己]</font>{$row3['name']}({$row3['username']}):";
-												}else{
-													echo "回复@<font color='red' size='4'>[管理员]</font>{$row3['name']}({$row3['username']}):";
+												if(isset($_SESSION['id'])&&$row3['id']==$_SESSION['id']) {
+													echo "回复<a class='btn btn-success' href='javascript:void(0)'>管理员</a><a class='btn btn-warning' href='javascript:void(0)'>自己</a>@{$row3['name']}({$row3['username']}):";
+												}else {
+													echo "回复<a class='btn btn-success' href='javascript:void(0)'>管理员</a>@{$row3['name']}({$row3['username']}):";
 												}
 											}
 //					检测是否为当前用户
-											elseif(isset($_SESSION['id'])&&$row3['id']==$_SESSION['id']){
-												echo "回复@<font color='#8a2be2' size='4'>[自己]</font>{$row3['name']}({$row3['username']}):";
+											elseif(isset($_SESSION['id'])&&$row3['id']==$_SESSION['id']) {
+												echo "回复<a class='btn btn-warning' href='javascript:void(0)'>自己</a>@{$row3['name']}({$row3['username']}):";
 											}
 											else{
 												echo "回复@{$row3['name']}({$row3['username']}):";
 											}
 											echo "";
-										}
-										else{
+										} else {
 											echo '出错了！';
 										}
-										
 										
 										
 									}
 									
 									?>
 								</font>
-								<p class="reply_content Media-body">
-									<br>
+								<div class="text-right">
 									<!--					多级评论(删除评论按钮)（修改按钮）当为管理员或当前用户才会显示-->
 									<?php
-									if (isset($_SESSION['id'])&&($_SESSION['isadmin']=='true'||$row2['user_id']==$_SESSION['id'])){
+									if (isset($_SESSION['id']) && ($_SESSION['isadmin'] == 'true' || $row2['user_id'] == $_SESSION['id'])) {
 										echo "
-								<input  type='submit' value='X' onclick='location.assign(\"../PHP/deletePost.php?reply_id={$row2['reply_id']}&reply=huifu\")'>
-								<input  type='submit' value='修改' onclick='location.assign(\"../HTML/updatepost.php?reply_id={$row2['reply_id']}&reply=huifu&product_id=$id&floor_id=$postinid&type={$_GET['type']}\")'>
+									<a href='../HTML/updatepost.php?reply_id={$row2['reply_id']}&reply=huifu&product_id=$id&floor_id=$postinid&type={$_GET['type']}' class='btn btn-primary'>修改</a>
+										<a href='../PHP/deletePost.php?reply_id={$row2['reply_id']}&reply=huifu' class='btn btn-danger ' style='display: inline'>X</a>
 								";
 									}
 									?>
+								</div>
+								<p class="reply_content Media-body">
+									<br>
+									
 									<?php
-									for($i=0;$i<2;$i++){
+									for ($i = 0; $i < 2; $i ++) {
 										echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 									}
 									echo $row2['reply_content']
@@ -538,15 +563,19 @@ if (isset($_GET['id'])){
 									<br>
 									<br>
 									<br>
-									<span style="float: left">		 <?php echo  $row2['time'] ?></span>
-									<span style="float: right"> <input type="button" value="回复" class="setMessageIn" id="setMessageIn<?php echo $row2['reply_id']?>"> </span>
+									<span style="float: left">		 <?php echo $row2['time'] ?></span>
+									<span style="float: right"> <a href="javascript:void(0)"
+									                               class="btn btn-default setMessageIn"
+									                               id="setMessageIn<?php echo $row2['reply_id'] ?>">回复</a>
 								</p>
 							</div>
 							<!--	回复框（多级）-->
-							<div class="recommendTA huifus" id="multi<?php echo $row2['diary_id']?>">
-								<form action="../PHP/insertPost.php?user_id=<?php if (isset($_SESSION['id'])) echo $_SESSION['id']?>&diary_id= <?php echo $row2['diary_id']?>&last_id= <?php echo $row2['reply_id']?>&reply_id= <?php echo $row2['reply_id']?>&reply=huifu&username=<?php if (isset($_SESSION['username']))echo $_SESSION['username']?>&product_id=<?php echo $id?>&type=<?php echo $_GET['type']?>" method="post">
-					<textarea placeholder= "回复层主   <?php echo $row2['name']?>(<?php echo $row2['username']?>):	   对      <?php  if($row3['name']!='') echo "层主    @".$row3['name']; else echo "楼主     @".$row['name'];?>(<?php  if($row3['username']!='') echo $row3['username']; else echo $row['username'];?>)：的回复
-'<?php echo $row2['reply_content']?>'" name="textarea"></textarea>
+							<div class="recommendTA huifus" id="multi<?php echo $row2['diary_id'] ?>">
+								<form action="../PHP/insertPost.php?user_id=<?php if (isset($_SESSION['id'])) echo $_SESSION['id'] ?>&diary_id= <?php echo $row2['diary_id'] ?>&last_id= <?php echo $row2['reply_id'] ?>&reply_id= <?php echo $row2['reply_id'] ?>&reply=huifu&username=<?php if (isset($_SESSION['username'])) echo $_SESSION['username'] ?>&product_id=<?php echo $id ?>&type=<?php echo $_GET['type'] ?>"
+								      method="post">
+					<textarea
+							placeholder="回复层主   <?php echo $row2['name'] ?>(<?php echo $row2['username'] ?>):	   对      <?php if ($row3['name'] != '') echo "层主    @" . $row3['name']; else echo "楼主     @" . $row['name']; ?>(<?php if ($row3['username'] != '') echo $row3['username']; else echo $row['username']; ?>)：的回复
+'<?php echo $row2['reply_content'] ?>'" name="textarea"></textarea>
 									<input type="submit" name="submit" value="发表评论" class="submit">
 									<input type="reset" name="reset" value="重置评论" class="reset">
 								</form>
@@ -645,7 +674,8 @@ if (isset($_GET['id'])){
 				<form
 					action="../PHP/insertPost.php?user_id=<?php if(isset($_SESSION['id'])) echo $_SESSION['id'] ?>&reply=pinglun&username=<?php if(isset($_SESSION['username'])) echo $_SESSION['username'] ?>&product_id=<?php echo $id ?>&type=<?php echo $_GET['type']?>"
 					method="post">
-					<textarea placeholder="请发表您的评论哦！" name="textarea" id="mainpinglun"></textarea>
+					<textarea placeholder="请发表您的评论哦！" name="textarea" id="mainpinglun" class="form-control"
+					          rows="8"></textarea>
 					<input type="submit" name="submit" value="发表评论" class="submit">
 					<input type="reset" name="reset" value="重置评论" class="reset">
 				</form>

@@ -34,9 +34,17 @@ if(!isset($_GET['price'])||$_GET['price']=="asc"){
 
 
 </head>
-<body >
+<body>
 <a href="#" class="btn btn-danger text-center" style="position: fixed;z-index: 99;top: 30%;right: 3%;">返回顶部</a>
-<div class="main" >
+<div class="main">
+	<!--用来存储登录的状态-->
+	<input type="hidden" value="<?php
+	if (isset($_SESSION['id'])) {
+		echo 'yes';
+	} else {
+		echo 'no';
+	}
+	?>" id="isLogin">
 	<div class="topnav">
 		<div class="topnavin">
 			<div class="place" onclick="">
@@ -160,18 +168,23 @@ if(!isset($_GET['price'])||$_GET['price']=="asc"){
 			
 			
 			</div>
-<!--			搜索框/购物车-->
+			<!--			搜索框/购物车-->
 			<div style="margin-top: 25px">
 				<div class="search">
 					<div class="searchinput_shopcarinput">
 						<form action="../PHP/server.php" method="post">
 							<input type="text" max="10" placeholder="请输入你要查找的商品" name="searchtext">
-							<input type="submit" name="search"  value="">
+							<input type="submit" name="search" value="">
 							<span class="shopcar">
-                        <a href="#">
+                        <a href="javascript:void(0)" id="shopcar">
                             <span class="shopcar_img"><img src="../IMG/shopcar.png" width="25" height="25"> </span>
                             <span class="shopcar_word">购物车</span>
-                            <span class="shopcar_msg">0</span>
+                            <span class="shopcar_msg"><?php if (!isset($_SESSION['id'])) echo 0; elseif (isset($_SESSION['shopnum'])) echo $_SESSION['shopnum'];
+	                            else {
+		                            $sql = "select id from shopcar where user_id = {$_SESSION['id']}";
+		                            $result = $conn -> query($sql);
+		                            echo $result -> num_rows;
+	                            } ?></span>
                         </a>
                     </span>
 						
@@ -333,13 +346,13 @@ if(!isset($_GET['price'])||$_GET['price']=="asc"){
 	
 	<div class="footer">
 		<div  style="color: #ababab;background-color:  rgb(246,249,250);text-align: center;margin: 0 auto;font-size: 13px">
-			Copyright &nbsp;©  &nbsp;
-			2019-2020  &nbsp; qinyou.com， &nbsp;All  &nbsp;Rights &nbsp; Reserved &nbsp;
+			Copyright &nbsp;© &nbsp;
+			2019-2020 &nbsp; qinyou.com， &nbsp;All &nbsp;Rights &nbsp; Reserved &nbsp;
 			使用本网站即表示接受 &nbsp; 沁柚用户协议。版权所有 &nbsp; 九江学院31栋503沁柚工作室 邓亲优
 			<br>
-			九江学院 20180101981号 &nbsp;   赣ICP备（暂无） &nbsp;增值业务经营许可证： （暂无）&nbsp;网络文化经营许可证：（暂无）
+			九江学院 20180101981号 &nbsp; 赣ICP备（暂无） &nbsp;增值业务经营许可证： （暂无）&nbsp;网络文化经营许可证：（暂无）
 			<br>
-			自营主体经营证照（暂无）  &nbsp; 风险监测信息（暂无）  &nbsp; 互联网药品信息服务资格证书：（暂无）-学习性-（暂无）&nbsp; 网络交易第三方平台备案凭证：（暂无）
+			自营主体经营证照（暂无） &nbsp; 风险监测信息（暂无） &nbsp; 互联网药品信息服务资格证书：（暂无）-学习性-（暂无）&nbsp; 网络交易第三方平台备案凭证：（暂无）
 			<br>
 			亲爱的学生老师，九江警方反诈劝阻电话“962110”系专门针对避免您财产被骗受损而设，请您一旦收到来电，立即接听。
 			<br>
@@ -349,6 +362,7 @@ if(!isset($_GET['price'])||$_GET['price']=="asc"){
 		</div>
 	</div>
 </div>
+<script src="../JS/index_jquery.js"></script>
 </body>
 
 </html>

@@ -283,7 +283,7 @@ require ("../PHP/conn.php");
 
         echo "<tr>
                  <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-                 <td><input type='submit' name='yes' value='确定'>&nbsp;&nbsp;&nbsp;&nbsp;<input onclick='allok(this)' type='checkbox'>全选</td>
+                 <td><input type='submit' name='yes' value='确定'>&nbsp;&nbsp;&nbsp;<input onclick='allok(this)' type='checkbox'>全选</td>
                  <td><input type='submit' name='dele' value='删除'>&nbsp;&nbsp;&nbsp;&nbsp;<input onclick='alldelete(this)' type='checkbox'>全选</td>
             </tr>"
 

@@ -17,24 +17,72 @@ require ("../PHP/conn.php");
 	<script type="text/javascript" src="../JSLIB/vue-router.js"></script>
 	<script type="text/javascript" src="../JSLIB/jquery-1.11.3.min.js"></script>
 	<script src="../JSLIB/bootstrap.js"></script>
-<!--	引用框架-->
+	<!--	引用框架-->
 	<link href="../CSSLIB/bootstrap.css" rel="stylesheet">
 	
 	
 	<link href="../CSS/index.css" rel="stylesheet" type="text/css">
 
-	
+
 </head>
-<body >
+<body>
+<!--	异步更新数据-->
+<script>
+	function getType() {
+		document.getElementById('reload').className = document.getElementById('refresh').className;
+	}
+	
+	function loadXMLDoc(id, flag) {
+		var xmlhttp;
+		if (window.XMLHttpRequest) {
+			//  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
+			xmlhttp = new XMLHttpRequest();
+		} else {
+			// IE6, IE5 浏览器执行代码
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function () {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				if (flag == 1) {
+					document.getElementById("container").innerHTML = xmlhttp.responseText;
+				}
+				if (flag == 2) {
+					document.getElementById("container").innerHTML += xmlhttp.responseText;
+				}
+				
+			}
+		}
+		if (flag == 1) {
+			xmlhttp.open("GET", "../PRODUCTHTML/product_category.php?type=" + id + "&flag=false", true);
+		}
+		if (flag == 2) {
+			xmlhttp.open("GET", "../PRODUCTHTML/product_category.php?type=" + id + "&flag=true", true);
+		}
+		
+		xmlhttp.send();
+	}
+</script>
+<script src="../JS/index.js"></script>
+<script src="../JS/index_jquery.js"></script>
+<!--用来存储登录的状态-->
+<input type="hidden" value="<?php
+if (isset($_SESSION['id'])) {
+	echo 'yes';
+} else {
+	echo 'no';
+}
+?>" id="isLogin">
+
 <!--侧边栏-->
-<div style="position: fixed;z-index: 99;top: 30%;right: 3%;height: auto;border: 1px silver solid;width: 6%;height: auto" >
-	<a class="btn btn-primary" role="button" data-toggle="collapse" href="#collapse" aria-expanded="false" aria-controls="collapse" style="width: 100%">
+<div style="position: fixed;z-index: 99;top: 30%;right: 3%;height: auto;border: 1px silver solid;width: 6%;height: auto">
+	<a class="btn btn-primary" role="button" data-toggle="collapse" href="#collapse" aria-expanded="false"
+	   aria-controls="collapse" style="width: 100%">
 		&nbsp;&nbsp;&nbsp;&nbsp;男装&nbsp;&nbsp;&nbsp;&nbsp;
 	</a>
 	<div class="collapse" id="collapse">
 		<div class="well">
 			<ul>
-				<li><a href="#container"  id="boy_shirt" onclick="loadXMLDoc(this.id,1)" >衬衫</a></li>
+				<li><a href="#container" id="boy_shirt" onclick="loadXMLDoc(this.id,1)">衬衫</a></li>
 				<li><a href="#container" id="boy_yurongfu" onclick="loadXMLDoc(this.id,1)">羽绒服</a></li>
 				<li><a href="#container" id="boy_jiake" onclick="loadXMLDoc(this.id,1)">夹克</a></li>
 				<li><a href="#container" id="boy_xifu" onclick="loadXMLDoc(this.id,1)">西服套装</a></li>
@@ -185,28 +233,33 @@ require ("../PHP/conn.php");
                     <img height="60"  width="90" src="../IMG/logo4.png" alt="3亿会员">
                 </a>
             </div>
-<!--	        搜索框/购物车-->
-            <div style="margin-top: 25px">
-                <div class="search">
-                    <div class="searchinput_shopcarinput">
-                        <form action="../PHP/server.php" method="post">
-                            <input type="text" max="10" placeholder="请输入你要查找的商品" name="searchtext">
-                            <input type="submit" name="search"  value="">
-                    <span class="shopcar">
-                        <a href="#">
+	        <!--	        搜索框/购物车-->
+	        <div style="margin-top: 25px">
+		        <div class="search">
+			        <div class="searchinput_shopcarinput">
+				        <form action="../PHP/server.php" method="post">
+					        <input type="text" max="10" placeholder="请输入你要查找的商品" name="searchtext">
+					        <input type="submit" name="search" value="">
+					        <span class="shopcar">
+                        <a href="javascript:void(0)" id="shopcar">
                             <span class="shopcar_img"><img src="../IMG/shopcar.png" width="25" height="25"> </span>
                             <span class="shopcar_word">购物车</span>
-                            <span class="shopcar_msg">0</span>
+                            <span class="shopcar_msg"><?php if (!isset($_SESSION['id'])) echo 0; elseif (isset($_SESSION['shopnum'])) echo $_SESSION['shopnum'];
+	                            else {
+		                            $sql = "select id from shopcar where user_id = {$_SESSION['id']}";
+		                            $result = $conn -> query($sql);
+		                            echo $result -> num_rows;
+	                            } ?></span>
                         </a>
                     </span>
-
-                        </form>
-                    </div>
-                </div>
-                <!-- recommend 为推荐的意思-->
-                <div class="recommend">
-                    <ul>
-                        <li>
+				
+				        </form>
+			        </div>
+		        </div>
+		        <!-- recommend 为推荐的意思-->
+		        <div class="recommend">
+			        <ul>
+				        <li>
                             <a href="#">
                                 女靴
                             </a>
@@ -1236,7 +1289,7 @@ require ("../PHP/conn.php");
 			</div>
 		</div>
 	</div>
-	
+
 	
 	
 	
@@ -1251,7 +1304,7 @@ require ("../PHP/conn.php");
 		        <br>
 		        九江学院 20180101981号 &nbsp;   赣ICP备（暂无） &nbsp;增值业务经营许可证： （暂无）&nbsp;网络文化经营许可证：（暂无）
 		        <br>
-		        自营主体经营证照（暂无）  &nbsp; 风险监测信息（暂无）  &nbsp; 互联网药品信息服务资格证书：（暂无）-学习性-（暂无）&nbsp; 网络交易第三方平台备案凭证：（暂无）
+		        自营主体经营证照（暂无） &nbsp; 风险监测信息（暂无） &nbsp; 互联网药品信息服务资格证书：（暂无）-学习性-（暂无）&nbsp; 网络交易第三方平台备案凭证：（暂无）
 		        <br>
 		        亲爱的学生老师，九江警方反诈劝阻电话“962110”系专门针对避免您财产被骗受损而设，请您一旦收到来电，立即接听。
 		        <br>
@@ -1259,50 +1312,13 @@ require ("../PHP/conn.php");
 		        <br>
 		        注明：本网站为学生于2019年12月制作的PHP大作业，未经本人同意请勿擅自将此网站商用,否则后果自负
 	        </div>
-        </div>
-    
+	</div>
+
+
 </div>
 </body>
 
 
-<script src="../JS/index.js"></script>
-<script src="../JS/index_jquery.js"></script>
-<!--	异步更新数据-->
-<script>
-	function getType(){
-		document.getElementById('reload').className=document.getElementById('refresh').className;
-	}
-	
-	function loadXMLDoc(id,flag) {
-		var xmlhttp;
-		if (window.XMLHttpRequest) {
-			//  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
-			xmlhttp = new XMLHttpRequest();
-		} else {
-			// IE6, IE5 浏览器执行代码
-			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-		}
-		xmlhttp.onreadystatechange = function () {
-			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-				if(flag==1){
-					document.getElementById("container").innerHTML = xmlhttp.responseText;
-				}
-				if(flag==2){
-					document.getElementById("container").innerHTML += xmlhttp.responseText;
-				}
-				
-			}
-		}
-		if(flag==1){
-			xmlhttp.open("GET", "../PRODUCTHTML/product_category.php?type="+id+"&flag=false", true);
-		}
-		if(flag==2){
-			xmlhttp.open("GET", "../PRODUCTHTML/product_category.php?type="+id+"&flag=true", true);
-		}
-		
-		xmlhttp.send();
-	}
-</script>
 <!--<script src="../JS/index_vue.js"></script>-->
 </html>
 

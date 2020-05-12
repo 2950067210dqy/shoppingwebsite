@@ -322,6 +322,7 @@
 	}
 
 .Media-body {
+	width: 100%;
 	flex: 1;
 	margin-left: 5%;
 	}

@@ -1,4 +1,5 @@
 <?php
+sleep(0.5);
 require '../PHP/conn.php';
 $type=$_GET['type'];
 $typeName="";

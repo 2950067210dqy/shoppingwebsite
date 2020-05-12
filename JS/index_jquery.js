@@ -19,7 +19,18 @@ $(document).scroll(function() {
 
 $(document).ready(
 	function () {
-	
+		
+		$('#shopcar').click(
+			function () {
+				if ($('#isLogin').val() == "no") {
+					if (confirm('进入购物车需要登录哦？是否前往登录？')) {
+						location.assign('../HTML/logoin.php');
+					}
+				} else {
+					location.assign('../HTML/shopcar.php');
+				}
+			}
+		);
 		
 		//商品HOVER
 		$(".product_category").hover(

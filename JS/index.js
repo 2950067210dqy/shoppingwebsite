@@ -59,6 +59,8 @@ $(document).ready(
         $(".left_btn").click(function () {
             moveL();
         });
+    
+    
     });
 // function lunbostart(){
 //

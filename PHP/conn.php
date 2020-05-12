@@ -3,7 +3,6 @@ if (!session_id()) session_start();
 date_default_timezone_set('PRC');//临时设置中国时区
 header("content-type:text/html;charset=utf8");
 global $conn;
-
 $url="localhost";
 $password="";
 $conn=mysqli_connect($url,"root",$password,"shopping",3306);
@@ -194,6 +193,7 @@ function page($RecordCount,$PageSize,$Page,$url,$keyword=null,$sel=null){
 				";
 	echo $str;
 }
+
 //
 ////因为用户删除或加权操作会导致id值跳跃，所以要更新id值，否则找不到谁发的评论(更新reply)
 //if(isset($_SESSION['id'])){
