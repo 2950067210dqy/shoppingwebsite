@@ -18,12 +18,14 @@ require '../PHP/conn.php';
 	<script type="text/javascript" src="../JSLIB/vue-router.js"></script>
 	<script type="text/javascript" src="../JSLIB/jquery-1.11.3.min.js"></script>
 	<script src="../JSLIB/bootstrap.js"></script>
+	<script src="../JS/shopcar.js"></script>
+	
 	<!--	引用框架-->
 	<link href="../CSSLIB/bootstrap.css" rel="stylesheet">
 	<link href="../CSS/index.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-<div class="main" >
+<div class="main">
 	<div class="topnav">
 		<div class="topnavin">
 			<div class="place" onclick="">
@@ -150,26 +152,26 @@ require '../PHP/conn.php';
 		</div>
 	</div>
 	
-	
-	<div class="container">
-		<div class="row text-left">
-			<div class="col-lg-12"><font size="6"><b>购物车</b></font></div>
-		</div>
-		<div class="row">
-			<div class="col-lg-12 center-block">
-				<table class="table table-striped table-hover table-condensed ">
-					<thead>
-					<tr class="info">
-						<th colspan="2"><input onclick='allok(this)' type='checkbox'>全选</th>
-						<th colspan="2">商品信息</th>
-						<th>单价</th>
-						<th>数量</th>
-						<th>金额</th>
-						<th>操作</th>
-					</tr>
-					</thead>
-					<tbody>
-					<?php
+	<form method="post" action="../PHP/delete_shopcar.php">
+		<div class="container">
+			<div class="row text-left">
+				<div class="col-lg-12"><font size="6"><b>购物车</b></font></div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12 center-block">
+					<table class="table table-striped table-hover table-condensed ">
+						<thead>
+						<tr class="info">
+							<th colspan="2"><input onclick='allok(this)' type='checkbox'>全选</th>
+							<th colspan="2">商品信息</th>
+							<th>单价</th>
+							<th class="text-center">数量</th>
+							<th>金额</th>
+							<th>操作</th>
+						</tr>
+						</thead>
+						<tbody id="container">
+						<?php
 					$sql = "select id,product_id,product_type,product_num from shopcar where user_id = {$_SESSION['id']}";
 					$result = $conn -> query($sql);
 					while ($row = $result -> fetch_assoc()) {
@@ -183,18 +185,25 @@ require '../PHP/conn.php';
 									<td><input type='checkbox' id='choose' name='choose[]'
 									           value="<?php echo $row['id'] ?>"></td>
 									<td>店铺：<a
-											href="<?php echo $row2['merchant_addre'] ?>"><?php echo $row2['merchant'] ?></a>
+												href="<?php echo $row2['merchant_addre'] ?>"><?php echo $row2['merchant'] ?></a>
 									</td>
 									<td><a href="<?php echo $row2['product_addre'] ?>"><img
-												src="<?php echo $row2['img_addre'] ?>" width="100" height="100"></a>
+													src="<?php echo $row2['img_addre'] ?>" width="100" height="100"></a>
 									</td>
 									<td width="30%"><a
-											href="<?php echo $row2['product_addre'] ?>"><?php echo $row2['title'] ?></a>
+												href="<?php echo $row2['product_addre'] ?>"><?php echo $row2['title'] ?></a>
 									</td>
-									<td><font color="black" size="3"><b>￥<?php echo $row2['price'] ?></b></font></td>
-									<td><?php echo $row['product_num'] ?></td>
+									<td><font color="black" size="3"><b>￥</b><b
+													class="price"><?php echo $row2['price'] ?></b></font></td>
+									<td class="text-center"><a href="javascript:void(0)" class="btn btn-default add"
+									                           title="<?php echo $row['id'] ?>">+</a>
+										<input type="text" value="<?php echo $row['product_num'] ?>" class="product_num"
+										       style="width: 10%" title="<?php echo $row['id'] ?>">
+										<a href="javascript:void(0)" class="btn btn-default subtract"
+										   title="<?php echo $row['id'] ?>">-</a></td>
 									<td><font color="#ff4500"
-									          size="3"><b>￥<?php echo $row['product_num'] * $row2['price'] ?></b></font>
+									          size="3"><b>￥</b><b
+													class="allprice"><?php echo $row['product_num'] * $row2['price'] ?></b></font>
 									</td>
 									<td>
 										<p><a class="btn btn-danger"
@@ -209,27 +218,30 @@ require '../PHP/conn.php';
 						}
 					}
 					?>
-					</tbody>
-				</table>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<hr size="10">
+			<div class="row " style="border: silver solid 2px;background-color: rgb(229,229,229);" id="container2">
+				<div class="col-lg-1 " style="background-color: inherit"><input onclick='allok(this)' type='checkbox'>全选
+				</div>
+				<div class="col-lg-1" style="background-color: inherit"><a class="btn btn-danger" href="#">删除</a></div>
+				<div class="col-lg-1" style="background-color: inherit"><a class="btn btn-success" href="#">移入收藏夹</a>
+				</div>
+				<div class="col-lg-2 col-lg-offset-3" style="background-color: inherit">已选商品：<font color="#ff4500"
+				                                                                                   size="3"
+				                                                                                   style="background-color: inherit">0</font>件
+				</div>
+				<div class="col-lg-2" style="background-color: inherit">合计：<font color="#ff4500" size="3"
+				                                                                 style="background-color: inherit">￥0.00</font>
+				</div>
+				<div class="col-lg-2 text-right" style="background-color: inherit">
+					<button type="submit" class="btn btn-danger btn-block">结&nbsp;&nbsp;算</button>
+				</div>
 			</div>
 		</div>
-		<hr size="10">
-		<div class="row " style="border: silver solid 2px;background-color: rgb(229,229,229);">
-			<div class="col-lg-1 " style="background-color: inherit"><input onclick='allok(this)' type='checkbox'>全选
-			</div>
-			<div class="col-lg-1" style="background-color: inherit"><a class="btn btn-danger" href="#">删除</a></div>
-			<div class="col-lg-1" style="background-color: inherit"><a class="btn btn-success" href="#">移入收藏夹</a></div>
-			<div class="col-lg-2 col-lg-offset-3" style="background-color: inherit">已选商品：<font color="#ff4500" size="3"
-			                                                                                   style="background-color: inherit">0</font>件
-			</div>
-			<div class="col-lg-2" style="background-color: inherit">合计：<font color="#ff4500" size="3"
-			                                                                 style="background-color: inherit">￥0.00</font>
-			</div>
-			<div class="col-lg-2 text-right" style="background-color: inherit">
-				<button type="submit" class="btn btn-danger btn-block">结&nbsp;&nbsp;算</button>
-			</div>
-		</div>
-	</div>
+	</form>
 	<?php
 	
 	
@@ -273,5 +285,6 @@ require '../PHP/conn.php';
 		</div>
 	</div>
 </div>
+<script src="../JS/shopcar_jquery.js"></script>
 </body>
 </html>

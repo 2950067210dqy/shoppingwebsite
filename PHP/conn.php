@@ -21,16 +21,16 @@ function selectAllNoWhere($table,$flag,$conn){
     }
 }
 function selectAllWhereOne($table,$index,$string,$flag,$conn){
-	if(is_string($string)){
+	$sql = "";
+	if (is_string($string)) {
 		$sql = "select * from {$table} where   {$index} = '{$string}'";
-	}else{
+	} else {
 		$sql = "select * from {$table} where   {$index} = {$string}";
 	}
-    if($flag){
-        return mysqli_fetch_assoc(mysqli_query($conn,$sql));
-    }
-    else{
-        return mysqli_query($conn,$sql);
+	if ($flag) {
+		return mysqli_fetch_assoc(mysqli_query($conn , $sql));
+	} else {
+		return mysqli_query($conn , $sql);
     }
 
 }
@@ -107,9 +107,16 @@ function updateAllExcpetImgAddr($table,$index1,$string1,$index2,$string2,$index3
     {$index8}='{$string8}'  where {$indexwhere}={$stringwhere}";
     return mysqli_query($conn,$sql);
 }
-function updateOne($table,$index,$string,$indexwhere,$stringwhere,$conn){
-    $sql="update {$table} set {$index} = '{$string}' where  {$indexwhere} = {$stringwhere}";
-    return mysqli_query($conn,$sql);
+function updateOne($table,$index,$string,$indexwhere,$stringwhere,$conn)
+{
+	$sql = "";
+	if (is_string($string)) {
+		$sql = "update {$table} set {$index} = '{$string}' where  {$indexwhere} = {$stringwhere}";
+	} else {
+		$sql = "update {$table} set {$index} = {$string} where  {$indexwhere} = {$stringwhere}";
+	}
+	
+	return mysqli_query($conn , $sql);
 }
 function updateTwo($table,$index,$string,$index2,$string2,$indexwhere,$stringwhere,$conn){
 	$sql="update {$table} set {$index} = '{$string}',{$index2} = {$string2} where  {$indexwhere} = {$stringwhere}";
