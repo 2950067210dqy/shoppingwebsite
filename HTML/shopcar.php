@@ -160,16 +160,18 @@ require '../PHP/conn.php';
 	
 	<form method="post" action="../PHP/delete_shopcar.php">
 		<div class="container">
-			<div class="row text-left">
-				<div class="col-lg-12"><font size="6"><b>购物车</b></font></div>
-			
+			<div class="row">
+				<div class="col-lg-4"><font size="6"><b>购物车</b></font></div>
+				<div class="col-lg-2 col-lg-offset-6 text-right"><a class="btn btn-link"
+				                                                    href="<?php echo $_SERVER['HTTP_REFERER'] ?>">返回</a>
+				</div>
 			</div>
 			<div class="row">
 				<div class="col-lg-12 center-block">
 					<table class="table table-striped table-hover table-condensed ">
 						<thead>
 						<tr class="info">
-							<th colspan="2"><input onclick='allok(this)' type='checkbox'>全选</th>
+							<th colspan="2"><input onclick='allok(this)' type='checkbox' name="allchecked">全选</th>
 							<th colspan="2">商品信息</th>
 							<th>单价</th>
 							<th class="text-center">数量</th>
@@ -181,7 +183,7 @@ require '../PHP/conn.php';
 						<?php
 						$final_num = 0;
 						$final_price = 0;
-						$sql = "select id,product_id,product_type,product_num from shopcar where user_id = {$_SESSION['id']}";
+						$sql = "select id,product_id,product_type,product_num from shopcar where user_id = {$_SESSION['id']} order by time desc";
 						$result = $conn -> query($sql);
 						while ($row = $result -> fetch_assoc()) {
 							if ($row) {
@@ -198,20 +200,24 @@ require '../PHP/conn.php';
 										<td>店铺：<a
 													href="<?php echo $row2['merchant_addre'] ?>"><?php echo $row2['merchant'] ?></a>
 										</td>
-										<td><a href="<?php echo $row2['product_addre'] ?>"><img
+										<td>
+											<a href="../HTML/product.php?id=<?php echo $row2['id'] ?>&type=<?php echo $row2['type'] ?>"><img
 														src="<?php echo $row2['img_addre'] ?>" width="100" height="100"></a>
 										</td>
-									<td width="30%"><a
-												href="<?php echo $row2['product_addre'] ?>"><?php echo $row2['title'] ?></a>
-									</td>
-									<td><font color="black" size="3"><b>￥</b><b
-													class="price"><?php echo $row2['price'] ?></b></font></td>
-									<td class="text-center"><a href="javascript:void(0)" class="btn btn-default add"
-									                           title="<?php echo $row['id'] ?>">+</a>
-										<input type="text" value="<?php echo $row['product_num'] ?>" class="product_num"
-										       style="width: 10%" title="<?php echo $row['id'] ?>">
-										<a href="javascript:void(0)" class="btn btn-default subtract"
-										   title="<?php echo $row['id'] ?>">-</a></td>
+										<td width="30%"><a
+													href="../HTML/product.php?id=<?php echo $row2['id'] ?>&type=<?php echo $row2['type'] ?>"><?php echo $row2['title'] ?></a>
+										</td>
+										<td><font color="black" size="3"><b>￥</b><b
+														class="price"><?php echo $row2['price'] ?></b></font></td>
+										<td class="text-center">
+											<a href="javascript:void(0)" class="btn btn-default subtract"
+											   title="<?php echo $row['id'] ?>">-</a>
+											<input type="text" value="<?php echo $row['product_num'] ?>"
+											       class="product_num"
+											       style="width: 10%" title="<?php echo $row['id'] ?>">
+											<a href="javascript:void(0)" class="btn btn-default add"
+											   title="<?php echo $row['id'] ?>">+</a>
+										</td>
 										<td><font color="#ff4500"
 										          size="3"><b>￥</b><b
 														class="allprice"><?php echo $row['product_num'] * $row2['price'] ?></b></font>
@@ -236,7 +242,8 @@ require '../PHP/conn.php';
 			</div>
 			<hr size="10">
 			<div class="row " style="border: silver solid 2px;background-color: rgb(229,229,229);" id="container2">
-				<div class="col-lg-1 " style="background-color: inherit"><input onclick='allok(this)' type='checkbox'>全选
+				<div class="col-lg-1 " style="background-color: inherit"><input onclick='allok(this)' type='checkbox'
+				                                                                name="allchecked">全选
 				</div>
 				<div class="col-lg-1" style="background-color: inherit">
 					<button type="submit" class="btn btn-danger">删除</button>

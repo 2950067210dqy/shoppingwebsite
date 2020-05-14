@@ -282,64 +282,27 @@
 	color: #999999;
 	font-size: 12px;
 	}
-
 /**
 评论区
 **/
 .shoppost{
 	width: 67%;margin: 0 auto;
 	}
-.shoppost_title{
+.shoppost_title {
 	color: white;
 	font-size: 25px;
 	background: #e4393c;
 	text-align: center;
 	font-weight: bolder;
-
-	}
-.Media {
-	width: 67%;margin: 0 auto;
-	display: flex;
-	align-items: flex-start;
-	border-top: 1px solid #999999;
-	}
-.Media input[type=button]{
-	width: 50px;
-	}
-.Media input[type=submit]{
-	width: 50px;
-	float: right;
-	border: none;
-	border-bottom: 1px solid silver;
-	cursor: pointer;
-	color: red;
+	
 	}
 
-
-.Media-figure {
-	margin-right: 1em;
+.shoppost img {
 	border-radius: 50%;
 	}
 
-.Media-body {
-	width: 100%;
-	flex: 1;
-	margin-left: 5%;
-	}
-.tipOfReply{
-	width: 40%;margin: 0 auto;
-
-	}
-.tipOfReply:hover{
-	color: #999999;
-	}
-.reply {
-	width: 60%;
-	margin-left: 30%;
-	display: none;
-	}
-.huifu,.huifus{
-	display: none;
+.huifu, .huifus {
+	/*display: none;*/
 	}
 .recommendTA{
 	width: 70%;margin: 0 auto;

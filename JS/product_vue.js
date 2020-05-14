@@ -80,20 +80,7 @@ var app = new Vue({
 				}
 			}
 		},
-		//显示，隐藏更多评论
-		hideMessage:function () {
-			if($('#isLogin').val()==="yes"){
-				$('.reply').slideToggle('fast');
-				$('.tipOfReply').slideToggle('fast');
-				$('.huifus').slideUp('fast');
-				$('.huifu').slideUp('fast');
-			}else{
-				if(confirm("您暂未登录，不能查看详情哦，点击确定去登陆吧！！！")){
-					location.assign("../HTML/logoin.php");
-				}
-			}
 		
-		}
 		
 	}
 });

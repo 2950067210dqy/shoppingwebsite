@@ -1,7 +1,9 @@
 <?php
 require 'conn.php';
+
 if(empty($_POST['textarea'])||(strlen($_POST['textarea'])==1&&($_POST['textarea']==" "||$_POST['textarea']==" "))){
 	echo "<script>
+alert('{$_POST['textarea']}');
 		alert('您的输入非法');
 		location.assign('{$_SERVER['HTTP_REFERER']}');
 </script>";

@@ -26,42 +26,7 @@ require ("../PHP/conn.php");
 
 </head>
 <body>
-<!--	异步更新数据-->
-<script>
-	function getType() {
-		document.getElementById('reload').className = document.getElementById('refresh').className;
-	}
-	
-	function loadXMLDoc(id, flag) {
-		var xmlhttp;
-		if (window.XMLHttpRequest) {
-			//  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
-			xmlhttp = new XMLHttpRequest();
-		} else {
-			// IE6, IE5 浏览器执行代码
-			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-		}
-		xmlhttp.onreadystatechange = function () {
-			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-				if (flag == 1) {
-					document.getElementById("container").innerHTML = xmlhttp.responseText;
-				}
-				if (flag == 2) {
-					document.getElementById("container").innerHTML += xmlhttp.responseText;
-				}
-				
-			}
-		}
-		if (flag == 1) {
-			xmlhttp.open("GET", "../PRODUCTHTML/product_category.php?type=" + id + "&flag=false", true);
-		}
-		if (flag == 2) {
-			xmlhttp.open("GET", "../PRODUCTHTML/product_category.php?type=" + id + "&flag=true", true);
-		}
-		
-		xmlhttp.send();
-	}
-</script>
+
 <script src="../JS/index.js"></script>
 <script src="../JS/index_jquery.js"></script>
 <!--用来存储登录的状态-->
@@ -1291,22 +1256,55 @@ if (isset($_SESSION['id'])) {
 	<div class="container">
 		<div class="row text-center">
 			<div class="col-lg-12">
-				<a  href="javascript:void(0)" style="cursor: pointer;background-color: transparent;font-size: 12px;color: #999999" class="<?php echo $rows['type']?>" onclick="getType();loadXMLDoc(this.className,2)" id="reload">点击加载更多...</a>
+				<a href="javascript:void(0)" style="cursor: pointer;background-color: transparent;font-size: 12px;color: #999999" class="<?php echo $rows['type']?>"
+				   onclick="getType();loadXMLDoc(this.className,2)" id="reload">点击加载更多...</a>
 			</div>
 		</div>
 	</div>
 
-	
-	
-	
-
+<!--	异步更新数据-->
+	<script>
+		function getType() {
+			document.getElementById('reload').className = document.getElementById('refresh').className;
+		}
+		
+		function loadXMLDoc(id, flag) {
+			var xmlhttp;
+			if (window.XMLHttpRequest) {
+				//  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
+				xmlhttp = new XMLHttpRequest();
+			} else {
+				// IE6, IE5 浏览器执行代码
+				xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+			}
+			xmlhttp.onreadystatechange = function () {
+				if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+					if (flag == 1) {
+						document.getElementById("container").innerHTML = xmlhttp.responseText;
+					}
+					if (flag == 2) {
+						document.getElementById("container").innerHTML += xmlhttp.responseText;
+					}
+					
+				}
+			}
+			if (flag == 1) {
+				xmlhttp.open("GET", "../PRODUCTHTML/product_category.php?type=" + id + "&flag=false", true);
+			}
+			if (flag == 2) {
+				xmlhttp.open("GET", "../PRODUCTHTML/product_category.php?type=" + id + "&flag=true", true);
+			}
+			
+			xmlhttp.send();
+		}
+	</script>
 	
 	
 	<div class="footer">
-	        <div  style="color: #ababab;background-color:  rgb(246,249,250);text-align: center;margin: 0 auto;font-size: 13px">
-		        Copyright &nbsp;©  &nbsp;
-		        2019-2020  &nbsp; qinyou.com， &nbsp;All  &nbsp;Rights &nbsp; Reserved &nbsp;
-		        使用本网站即表示接受 &nbsp; 沁柚用户协议。版权所有 &nbsp; 九江学院31栋503沁柚工作室 邓亲优
+		<div style="color: #ababab;background-color:  rgb(246,249,250);text-align: center;margin: 0 auto;font-size: 13px">
+			Copyright &nbsp;© &nbsp;
+			2019-2020 &nbsp; qinyou.com， &nbsp;All &nbsp;Rights &nbsp; Reserved &nbsp;
+			使用本网站即表示接受 &nbsp; 沁柚用户协议。版权所有 &nbsp; 九江学院31栋503沁柚工作室 邓亲优
 		        <br>
 		        九江学院 20180101981号 &nbsp;   赣ICP备（暂无） &nbsp;增值业务经营许可证： （暂无）&nbsp;网络文化经营许可证：（暂无）
 		        <br>

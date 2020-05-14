@@ -25,7 +25,7 @@ if (mysqli_num_rows($result)>0){
 		$lasturl='../HTML/index.php';
 	}
 	if($_POST['isadmin']=='false'){
-		echo "<script type='text/javascript'> alert(\"亲爱的{$row['name']}用户好久不见，您终于来了，登录成功\");
+		echo "<script type='text/javascript'> alert(\"亲爱的{$row['name']}{$row['caree']}好久不见，您终于来了，登录成功\");
         location.href= '$lasturl';</script>";
 	}
 	else{

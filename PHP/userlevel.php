@@ -4,7 +4,7 @@ if(isset($_POST['yes'])){
     $_POST['yes']=false;
 
 
-    if(!empty($_POST['jiaquan'])){
+    if (isset($_POST['jiaquan']) && !empty($_POST['jiaquan'])) {
 	    $jiaquan_id = $_POST['jiaquan'];
 	    $bool = true;
 	    $result = null;
@@ -20,20 +20,19 @@ if(isset($_POST['yes'])){
                              alert('加权所有操作成功！！');
                               location.assign('../HTML/adminwatchall.php')</script>";
     }
-
-
-
-    if(!empty($_POST['jiangquan'])){
-        $jiangquan_id=$_POST['jiangquan'];
-        $bool=true;
-        $result=null;
-        foreach($jiangquan_id as $key => $value) {
-            $value = intval($value);
-	        $row = selectOneWhereOneAnd("user" , "id" , "username" , "admin" , "isadmin" , "true" , 1 , $conn);
-	        if ($value == $row['id']) {
-		        echo "<script>alert('您不能将超级管理员降权！！！')</script>";
-		        if (count($row) == 1) {
-			        echo "<script> location.assign('../HTML/adminwatchall.php')</script>";
+	
+	
+	if (isset($_POST['jiangquan']) && !empty($_POST['jiangquan'])) {
+		$jiangquan_id = $_POST['jiangquan'];
+		$bool = true;
+		$result = null;
+		foreach ($jiangquan_id as $key => $value) {
+			$value = intval($value);
+			$row = selectOneWhereOneAnd("user" , "id" , "username" , "admin" , "isadmin" , "true" , 1 , $conn);
+			if ($value == $row['id']) {
+				echo "<script>alert('您不能将超级管理员降权！！！')</script>";
+				if (count($row) == 1) {
+					echo "<script> location.assign('../HTML/adminwatchall.php')</script>";
 		        }
 		        continue;
 	        }
@@ -62,17 +61,17 @@ if(isset($_POST['yes'])){
 if(isset($_POST['dele'])){
 
     $_POST['dele']=false;
-    if(!empty($_POST['delete'])){
-        $delete1_id=$_POST['delete'];
-        $bool=true;
-        foreach($delete1_id as $key => $value){
-            $value=intval($value);
-            if(!deleteWhereOne("user","id",$value,$conn)){
-                $bool=false;
-                echo "<script>alert('普通用户删除失败！！');
+	if (isset($_POST['delete']) && !empty($_POST['delete'])) {
+		$delete1_id = $_POST['delete'];
+		$bool = true;
+		foreach ($delete1_id as $key => $value) {
+			$value = intval($value);
+			if (!deleteWhereOne("user" , "id" , $value , $conn)) {
+				$bool = false;
+				echo "<script>alert('普通用户删除失败！！');
         location.assign('../HTML/adminwatchall.php')</script>";
-                break;
-            }
+				break;
+			}
         }
         if($bool){
             
@@ -80,18 +79,18 @@ if(isset($_POST['dele'])){
     location.assign('../HTML/adminwatchall.php')</script>";
         }
     }
-
-    if(!empty($_POST['delete2'])){
-        $delete2_id=$_POST['delete2'];
-        $bool=true;
-        foreach($delete2_id as $key => $value){
-            $value=intval($value);
-            $row=selectOneWhereOneAnd("user","id","name","admin","isadmin","true",1,$conn);
-            if($value==$row['sid']){
-                echo "<script>alert('您不能删除超级管理员！！！')</script>";
-                if(count($row)==1){
-                    echo "<script> location.assign('../HTML/adminwatchall.php')</script>";
-                }
+	
+	if (isset($_POST['delete2']) && !empty($_POST['delete2'])) {
+		$delete2_id = $_POST['delete2'];
+		$bool = true;
+		foreach ($delete2_id as $key => $value) {
+			$value = intval($value);
+			$row = selectOneWhereOneAnd("user" , "id" , "name" , "admin" , "isadmin" , "true" , 1 , $conn);
+			if ($value == $row['sid']) {
+				echo "<script>alert('您不能删除超级管理员！！！')</script>";
+				if (count($row) == 1) {
+					echo "<script> location.assign('../HTML/adminwatchall.php')</script>";
+				}
                 continue;
             }
             if(!deleteWhereOne("user","id",$value,$conn)){
