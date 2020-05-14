@@ -77,32 +77,38 @@ require '../PHP/conn.php';
 					<li style="color: rgb(157,157,157); font-weight: bold">
 						/
 					</li>
-					<li >
-						<a href="../BILIBILI/bilibili.php">  会员俱乐部</a>
-					</li>
-					<li style="color: rgb(157,157,157); font-weight: bold">
-						/
-					</li>
-					<li >
-						<a href="../../phpprojectplus/perinfor/index.php">   我的特卖</a>
-					</li>
-					<li style="color: rgb(157,157,157); font-weight: bold">
-						/
-					</li>
-					<li >
-						<a href="../../phpprojectplus/myBBS/index.php">    我的订单</a>
-					</li>
-					<li style="color: rgb(157,157,157); font-weight: bold">
-						/
-					</li>
-					<li >
-						<a href="../BILIBILI/bilibili.php">   签到有礼</a>
+					<li>
+						<a href="../BILIBILI/bilibili.php"> 会员俱乐部</a>
 					</li>
 					<li style="color: rgb(157,157,157); font-weight: bold">
 						/
 					</li>
 					<li>
-						<a href="../PHP/indexLocation.php? id=index_signin">   注册</a>
+						<a href="../../phpprojectplus/perinfor/index.php"> 我的订单</a>
+					</li>
+					<li style="color: rgb(157,157,157); font-weight: bold">
+						/
+					</li>
+					<li>
+						<a href="../../phpprojectplus/myBBS/index.php"> 我的收藏</a>
+					</li>
+					<li style="color: rgb(157,157,157); font-weight: bold">
+						/
+					</li>
+					<li>
+						<a href="../HTML/shopcar.php">
+							我的购物车<?php if (!isset($_SESSION['id'])) echo 0; elseif (isset($_SESSION['shopnum'])) echo $_SESSION['shopnum'];
+							else {
+								$sql = "select id from shopcar where user_id = {$_SESSION['id']}";
+								$result = $conn -> query($sql);
+								echo $result -> num_rows;
+							} ?></a>
+					</li>
+					<li style="color: rgb(157,157,157); font-weight: bold">
+						/
+					</li>
+					<li>
+						<a href="../PHP/indexLocation.php? id=index_signin"> 注册</a>
 					</li>
 					<li style="color: rgb(157,157,157); font-weight: bold">
 						/
@@ -156,6 +162,7 @@ require '../PHP/conn.php';
 		<div class="container">
 			<div class="row text-left">
 				<div class="col-lg-12"><font size="6"><b>购物车</b></font></div>
+			
 			</div>
 			<div class="row">
 				<div class="col-lg-12 center-block">
@@ -172,24 +179,28 @@ require '../PHP/conn.php';
 						</thead>
 						<tbody id="container">
 						<?php
-					$sql = "select id,product_id,product_type,product_num from shopcar where user_id = {$_SESSION['id']}";
-					$result = $conn -> query($sql);
-					while ($row = $result -> fetch_assoc()) {
-						if ($row) {
-							$sql2 = "select * from {$row['product_type']} where id = {$row['product_id']}";
-							$result2 = $conn -> query($sql2);
-							$row2 = $result2 -> fetch_assoc();
-							if ($row2) {
-								?>
-								<tr id="shopcar<?php echo $row['id'] ?>">
-									<td><input type='checkbox' id='choose' name='choose[]'
-									           value="<?php echo $row['id'] ?>"></td>
-									<td>店铺：<a
-												href="<?php echo $row2['merchant_addre'] ?>"><?php echo $row2['merchant'] ?></a>
-									</td>
-									<td><a href="<?php echo $row2['product_addre'] ?>"><img
-													src="<?php echo $row2['img_addre'] ?>" width="100" height="100"></a>
-									</td>
+						$final_num = 0;
+						$final_price = 0;
+						$sql = "select id,product_id,product_type,product_num from shopcar where user_id = {$_SESSION['id']}";
+						$result = $conn -> query($sql);
+						while ($row = $result -> fetch_assoc()) {
+							if ($row) {
+								$sql2 = "select * from {$row['product_type']} where id = {$row['product_id']}";
+								$result2 = $conn -> query($sql2);
+								$row2 = $result2 -> fetch_assoc();
+								if ($row2) {
+									$final_num += $row['product_num'];
+									$final_price += ($row['product_num'] * $row2['price']);
+									?>
+									<tr id="shopcar<?php echo $row['id'] ?>">
+										<td><input type='checkbox' id='choose' name='choose[]'
+										           value="<?php echo $row['id'] ?>"></td>
+										<td>店铺：<a
+													href="<?php echo $row2['merchant_addre'] ?>"><?php echo $row2['merchant'] ?></a>
+										</td>
+										<td><a href="<?php echo $row2['product_addre'] ?>"><img
+														src="<?php echo $row2['img_addre'] ?>" width="100" height="100"></a>
+										</td>
 									<td width="30%"><a
 												href="<?php echo $row2['product_addre'] ?>"><?php echo $row2['title'] ?></a>
 									</td>
@@ -201,20 +212,21 @@ require '../PHP/conn.php';
 										       style="width: 10%" title="<?php echo $row['id'] ?>">
 										<a href="javascript:void(0)" class="btn btn-default subtract"
 										   title="<?php echo $row['id'] ?>">-</a></td>
-									<td><font color="#ff4500"
-									          size="3"><b>￥</b><b
-													class="allprice"><?php echo $row['product_num'] * $row2['price'] ?></b></font>
-									</td>
-									<td>
-										<p><a class="btn btn-danger"
-										      href="delete_shopcar.php?id=<?php echo $row['id']; ?>">删除</a></p>
-										<p><a class="btn btn-success"
-										      href="insert_collect_product.php?product_id=<?php echo $row['product_id']; ?>&product_type=<?php echo $row['product_type']; ?>">加入收藏</a>
-										</p>
-									</td>
-								</tr>
-								<?php
-							}
+										<td><font color="#ff4500"
+										          size="3"><b>￥</b><b
+														class="allprice"><?php echo $row['product_num'] * $row2['price'] ?></b></font>
+										</td>
+										<td>
+											<p><a class="btn btn-danger"
+											      href="../PHP/delete_shopcar.php?id=<?php echo $row['id']; ?>">删除</a>
+											</p>
+											<p><a class="btn btn-success"
+											      href="../PHP/insert_collect_product.php?product_id=<?php echo $row['product_id']; ?>&product_type=<?php echo $row['product_type']; ?>">加入收藏</a>
+											</p>
+										</td>
+									</tr>
+									<?php
+								}
 						}
 					}
 					?>
@@ -226,15 +238,20 @@ require '../PHP/conn.php';
 			<div class="row " style="border: silver solid 2px;background-color: rgb(229,229,229);" id="container2">
 				<div class="col-lg-1 " style="background-color: inherit"><input onclick='allok(this)' type='checkbox'>全选
 				</div>
-				<div class="col-lg-1" style="background-color: inherit"><a class="btn btn-danger" href="#">删除</a></div>
+				<div class="col-lg-1" style="background-color: inherit">
+					<button type="submit" class="btn btn-danger">删除</button>
+				</div>
 				<div class="col-lg-1" style="background-color: inherit"><a class="btn btn-success" href="#">移入收藏夹</a>
 				</div>
 				<div class="col-lg-2 col-lg-offset-3" style="background-color: inherit">已选商品：<font color="#ff4500"
 				                                                                                   size="3"
-				                                                                                   style="background-color: inherit">0</font>件
+				                                                                                   style="background-color: inherit"
+				                                                                                   id="final_num"><?php echo $final_num ?></font>件
 				</div>
 				<div class="col-lg-2" style="background-color: inherit">合计：<font color="#ff4500" size="3"
-				                                                                 style="background-color: inherit">￥0.00</font>
+				                                                                 style="background-color: inherit">￥<font
+								color="#ff4500" size="3" style="background-color: inherit"
+								id="final_price"><?php echo $final_price ?></font></font>
 				</div>
 				<div class="col-lg-2 text-right" style="background-color: inherit">
 					<button type="submit" class="btn btn-danger btn-block">结&nbsp;&nbsp;算</button>

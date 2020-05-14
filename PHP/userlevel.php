@@ -5,21 +5,20 @@ if(isset($_POST['yes'])){
 
 
     if(!empty($_POST['jiaquan'])){
-        $jiaquan_id=$_POST['jiaquan'];
-        $bool=true;
-        $result=null;
-        foreach($jiaquan_id as $key => $value) {
-            $value = intval($value);
-            $row=selectOneWhereOne("user","id","id",$value,1,$conn);
-            if(updateOne('user','isadmin','true','id',$row['id'],$conn)){
-                 echo "<script>alert('{$row['id']}加权操作！！');
+	    $jiaquan_id = $_POST['jiaquan'];
+	    $bool = true;
+	    $result = null;
+	    foreach ($jiaquan_id as $key => $value) {
+		    $value = intval($value);
+		    $row = selectOneWhereOne("user" , "id" , "id" , $value , 1 , $conn);
+		    if (updateOne('user' , 'isadmin' , 'true' , 'id' , $row['id'] , $conn)) {
+		    } else {
+			    echo "<script>alert('加权失败'); location.assign('../HTML/adminwatchall.php')</script>";
+		    }
+	    }
+	    echo "<script>alert('{$row['id']}加权操作！！');
                              alert('加权所有操作成功！！');
                               location.assign('../HTML/adminwatchall.php')</script>";
-            }
-             else {
-                echo "<script>alert('加权失败'); location.assign('../HTML/adminwatchall.php')</script>";
-            }
-        }
     }
 
 
@@ -30,24 +29,23 @@ if(isset($_POST['yes'])){
         $result=null;
         foreach($jiangquan_id as $key => $value) {
             $value = intval($value);
-            $row=selectOneWhereOneAnd("user","id","username","admin","isadmin","true",1,$conn);
-            if($value==$row['id']){
-                echo "<script>alert('您不能将超级管理员降权！！！')</script>";
-                if(count($row)==1){
-                    echo "<script> location.assign('../HTML/adminwatchall.php')</script>";
-                }
-                continue;
-            }
-            $row=selectOneWhereOne("user","id","id",$value,1,$conn);
-            if(updateOne('user','isadmin','false','id',$row['id'],$conn)){
-                echo "<script>alert('{$row['id']}降权操作！！');
+	        $row = selectOneWhereOneAnd("user" , "id" , "username" , "admin" , "isadmin" , "true" , 1 , $conn);
+	        if ($value == $row['id']) {
+		        echo "<script>alert('您不能将超级管理员降权！！！')</script>";
+		        if (count($row) == 1) {
+			        echo "<script> location.assign('../HTML/adminwatchall.php')</script>";
+		        }
+		        continue;
+	        }
+	        $row = selectOneWhereOne("user" , "id" , "id" , $value , 1 , $conn);
+	        if (updateOne('user' , 'isadmin' , 'false' , 'id' , $row['id'] , $conn)) {
+	        } else {
+		        echo "<script>alert('加权失败'); location.assign('../HTML/adminwatchall.php')</script>";
+	        }
+        }
+	    echo "<script>alert('{$row['id']}降权操作！！');
                              alert('降权所有操作成功！！');
                               location.assign('../HTML/adminwatchall.php')</script>";
-            }
-            else {
-                echo "<script>alert('加权失败'); location.assign('../HTML/adminwatchall.php')</script>";
-            }
-        }
     }
 
 

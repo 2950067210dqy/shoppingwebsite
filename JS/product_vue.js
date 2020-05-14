@@ -64,14 +64,13 @@ var app = new Vue({
 				}
 			} else {
 				if (confirm("你确定要加入购物车吗？")) {
-					this.shopnum = this.shopnum + 1;
 					$.ajax({
 						url: "../PHP/insert_shopcar.php",
-						dataType: "json",
 						type: "post",
 						data: {"Product": this.product, "Shopnum": this.shopnum},
 						success: function (result) {
 							console.log(result);
+							$('.shopcar_msg').html(result);
 						},
 						error: function (xhr, status, p3) {
 							// var err = "Error:" + status + "/" + p3;

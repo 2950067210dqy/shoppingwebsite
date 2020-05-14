@@ -72,12 +72,16 @@ function selectOneWhereOne($table,$num,$index,$string,$flag,$conn){
     }
 }
 function selectOneWhereOneAnd($table,$num,$index,$string,$index2,$string2,$flag,$conn){
-	$sql = "select {$num} from {$table} where {$index} = '{$string}' and  {$index2} = '{$string2}' ";
-	if($flag){
-		return mysqli_fetch_assoc(mysqli_query($conn,$sql));
+	if (is_string($string)) {
+		$sql = "select {$num} from {$table} where {$index} = '{$string}' and  {$index2} = '{$string2}' ";
+	} else {
+		$sql = "select {$num} from {$table} where {$index} = {$string} and  {$index2} = '{$string2}' ";
 	}
-	else{
-		return mysqli_query($conn,$sql);
+	
+	if ($flag) {
+		return mysqli_fetch_assoc(mysqli_query($conn , $sql));
+	} else {
+		return mysqli_query($conn , $sql);
 	}
 }
 function insertAll($table,$num1,$num2,$num3,$num4,$num5,$num6,$num7,$num8,$num9,$num10,$num11,$conn){
@@ -109,13 +113,11 @@ function updateAllExcpetImgAddr($table,$index1,$string1,$index2,$string2,$index3
 }
 function updateOne($table,$index,$string,$indexwhere,$stringwhere,$conn)
 {
-	$sql = "";
 	if (is_string($string)) {
 		$sql = "update {$table} set {$index} = '{$string}' where  {$indexwhere} = {$stringwhere}";
 	} else {
 		$sql = "update {$table} set {$index} = {$string} where  {$indexwhere} = {$stringwhere}";
 	}
-	
 	return mysqli_query($conn , $sql);
 }
 function updateTwo($table,$index,$string,$index2,$string2,$indexwhere,$stringwhere,$conn){
@@ -201,6 +203,13 @@ function page($RecordCount,$PageSize,$Page,$url,$keyword=null,$sel=null){
 	echo $str;
 }
 
+function getTOP()
+{
+	$str = <<<STC
+
+STC;
+
+}
 //
 ////因为用户删除或加权操作会导致id值跳跃，所以要更新id值，否则找不到谁发的评论(更新reply)
 //if(isset($_SESSION['id'])){

@@ -31,23 +31,27 @@ if(isset($_POST['update'])){
 
 if(isset($_POST['exit'])||isset($_GET['exit'])){
     $_POST['exit']=false;
-    unset($_SESSION['id']);
-    unset($_SESSION['email']);
-    unset($_SESSION['phone']);
-    unset($_SESSION['name']);
-    unset($_SESSION['sex']);
-    unset($_SESSION['invitecode']);
-    unset($_SESSION['password']);
-    unset($_SESSION['career']);
-    unset($_SESSION['headimg']);
-    unset($_SESSION['isadmin']);
-    session_write_close();
-	if(count(explode('http://localhost:63341/phpproject2/HTML/product.php',$_SERVER['HTTP_REFERER']))>1){
+	unset($_SESSION['id']);
+	unset($_SESSION['email']);
+	unset($_SESSION['phone']);
+	unset($_SESSION['name']);
+	unset($_SESSION['sex']);
+	unset($_SESSION['invitecode']);
+	unset($_SESSION['password']);
+	unset($_SESSION['career']);
+	unset($_SESSION['headimg']);
+	unset($_SESSION['isadmin']);
+	if (isset($_SESSION['shopnum'])) {
+		unset($_SESSION['shopnum']);
+	}
+	
+	session_write_close();
+	if (count(explode('http://localhost:63341/phpproject2/HTML/product.php' , $_SERVER['HTTP_REFERER'])) > 1) {
 		//包含改网址
 		echo "<script type='text/javascript'> alert('退出登录成功，正在跳转主页');
                           location.assign('{$_SERVER['HTTP_REFERER']}');
             </script>";
-	}else{
+	} else {
 		//不包含改网址
 		echo "<script type='text/javascript'> alert('退出登录成功，正在跳转主页');
                           location.assign('../HTML/index.php');

@@ -158,39 +158,45 @@ if (isset($_SESSION['id'])) {
                     <li >
                         <a href="../PHP/indexLocation.php">   客户服务</a>
                     </li>
-                    <li style="color: rgb(157,157,157); font-weight: bold">
-                        /
-                    </li>
-                    <li >
-                        <a href="../BILIBILI/bilibili.php">  会员俱乐部</a>
-                    </li>
-                    <li style="color: rgb(157,157,157); font-weight: bold">
-                        /
-                    </li>
-                    <li >
-                        <a href="../../phpprojectplus/perinfor/index.php">   我的特卖</a>
-                    </li>
-                    <li style="color: rgb(157,157,157); font-weight: bold">
-                        /
-                    </li>
-                    <li >
-                        <a href="../../phpprojectplus/myBBS/index.php">    我的订单</a>
-                    </li>
-                    <li style="color: rgb(157,157,157); font-weight: bold">
-                        /
-                    </li>
-                    <li >
-                        <a href="../BILIBILI/bilibili.php">   签到有礼</a>
-                    </li>
-                    <li style="color: rgb(157,157,157); font-weight: bold">
-                        /
-                    </li>
-                    <li>
-                        <a href="../PHP/indexLocation.php? id=index_signin">   注册</a>
-                    </li>
-                    <li style="color: rgb(157,157,157); font-weight: bold">
-                        /
-                    </li>
+	                <li style="color: rgb(157,157,157); font-weight: bold">
+		                /
+	                </li>
+	                <li>
+		                <a href="../BILIBILI/bilibili.php"> 会员俱乐部</a>
+	                </li>
+	                <li style="color: rgb(157,157,157); font-weight: bold">
+		                /
+	                </li>
+	                <li>
+		                <a href="../../phpprojectplus/perinfor/index.php"> 我的订单</a>
+	                </li>
+	                <li style="color: rgb(157,157,157); font-weight: bold">
+		                /
+	                </li>
+	                <li>
+		                <a href="../../phpprojectplus/myBBS/index.php"> 我的收藏</a>
+	                </li>
+	                <li style="color: rgb(157,157,157); font-weight: bold">
+		                /
+	                </li>
+	                <li>
+		                <a href="javascript:void(0)" class="shopcar">
+			                我的购物车<?php if (!isset($_SESSION['id'])) echo 0; elseif (isset($_SESSION['shopnum'])) echo $_SESSION['shopnum'];
+			                else {
+				                $sql = "select id from shopcar where user_id = {$_SESSION['id']}";
+				                $result = $conn -> query($sql);
+				                echo $result -> num_rows;
+			                } ?></a>
+	                </li>
+	                <li style="color: rgb(157,157,157); font-weight: bold">
+		                /
+	                </li>
+	                <li>
+		                <a href="../PHP/indexLocation.php? id=index_signin"> 注册</a>
+	                </li>
+	                <li style="color: rgb(157,157,157); font-weight: bold">
+		                /
+	                </li>
                     <li>
                         <?php
 
@@ -241,7 +247,7 @@ if (isset($_SESSION['id'])) {
 					        <input type="text" max="10" placeholder="请输入你要查找的商品" name="searchtext">
 					        <input type="submit" name="search" value="">
 					        <span class="shopcar">
-                        <a href="javascript:void(0)" id="shopcar">
+                        <a href="javascript:void(0)" class="shopcar">
                             <span class="shopcar_img"><img src="../IMG/shopcar.png" width="25" height="25"> </span>
                             <span class="shopcar_word">购物车</span>
                             <span class="shopcar_msg"><?php if (!isset($_SESSION['id'])) echo 0; elseif (isset($_SESSION['shopnum'])) echo $_SESSION['shopnum'];

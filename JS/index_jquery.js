@@ -20,7 +20,7 @@ $(document).scroll(function() {
 $(document).ready(
 	function () {
 		
-		$('#shopcar').click(
+		$('.shopcar').click(
 			function () {
 				if ($('#isLogin').val() == "no") {
 					if (confirm('进入购物车需要登录哦？是否前往登录？')) {
