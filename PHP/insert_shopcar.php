@@ -3,7 +3,7 @@ include '../CLASS/product.php';
 session_start();
 require 'conn.php';
 $product = $_POST['Product'];
-$result = selectOneWhereOneAnd("shopcar" , "id" , "product_id" , $product['product_id'] , "product_type" , $product['product_type'] , 0 , $conn);
+$result = selectOneWhereTwoAnd("shopcar" , "id" , "product_id" , $product['product_id'] , "product_type" , $product['product_type'] , "user_id" , $_SESSION['id'] , 0 , $conn);
 if ($result -> num_rows > 0) {
 	$row = $result -> fetch_array();
 	if (updateOne("shopcar" , "product_num" , $product['count'] , "id" , $row[0] , $conn)) {

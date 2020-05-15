@@ -14,6 +14,7 @@ var app = new Vue({
 			},
 			//购物车数量
 			shopnum: 0,
+			iscollected: true,
 			//控制数量加减按钮的disable，如果为1就不能按减号按钮，为99不能按加号按钮
 			isabled: [false, false],
 			msg: ""
@@ -77,7 +78,42 @@ var app = new Vue({
 							// alert(err);
 						}
 					});
+					
+					$('#isShopcar').html("已加入购物车");
+					$('#isShopcar').removeClass("btn-danger");
+					$('#isShopcar').addClass("btn-warning");
 				}
+			}
+		},
+		//加入收藏
+		addCollected: function () {
+			if (this.iscollected) {
+				if ($('#isLogin').val() == "no") {
+					if (confirm("你暂未登录，无法加入购物车，是否登录？")) {
+						location.assign('../HTML/logoin.php');
+					}
+				} else {
+					if (confirm("你确定要加入收藏吗？")) {
+						$.ajax({
+							url: "../PHP/insert_collect_product.php",
+							type: "post",
+							data: {"Product": this.product},
+							success: function (result) {
+								console.log(result);
+							},
+							error: function (xhr, status, p3) {
+								// var err = "Error:" + status + "/" + p3;
+								// alert(err);
+							}
+						});
+						this.iscollected = false;
+						$('#isCollected').html("已收藏");
+						$('#isCollected').removeClass("btn-success");
+						$('#isCollected').addClass("btn-warning");
+					}
+				}
+			} else {
+			
 			}
 		},
 		

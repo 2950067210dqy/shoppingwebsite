@@ -85,29 +85,38 @@ if (isset($_SESSION['id'])) {
                     <li>
                     <a href='../../index.html' target='_self'>返回网站导航</a>
                     </li>
-                    <li style="color: rgb(157,157,157); font-weight: bold">
-                        /
-                    </li>
-                    <li >
-                        总访问量<span class="visitsum" id="visitsum">
+	                <li style="color: rgb(157,157,157); font-weight: bold">
+		                /
+	                </li>
+	                <li>
+		                总访问量<span class="visitsum" id="visitsum">
                             <?php
-
+                            $count = "";
                             //数字输出网页计数器
-                            $row = selectAllNoWhere("count",1,$conn);
-                            $count=(int)$row['num'];
-                            $count++;
-                            echo $count;
-                            if(updateOne("count","num",(string)$count,"num",$row['num'],$conn))
+                            $row = selectAllNoWhere("count" , 1 , $conn);
+                            $count = (int)$row['num'];
+                            if (!isset($_SESSION['connected'])) {
+	                            $count ++;
+	                            updateOne("count" , "num" , (string)$count , "num" , $row['num'] , $conn);
+	                            $_SESSION['connected'] = true;
+                            }
+                            $countlen = strlen($count);
+                            $num = null;
+                            for ($i = 0; $i < $countlen; $i ++) {
+	                            $num = $num . "<img src='../IMG/" . substr($count , $i , 1) . ".png' width='17' height='20'>";
+                            }
+                            echo $num;
+
                             ?>
 
 
                         </span>
-                    </li>
-                    <li style="color: rgb(157,157,157); font-weight: bold">
-                        /
-                    </li>
-                    <li>
-                        <?php
+	                </li>
+	                <li style="color: rgb(157,157,157); font-weight: bold">
+		                /
+	                </li>
+	                <li>
+		                <?php
                         echo  date('Y-m-d', time());
                         ?>
                     </li>
@@ -139,7 +148,7 @@ if (isset($_SESSION['id'])) {
 		                /
 	                </li>
 	                <li>
-		                <a href="../../phpprojectplus/myBBS/index.php"> 我的收藏</a>
+		                <a href="product_collected.php"> 我的收藏</a>
 	                </li>
 	                <li style="color: rgb(157,157,157); font-weight: bold">
 		                /
@@ -1097,62 +1106,58 @@ if (isset($_SESSION['id'])) {
     </div>
 
 
-
-
-
-
-
-
-
-
-
 <!--轮播图-->
-
-	<div class="container" >
+	
+	<div class="container">
 		<div class="row">
-            <div class="col-lg-12 col-md-12 col-ms-12 col-xs-12 " >
-	            <div class="banner_lunbo">
-		            <div class="outer">
-			            <ul class="img">
-				            <li><a><img src="../IMG/luobo.png" class="img-responsive img-rounded"></a></li>
-				            <li><a><img src="../IMG/luobo2.png" class="img-responsive img-rounded"></a></li>
-				            <li><a><img src="../IMG/luobo.png"  class="img-responsive img-rounded"></a></li>
-				            <li><a><img src="../IMG/luobo2.png"  class="img-responsive img-rounded"></a></li>
-			            </ul>
-			
-			            <ul class="num">
-				            <li class="current">1</li>
-				            <li>2</li>
-				            <li>3</li>
-				            <li>4</li>
-			            </ul>
-			            <div class="left_btn btn1"><</div>
-			            <div class="right_btn btn1">></div>
-		            </div>
-	            </div>
-            </div>
+			<div class="col-lg-12 col-md-12 col-ms-12 col-xs-12 ">
+				<div class="banner_lunbo">
+					<div class="outer">
+						<ul class="img">
+							<li><a><img src="../IMG/lunbo.png" class="img-responsive img-rounded"></a></li>
+							<li><a><img src="../IMG/lunbo2.png" class="img-responsive img-rounded"></a></li>
+							<li><a><img src="../IMG/lunbo3.png" class="img-responsive img-rounded"></a></li>
+							<li><a><img src="../IMG/lunbo4.png" class="img-responsive img-rounded"></a></li>
+						</ul>
+						
+						<ul class="num">
+							<li class="current">1</li>
+							<li>2</li>
+							<li>3</li>
+							<li>4</li>
+						</ul>
+						<div class="left_btn btn1"><</div>
+						<div class="right_btn btn1">></div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 
 
 <!--商品展示区-->
-	<div class="container" style="margin-top: 2%">
-		<div class="row" style="border: 1px rgb(1,158,210) solid;border-radius: 5%;box-shadow:0px 0px  10px 5px #aaa;">
-			<div class="col-lg-6 col-lg-offset-3">
-			
-<!--				商品类别-->
-				<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-					<div class="panel panel-default">
+	<div class="container" style="margin-top: 2%;background-color: rgb(1,158,210);border-radius: 5%;">
+		<div class="row"
+		     style="background-color:inherit;border: 1px rgb(1,158,210) solid;border-radius: 5%;box-shadow:0px 0px  10px 5px #aaa;">
+			<div class="col-lg-6 col-lg-offset-3" style="border-radius: 5%;">
+				
+				<!--				商品类别-->
+				<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true"
+				     style="border-radius: 5%;">
+					<div class="panel panel-default" style="border-radius: 5%;">
 						<div class="panel-heading" role="tab" id="headingOne">
-							<h4 class="panel-title">
-								<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+							<h4 class="panel-title" style="border-radius: 5%;">
+								<a style="border-radius: 5%;" role="button" data-toggle="collapse"
+								   data-parent="#accordion" href="#collapseOne" aria-expanded="true"
+								   aria-controls="collapseOne">
 									男装
 								</a>
 							</h4>
 						</div>
-						<div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-							<div class="panel-body">
-								<a href="javascript:void(0)"  id="boy_shirt" onclick="loadXMLDoc(this.id,1)" >衬衫</a>
+						<div id="collapseOne" class="panel-collapse collapse in" role="tabpanel"
+						     aria-labelledby="headingOne">
+							<div class="panel-body" style="border-radius: 5%;">
+								<a href="javascript:void(0)" id="boy_shirt" onclick="loadXMLDoc(this.id,1)">衬衫</a>
 								<a href="javascript:void(0)" id="boy_yurongfu" onclick="loadXMLDoc(this.id,1)">羽绒服</a>
 								<a href="javascript:void(0)" id="boy_jiake" onclick="loadXMLDoc(this.id,1)">夹克</a>
 								<a href="javascript:void(0)" id="boy_xifu" onclick="loadXMLDoc(this.id,1)">西服套装</a>
@@ -1163,40 +1168,48 @@ if (isset($_SESSION['id'])) {
 					</div>
 					<div class="panel panel-default">
 						<div class="panel-heading" role="tab" id="headingTwo">
-							<h4 class="panel-title">
-								<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+							<h4 class="panel-title" style="border-radius: 5%;">
+								<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
+								   href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
 									女装
 								</a>
 							</h4>
 						</div>
-						<div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-							<div class="panel-body">
+						<div id="collapseTwo" class="panel-collapse collapse" role="tabpanel"
+						     aria-labelledby="headingTwo">
+							<div class="panel-body" style="border-radius: 5%;">
 								<a href="javascript:void(0)" id="girl_lianyiqun" onclick="loadXMLDoc(this.id,1)">连衣裙</a>
-								<a href="javascript:void(0)" id="girl_banshenqun" onclick="loadXMLDoc(this.id,1)">半身裙</a>
-								<a href="javascript:void(0)" id="girl_duanwaitao" onclick="loadXMLDoc(this.id,1)">短外套</a>
-								<a href="javascript:void(0)" id="girl_xiaoxizhuang" onclick="loadXMLDoc(this.id,1)">小西装</a>
-								<a href="javascript:void(0)" id="girl_yangrongshan" onclick="loadXMLDoc(this.id,1)">羊绒衫</a>
+								<a href="javascript:void(0)" id="girl_banshenqun"
+								   onclick="loadXMLDoc(this.id,1)">半身裙</a>
+								<a href="javascript:void(0)" id="girl_duanwaitao"
+								   onclick="loadXMLDoc(this.id,1)">短外套</a>
+								<a href="javascript:void(0)" id="girl_xiaoxizhuang"
+								   onclick="loadXMLDoc(this.id,1)">小西装</a>
+								<a href="javascript:void(0)" id="girl_yangrongshan"
+								   onclick="loadXMLDoc(this.id,1)">羊绒衫</a>
 								<a href="javascript:void(0)" id="girl_hunsha" onclick="loadXMLDoc(this.id,1)">婚纱</a>
 							</div>
 						</div>
 					</div>
 					<div class="panel panel-default">
 						<div class="panel-heading" role="tab" id="headingThree">
-							<h4 class="panel-title">
-								<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+							<h4 class="panel-title" style="border-radius: 5%;">
+								<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
+								   href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
 									暂未更新
 								</a>
 							</h4>
 						</div>
-						<div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
-							<div class="panel-body">
+						<div id="collapseThree" class="panel-collapse collapse" role="tabpanel"
+						     aria-labelledby="headingThree">
+							<div class="panel-body" style="border-radius: 5%;">
 								暂未更新
 							</div>
 						</div>
 					</div>
 				</div>
-				
-				
+			
+			
 			</div>
 		</div>
 	</div>

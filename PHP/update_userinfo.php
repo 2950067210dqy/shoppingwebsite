@@ -44,6 +44,7 @@ if(isset($_POST['exit'])||isset($_GET['exit'])){
 	if (isset($_SESSION['shopnum'])) {
 		unset($_SESSION['shopnum']);
 	}
+	unset($_SESSION['connected']);
 	
 	session_write_close();
 	if (count(explode('http://localhost:63341/phpproject2/HTML/product.php' , $_SERVER['HTTP_REFERER'])) > 1) {

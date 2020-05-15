@@ -71,7 +71,9 @@ function selectOneWhereOne($table,$num,$index,$string,$flag,$conn){
         return mysqli_query($conn,$sql);
     }
 }
-function selectOneWhereOneAnd($table,$num,$index,$string,$index2,$string2,$flag,$conn){
+
+function selectOneWhereOneAnd($table , $num , $index , $string , $index2 , $string2 , $flag , $conn)
+{
 	if (is_string($string)) {
 		$sql = "select {$num} from {$table} where {$index} = '{$string}' and  {$index2} = '{$string2}' ";
 	} else {
@@ -84,11 +86,28 @@ function selectOneWhereOneAnd($table,$num,$index,$string,$index2,$string2,$flag,
 		return mysqli_query($conn , $sql);
 	}
 }
-function insertAll($table,$num1,$num2,$num3,$num4,$num5,$num6,$num7,$num8,$num9,$num10,$num11,$conn){
-    $sql = "insert into {$table} values ('" . $num1 . "','" . (string)$num2 .
-        "','" . (string)$num3 . "','" . (string)$num4 . "','" .
-        (string)$num5 . "','" . (string)$num6 . "','" .
-        (string)$num7 . "','" . (string)$num8 . "','" . (string)$num9 .
+
+function selectOneWhereTwoAnd($table , $num , $index , $string , $index2 , $string2 , $index3 , $string3 , $flag , $conn)
+{
+	if (is_string($string)) {
+		$sql = "select {$num} from {$table} where {$index} = '{$string}' and  {$index2} = '{$string2}' and {$index3} ={$string3} ";
+	} else {
+		$sql = "select {$num} from {$table} where {$index} = {$string} and  {$index2} = '{$string2}' and {$index3} ={$string3}";
+	}
+	
+	if ($flag) {
+		return mysqli_fetch_assoc(mysqli_query($conn , $sql));
+	} else {
+		return mysqli_query($conn , $sql);
+	}
+}
+
+function insertAll($table , $num1 , $num2 , $num3 , $num4 , $num5 , $num6 , $num7 , $num8 , $num9 , $num10 , $num11 , $conn)
+{
+	$sql = "insert into {$table} values ('" . $num1 . "','" . (string)$num2 .
+		"','" . (string)$num3 . "','" . (string)$num4 . "','" .
+		(string)$num5 . "','" . (string)$num6 . "','" .
+		(string)$num7 . "','" . (string)$num8 . "','" . (string)$num9 .
         "','" . (string)$num10 . "','" . (string)$num11 ."')";
     return mysqli_query($conn,$sql);
 }
@@ -114,7 +133,12 @@ function updateAllExcpetImgAddr($table,$index1,$string1,$index2,$string2,$index3
 function updateOne($table,$index,$string,$indexwhere,$stringwhere,$conn)
 {
 	if (is_string($string)) {
-		$sql = "update {$table} set {$index} = '{$string}' where  {$indexwhere} = {$stringwhere}";
+		if ($string === "null") {
+			$sql = "update {$table} set {$index} = {$string} where  {$indexwhere} = {$stringwhere}";
+		} else {
+			$sql = "update {$table} set {$index} = '{$string}' where  {$indexwhere} = {$stringwhere}";
+		}
+		
 	} else {
 		$sql = "update {$table} set {$index} = {$string} where  {$indexwhere} = {$stringwhere}";
 	}

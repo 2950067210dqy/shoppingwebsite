@@ -2,25 +2,32 @@
 require ("../PHP/conn.php");
 $_SESSION['name']="";
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>forget</title>
-    <link rel="icon" href="//www.bilibili.com/favicon.ico">
-    <link rel="apple-touch-icon" href="//www.bilibili.com/favicon.ico">
-    <link rel="apple-touch-icon-precomposed" href="//static.hdslb.com/mobile/img/512.png">
-    <link href="../CSS/forget.css" rel="stylesheet" type="text/css">
-    <script type="text/javascript" src="../JS/forget.js"></script>
-</head>
-<body>
-<div class="main">
-    <div class="logo">
-        <img src="../IMG/logo.png" alt="沁柚" height="70" >
-        <div class="sublogo">
-            <img height="60"  width="100" src="../IMG/logo2.png" alt="沁柚">
-            <img height="60"  width="100" src="../IMG/logo3.png" alt="沁柚">
-            <img height="60" width="100" src="../IMG/logo4.png" alt="沁柚">
+	<!DOCTYPE html>
+	<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>forget</title>
+		<link rel="icon" href="//www.bilibili.com/favicon.ico">
+		<link rel="apple-touch-icon" href="//www.bilibili.com/favicon.ico">
+		<link rel="apple-touch-icon-precomposed" href="//static.hdslb.com/mobile/img/512.png">
+		<link href="../CSS/forget.css" rel="stylesheet" type="text/css">
+		<script type="text/javascript" src="../JSLIB/jquery-3.5.0.js"></script>
+		<script type="text/javascript" src="../JSLIB/vue.js"></script>
+		<script type="text/javascript" src="../JSLIB/vue-router.js"></script>
+		<script type="text/javascript" src="../JSLIB/jquery-1.11.3.min.js"></script>
+		<script src="../JSLIB/bootstrap.js"></script>
+		<!--	引用框架-->
+		<link href="../CSSLIB/bootstrap.css" rel="stylesheet">
+		<script type="text/javascript" src="../JS/forget.js"></script>
+	</head>
+	<body>
+	<div class="main">
+		<div class="logo">
+			<img src="../IMG/logo.png" alt="沁柚" height="70">
+			<div class="sublogo">
+				<img height="60" width="100" src="../IMG/logo2.png" alt="沁柚">
+				<img height="60" width="100" src="../IMG/logo3.png" alt="沁柚">
+				<img height="60" width="100" src="../IMG/logo4.png" alt="沁柚">
         </div>
     </div>
     <div class="information">

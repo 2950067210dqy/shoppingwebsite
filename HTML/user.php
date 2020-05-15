@@ -4,14 +4,22 @@ require('../PHP/conn.php');
 <!DOCTYPE html>
 <html>
 <head lang="en">
-    <meta charset="UTF-8">
-    <title>个人信息</title>
-    <link rel="icon" href="//www.bilibili.com/favicon.ico">
-    <link rel="apple-touch-icon" href="//www.bilibili.com/favicon.ico">
-    <link rel="apple-touch-icon-precomposed" href="//static.hdslb.com/mobile/img/512.png">
-    <link href="../CSS/user.css" rel="stylesheet" type="text/css">
-    <script type="text/javascript" src="../JS/update.js">
-    </script>
+	<meta charset="UTF-8">
+	<title>个人信息</title>
+	<link rel="icon" href="//www.bilibili.com/favicon.ico">
+	<link rel="apple-touch-icon" href="//www.bilibili.com/favicon.ico">
+	<link rel="apple-touch-icon-precomposed" href="//static.hdslb.com/mobile/img/512.png">
+	<link href="../CSS/user.css" rel="stylesheet" type="text/css">
+	<script type="text/javascript" src="../JSLIB/jquery-3.5.0.js"></script>
+	<script type="text/javascript" src="../JSLIB/vue.js"></script>
+	<script type="text/javascript" src="../JSLIB/vue-router.js"></script>
+	<script type="text/javascript" src="../JSLIB/jquery-1.11.3.min.js"></script>
+	<script src="../JSLIB/bootstrap.js"></script>
+	<!--	引用框架-->
+	<link href="../CSSLIB/bootstrap.css" rel="stylesheet">
+	<script type="text/javascript" src="../JS/update.js">
+	
+	</script>
 </head>
 <body>
 <div class="main">
@@ -28,16 +36,25 @@ require('../PHP/conn.php');
 					<li style="color: rgb(157,157,157); font-weight: bold">
 						/
 					</li>
-					<li >
+					<li>
 						总访问量<span class="visitsum" id="visitsum">
                             <?php
-
+                            $count = "";
                             //数字输出网页计数器
-                            $row = selectAllNoWhere("count",1,$conn);
-                            $count=(int)$row['num'];
-                            $count++;
-                            echo $count;
-                            if(updateOne("count","num",(string)$count,"num",$row['num'],$conn))
+                            $row = selectAllNoWhere("count" , 1 , $conn);
+                            $count = (int)$row['num'];
+                            if (!isset($_SESSION['connected'])) {
+	                            $count ++;
+	                            updateOne("count" , "num" , (string)$count , "num" , $row['num'] , $conn);
+	                            $_SESSION['connected'] = true;
+                            }
+                            $countlen = strlen($count);
+                            $num = null;
+                            for ($i = 0; $i < $countlen; $i ++) {
+	                            $num = $num . "<img src='../IMG/" . substr($count , $i , 1) . ".png' width='17' height='20'>";
+                            }
+                            echo $num;
+
                             ?>
 
 
@@ -66,32 +83,53 @@ require('../PHP/conn.php');
 					<li style="color: rgb(157,157,157); font-weight: bold">
 						/
 					</li>
-					<li >
-						<a href="../BILIBILI/bilibili.php">  会员俱乐部</a>
-					</li>
-					<li style="color: rgb(157,157,157); font-weight: bold">
-						/
-					</li>
-					<li >
-						<a href="../../phpprojectplus/perinfor/index.php">   我的特卖</a>
-					</li>
-					<li style="color: rgb(157,157,157); font-weight: bold">
-						/
-					</li>
-					<li >
-						<a href="../../phpprojectplus/myBBS/index.php">    我的订单</a>
-					</li>
-					<li style="color: rgb(157,157,157); font-weight: bold">
-						/
-					</li>
-					<li >
-						<a href="../BILIBILI/bilibili.php">   签到有礼</a>
+					<li>
+						<a href="../BILIBILI/bilibili.php"> 会员俱乐部</a>
 					</li>
 					<li style="color: rgb(157,157,157); font-weight: bold">
 						/
 					</li>
 					<li>
-						<a href="../PHP/indexLocation.php? id=index_signin">   注册</a>
+						<a href="../../phpprojectplus/perinfor/index.php"> 我的订单</a>
+					</li>
+					<li style="color: rgb(157,157,157); font-weight: bold">
+						/
+					</li>
+					<li>
+						<a href="product_collected.php"> 我的收藏</a>
+					</li>
+					<li style="color: rgb(157,157,157); font-weight: bold">
+						/
+					</li>
+					<li>
+						<a href="javascript:void(0)" class="shopcar">
+							我的购物车<?php if (!isset($_SESSION['id'])) echo 0; elseif (isset($_SESSION['shopnum'])) echo $_SESSION['shopnum'];
+							else {
+								$sql = "select id from shopcar where user_id = {$_SESSION['id']}";
+								$result = $conn -> query($sql);
+								echo $result -> num_rows;
+							} ?></a>
+					</li>
+					<script>
+						$(document).ready(function () {
+							$('.shopcar').click(
+								function () {
+									if ($('#isLogin').val() == "no") {
+										if (confirm('进入购物车需要登录哦？是否前往登录？')) {
+											location.assign('../HTML/logoin.php');
+										}
+									} else {
+										location.assign('../HTML/shopcar.php');
+									}
+								}
+							);
+						});
+					</script>
+					<li style="color: rgb(157,157,157); font-weight: bold">
+						/
+					</li>
+					<li>
+						<a href="../PHP/indexLocation.php? id=index_signin"> 注册</a>
 					</li>
 					<li style="color: rgb(157,157,157); font-weight: bold">
 						/
@@ -141,17 +179,24 @@ require('../PHP/conn.php');
                 echo '<a href="../PHP/userLocation.php? id=user_logoin" >请登录</a>';
             }
             ?>
-            <span>您当前的位置: <a href="../PHP/userLocation.php? id=index_back">首页</a> <—— 个人信息</span>
+	        <span>您当前的位置: <a href="../PHP/userLocation.php? id=index_back">首页</a> <—— 个人信息</span>
         </div>
-        <div class="logoinformation">
-            <div class="biaoti">
-                <div style="height: 100%;width: 20%;background-color:rgb(249,249,249);padding-left: 50px;border-bottom: 3px solid rgb(241,1,128)">
-                    个人信息
-                </div>
-            </div>
-            <div class="xinxi">
-                <div class="touxiang">
-                    <img src="<?php if (isset($_SESSION['id']))  echo "{$_SESSION['headimg']}";?>" width="84" height="84" alt="无头像">
+	    <div class="logoinformation">
+		    <div class="biaoti">
+			    <div style="height: 100%;width: 100%;background-color:rgb(249,249,249);padding-left: 50px;border-bottom: 3px solid rgb(241,1,128)">
+				    <span>个人信息</span>
+				
+				    <span style="float: right">
+		                <a class="btn btn-success" href="shopcar.php">我的购物车</a>
+		                <a class="btn btn-success" href="product_collected.php">我的收藏</a>
+		                <a class="btn btn-success" href="history.php">我的足迹</a>
+	                </span>
+			    </div>
+		
+		    </div>
+		    <div class="xinxi">
+			    <div class="touxiang">
+				    <img src="<?php if (isset($_SESSION['id']))  echo "{$_SESSION['headimg']}";?>" width="84" height="84" alt="无头像">
                     <div class="touxiangword"><b><?php  if (isset($_SESSION['id']))  echo $_SESSION['name']."(".$_SESSION['phone'].")" ;      ?></b></div>
                 </div>
                 <form method="post" action="../PHP/update_userinfo.php">
@@ -233,11 +278,11 @@ require('../PHP/conn.php');
                                 echo '' ;
                             }
                             else{
-                                echo ' <input type="button"  value="注销账号" onclick="
+	                            echo ' <input type="button"  value="注销账号" onclick="
                                         if (confirm(\'您确定要注销账号，考虑清楚就点击确定！！\')){
                                           location.assign(\'../PHP/logooffuser.php\')
 									}">
-								<a href="#" onclick="update()" style="color: rgb(117,117,117);font-size: 15px;margin-left: 35px">修改信息</a>' ;
+								<a href="javascript:void(0)" onclick="update()" style="color: rgb(117,117,117);font-size: 15px;margin-left: 35px">修改信息</a>';
                             }
                             ?>
 								

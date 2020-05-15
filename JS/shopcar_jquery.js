@@ -13,8 +13,12 @@ add.each(function (i) {
 					$('.product_num').eq(i).val(data[0]['product_num']);
 					$('.allprice').eq(i).html(parseInt(data[0]['product_num']) * parseInt($('.price').eq(i).html()));
 					
-					$('#final_num').html(parseInt($('#final_num').html()) + 1);
-					$('#final_price').html(parseInt($('#final_price').html()) + parseInt($('.price').eq(i).html()));
+					$('.final_num').each(function (j) {
+						$(this).html(parseInt($(this).html()) + 1);
+					});
+					$('.final_price').each(function (j) {
+						$(this).html(parseInt($(this).html()) + parseInt($('.price').eq(i).html()));
+					});
 				},
 				error: function (xhr, status, p3) {
 					var err = "Error:" + status + "/" + p3;
@@ -41,8 +45,12 @@ subtract.each(function (i) {
 				success: function (data) {
 					$('.product_num').eq(i).val(data[0]['product_num']);
 					$('.allprice').eq(i).html(parseInt(data[0]['product_num']) * parseInt($('.price').eq(i).html()));
-					$('#final_num').html(parseInt($('#final_num').html()) - 1);
-					$('#final_price').html(parseInt($('#final_price').html()) - parseInt($('.price').eq(i).html()));
+					$('.final_num').each(function (j) {
+						$(this).html(parseInt($(this).html()) - 1);
+					});
+					$('.final_price').each(function (j) {
+						$(this).html(parseInt($(this).html()) - parseInt($('.price').eq(i).html()));
+					});
 				},
 				error: function (xhr, status, p3) {
 					var err = "Error:" + status + "/" + p3;
@@ -85,8 +93,13 @@ product_num.each(function (i) {
 			success: function (data) {
 				$('.product_num').eq(i).val(data[0]['product_num']);
 				$('.allprice').eq(i).html(parseInt(data[0]['product_num']) * parseInt($('.price').eq(i).html()));
-				$('#final_num').html(parseInt($('#final_num').html()) + (parseInt($('.product_num').eq(i).val()) - beforenum));
-				$('#final_price').html(parseInt($('#final_price').html()) + (parseInt($('.allprice').eq(i).html()) - beforeallprice));
+				$('.final_num').each(function (j) {
+					$(this).html(parseInt($(this).html()) + (parseInt($('.product_num').eq(i).val()) - beforenum));
+				});
+				$('.final_price').each(function (j) {
+					$(this).html(parseInt($(this).html()) + (parseInt($('.allprice').eq(i).html()) - beforeallprice));
+				});
+				
 			},
 			error: function (xhr, status, p3) {
 				var err = "Error:" + status + "/" + p3;

@@ -39,16 +39,25 @@ require '../PHP/conn.php';
 					<li style="color: rgb(157,157,157); font-weight: bold">
 						/
 					</li>
-					<li >
+					<li>
 						总访问量<span class="visitsum" id="visitsum">
                             <?php
-
+                            $count = "";
                             //数字输出网页计数器
-                            $row = selectAllNoWhere("count",1,$conn);
-                            $count=(int)$row['num'];
-                            $count++;
-                            echo $count;
-                            if(updateOne("count","num",(string)$count,"num",$row['num'],$conn))
+                            $row = selectAllNoWhere("count" , 1 , $conn);
+                            $count = (int)$row['num'];
+                            if (!isset($_SESSION['connected'])) {
+	                            $count ++;
+	                            updateOne("count" , "num" , (string)$count , "num" , $row['num'] , $conn);
+	                            $_SESSION['connected'] = true;
+                            }
+                            $countlen = strlen($count);
+                            $num = null;
+                            for ($i = 0; $i < $countlen; $i ++) {
+	                            $num = $num . "<img src='../IMG/" . substr($count , $i , 1) . ".png' width='17' height='20'>";
+                            }
+                            echo $num;
+
                             ?>
 
 
@@ -90,7 +99,7 @@ require '../PHP/conn.php';
 						/
 					</li>
 					<li>
-						<a href="../../phpprojectplus/myBBS/index.php"> 我的收藏</a>
+						<a href="product_collected.php"> 我的收藏</a>
 					</li>
 					<li style="color: rgb(157,157,157); font-weight: bold">
 						/
@@ -158,7 +167,7 @@ require '../PHP/conn.php';
 		</div>
 	</div>
 	
-	<form method="post" action="../PHP/delete_shopcar.php">
+	<form method="post" action="../PHP/delete_shopcar.php" id="form">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-4"><font size="6"><b>购物车</b></font></div>
@@ -227,7 +236,7 @@ require '../PHP/conn.php';
 											      href="../PHP/delete_shopcar.php?id=<?php echo $row['id']; ?>">删除</a>
 											</p>
 											<p><a class="btn btn-success"
-											      href="../PHP/insert_collect_product.php?product_id=<?php echo $row['product_id']; ?>&product_type=<?php echo $row['product_type']; ?>">加入收藏</a>
+											      href="../PHP/insert_collect_product.php?product_id=<?php echo $row['product_id']; ?>&product_type=<?php echo $row['product_type']; ?>&shopcar_id=<?php echo $row['id'] ?>">移入收藏</a>
 											</p>
 										</td>
 									</tr>
@@ -246,53 +255,98 @@ require '../PHP/conn.php';
 				                                                                name="allchecked">全选
 				</div>
 				<div class="col-lg-1" style="background-color: inherit">
-					<button type="submit" class="btn btn-danger">删除</button>
+					<button type="submit" class="btn btn-danger delete">删除</button>
 				</div>
-				<div class="col-lg-1" style="background-color: inherit"><a class="btn btn-success" href="#">移入收藏夹</a>
+				<div class="col-lg-1" style="background-color: inherit">
+					<button type="submit" class="btn btn-success product_collected" name="product_collected">移入收藏夹
+					</button>
 				</div>
 				<div class="col-lg-2 col-lg-offset-3" style="background-color: inherit">已选商品：<font color="#ff4500"
 				                                                                                   size="3"
 				                                                                                   style="background-color: inherit"
-				                                                                                   id="final_num"><?php echo $final_num ?></font>件
+				                                                                                   class="final_num"><?php echo $final_num ?></font>件
 				</div>
 				<div class="col-lg-2" style="background-color: inherit">合计：<font color="#ff4500" size="3"
 				                                                                 style="background-color: inherit">￥<font
 								color="#ff4500" size="3" style="background-color: inherit"
-								id="final_price"><?php echo $final_price ?></font></font>
+								class="final_price"><?php echo $final_price ?></font></font>
 				</div>
 				<div class="col-lg-2 text-right" style="background-color: inherit">
-					<button type="submit" class="btn btn-danger btn-block">结&nbsp;&nbsp;算</button>
+					<button type="submit" class="close_account btn btn-danger btn-block">结&nbsp;&nbsp;算</button>
+				</div>
+			</div>
+		</div>
+		
+		<!--		侧边栏-->
+		<div class="container"
+		     style="position: fixed;top: 20%;right: 0;border: 1px black solid;width: 10%;border-radius: 5%">
+			<div class="row text-center" style="border-bottom: 1px silver solid">
+				<div class="col-lg-12">
+					<input onclick='allok(this)' type='checkbox' name="allchecked">全选
+				</div>
+			</div>
+			<div class="row text-center" style="border-bottom: 1px silver solid">
+				<div class="col-lg-12">
+					<button type="submit" class="delete btn btn-danger ">删除</button>
+				</div>
+			</div>
+			<div class="row text-center" style="border-bottom: 1px silver solid">
+				<div class="col-lg-12">
+					<button type="submit" class="product_collected btn btn-success " name="product_collected">移入收藏夹
+					</button>
+				</div>
+			</div>
+			<div class="row text-center" style="border-bottom: 1px silver solid">
+				<div class="col-lg-12">
+					已选商品：<font color="#ff4500"
+					           size="3"
+					           style="background-color: inherit"
+					           class="final_num"><?php echo $final_num ?></font>件
+				</div>
+			</div>
+			<div class="row text-center" style="border-bottom: 1px silver solid">
+				<div class="col-lg-12">
+					合计：<font color="#ff4500" size="3"
+					         style="background-color: inherit">￥<font
+								color="#ff4500" size="3" style="background-color: inherit"
+								class="final_price"><?php echo $final_price ?></font></font>
+				</div>
+			</div>
+			<div class="row text-center" style="border-bottom: 1px silver solid">
+				<div class="col-lg-12">
+					<button type="submit" class="close_account btn btn-danger btn-block">结&nbsp;&nbsp;算</button>
 				</div>
 			</div>
 		</div>
 	</form>
-	<?php
+	<script>
+		//			点击删除按钮 表单跳转至处理删除请求页面
+		//          点击收藏按钮 表单跳转至处理收藏请求页面
+		$(document).ready(function () {
+			var delete1 = $('.delete');
+			delete1.each(function (i) {
+				$(this).on('click', function () {
+					$('#form').attr('action', '../PHP/delete_shopcar.php');
+				});
+			});
+			var product_collected = $('.product_collected');
+			product_collected.each(function (i) {
+				$(this).on('click', function () {
+					$('#form').attr('action', '../PHP/insert_collect_product.php');
+				});
+			});
+			var close_account = $('.close_account');
+			close_account.each(function (i) {
+				$(this).on('click', function () {
+					$('#form').attr('action', '../PHP/close_account.php');
+				});
+			});
+		});
+	</script>
 	
-	
-	//	session方法获取购物车 弃用
-	//	  if(isset($_SESSION['product'])){
-	//		    foreach ($_SESSION['product']->product_id as $value){
-	//		    	echo $value+" ";
-	//		    }
-	//		    echo "<br>";
-	//		  foreach ($_SESSION['product']->product_type as $value){
-	//			  echo $value+" ";
-	//		  }
-	//		  echo "<br>";
-	//		  foreach ($_SESSION['product']->product_price as $value){
-	//			  echo $value+" ";
-	//		  }
-	//		  echo "<br>";
-	//		  foreach ($_SESSION['product']->product_num as $value){
-	//			  echo $value+" ";
-	//		  }
-	//		  echo "<br>";
-	//		  echo $_SESSION['product']->shopnum;
-	//	  }
-	?>
 	<div class="footer">
 		<div
-			style="color: #ababab;background-color:  rgb(246,249,250);text-align: center;margin: 0 auto;font-size: 13px">
+				style="color: #ababab;background-color:  rgb(246,249,250);text-align: center;margin: 0 auto;font-size: 13px">
 			Copyright &nbsp;© &nbsp;
 			2019-2020 &nbsp; qinyou.com， &nbsp;All &nbsp;Rights &nbsp; Reserved &nbsp;
 			使用本网站即表示接受 &nbsp; 沁柚用户协议。版权所有 &nbsp; 九江学院31栋503沁柚工作室 邓亲优

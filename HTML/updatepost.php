@@ -12,10 +12,14 @@ require '../PHP/conn.php';
 	<script type="text/javascript" src="../JSLIB/jquery-3.5.0.js"></script>
 	<script type="text/javascript" src="../JSLIB/vue.js"></script>
 	<script type="text/javascript" src="../JSLIB/vue-router.js"></script>
+	<script type="text/javascript" src="../JSLIB/jquery-1.11.3.min.js"></script>
+	<script src="../JSLIB/bootstrap.js"></script>
+	<!--	引用框架-->
+	<link href="../CSSLIB/bootstrap.css" rel="stylesheet">
 	<script src="../JS/index.js"></script>
 
 </head>
-<body >
+<body>
 
 <!--
 			存储数据
@@ -43,16 +47,25 @@ if (isset($_SESSION['id'])){
 					<li style="color: rgb(157,157,157); font-weight: bold">
 						/
 					</li>
-					<li >
+					<li>
 						总访问量<span class="visitsum" id="visitsum">
                             <?php
-
+                            $count = "";
                             //数字输出网页计数器
-                            $row = selectAllNoWhere("count",1,$conn);
-                            $count=(int)$row['num'];
-                            $count++;
-                            echo $count;
-                            if(updateOne("count","num",(string)$count,"num",$row['num'],$conn))
+                            $row = selectAllNoWhere("count" , 1 , $conn);
+                            $count = (int)$row['num'];
+                            if (!isset($_SESSION['connected'])) {
+	                            $count ++;
+	                            updateOne("count" , "num" , (string)$count , "num" , $row['num'] , $conn);
+	                            $_SESSION['connected'] = true;
+                            }
+                            $countlen = strlen($count);
+                            $num = null;
+                            for ($i = 0; $i < $countlen; $i ++) {
+	                            $num = $num . "<img src='../IMG/" . substr($count , $i , 1) . ".png' width='17' height='20'>";
+                            }
+                            echo $num;
+
                             ?>
 
 
@@ -81,32 +94,53 @@ if (isset($_SESSION['id'])){
 					<li style="color: rgb(157,157,157); font-weight: bold">
 						/
 					</li>
-					<li >
-						<a href="../BILIBILI/bilibili.php">  会员俱乐部</a>
-					</li>
-					<li style="color: rgb(157,157,157); font-weight: bold">
-						/
-					</li>
-					<li >
-						<a href="../../phpprojectplus/perinfor/index.php">   我的特卖</a>
-					</li>
-					<li style="color: rgb(157,157,157); font-weight: bold">
-						/
-					</li>
-					<li >
-						<a href="../../phpprojectplus/myBBS/index.php">    我的订单</a>
-					</li>
-					<li style="color: rgb(157,157,157); font-weight: bold">
-						/
-					</li>
-					<li >
-						<a href="../BILIBILI/bilibili.php">   签到有礼</a>
+					<li>
+						<a href="../BILIBILI/bilibili.php"> 会员俱乐部</a>
 					</li>
 					<li style="color: rgb(157,157,157); font-weight: bold">
 						/
 					</li>
 					<li>
-						<a href="../PHP/indexLocation.php? id=index_signin">   注册</a>
+						<a href="../../phpprojectplus/perinfor/index.php"> 我的订单</a>
+					</li>
+					<li style="color: rgb(157,157,157); font-weight: bold">
+						/
+					</li>
+					<li>
+						<a href="product_collected.php"> 我的收藏</a>
+					</li>
+					<li style="color: rgb(157,157,157); font-weight: bold">
+						/
+					</li>
+					<li>
+						<a href="javascript:void(0)" class="shopcar">
+							我的购物车<?php if (!isset($_SESSION['id'])) echo 0; elseif (isset($_SESSION['shopnum'])) echo $_SESSION['shopnum'];
+							else {
+								$sql = "select id from shopcar where user_id = {$_SESSION['id']}";
+								$result = $conn -> query($sql);
+								echo $result -> num_rows;
+							} ?></a>
+					</li>
+					<script>
+						$(document).ready(function () {
+							$('.shopcar').click(
+								function () {
+									if ($('#isLogin').val() == "no") {
+										if (confirm('进入购物车需要登录哦？是否前往登录？')) {
+											location.assign('../HTML/logoin.php');
+										}
+									} else {
+										location.assign('../HTML/shopcar.php');
+									}
+								}
+							);
+						});
+					</script>
+					<li style="color: rgb(157,157,157); font-weight: bold">
+						/
+					</li>
+					<li>
+						<a href="../PHP/indexLocation.php? id=index_signin"> 注册</a>
 					</li>
 					<li style="color: rgb(157,157,157); font-weight: bold">
 						/
