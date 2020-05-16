@@ -101,7 +101,13 @@ if (isset($_SESSION['id'])) {
 						/
 					</li>
 					<li>
-						<a href="../BILIBILI/bilibili.php"> 会员俱乐部</a>
+						<?php
+						if ((isset($_SESSION['isadmin']))) {
+							echo "<a href='user_friend.php'>我的好友</a>";
+						} else {
+							echo "<a href='#'>会员俱乐部</a>";
+						}
+						?>
 					</li>
 					<li style="color: rgb(157,157,157); font-weight: bold">
 						/
@@ -290,7 +296,7 @@ if (isset($_SESSION['id'])) {
 											<p>
 												<a href="product.php?id=<?php echo $row2['id']; ?>&type=<?php echo $row2['type']; ?>"
 												   class="item_title"
-												   title="<?php echo $row2['title'] ?>"><?php if (strlen($row2['title']) > 14) echo substr($row2['title'] , 0 , 14) . '....'; else echo $row2['title']; ?></a>
+												   title="<?php echo $row2['title'] ?>"><?php if (strlen($row2['title']) > 50) echo substr($row2['title'] , 0 , 50) . '....'; else echo $row2['title']; ?></a>
 											</p>
 											<p><a href="<?php echo $row2['merchant_addre']; ?>"
 											      title="<?php echo $row2['merchant'] ?>" class="item_merchant"><font

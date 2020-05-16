@@ -1,14 +1,17 @@
 <?php
+session_start();
 require '../PHP/conn.php';
-?><!DOCTYPE html>
+?>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>index</title>
 	<link rel="icon" href="//www.bilibili.com/favicon.ico">
 	<link rel="apple-touch-icon" href="//www.bilibili.com/favicon.ico">
 	<link rel="apple-touch-icon-precomposed" href="//static.hdslb.com/mobile/img/512.png">
-	<link href="../CSS/updatepost.css" rel="stylesheet" type="text/css">
+	
 	<script type="text/javascript" src="../JSLIB/jquery-3.5.0.js"></script>
 	<script type="text/javascript" src="../JSLIB/vue.js"></script>
 	<script type="text/javascript" src="../JSLIB/vue-router.js"></script>
@@ -16,24 +19,27 @@ require '../PHP/conn.php';
 	<script src="../JSLIB/bootstrap.js"></script>
 	<!--	引用框架-->
 	<link href="../CSSLIB/bootstrap.css" rel="stylesheet">
-	<script src="../JS/index.js"></script>
+	
+	
+	<link href="../CSS/index.css" rel="stylesheet" type="text/css">
+
 
 </head>
 <body>
 
-<!--
-			存储数据
--->
+<script src="../JS/index.js"></script>
+<script src="../JS/index_jquery.js"></script>
 <!--用来存储登录的状态-->
 <input type="hidden" value="<?php
-if (isset($_SESSION['id'])){
+if (isset($_SESSION['id'])) {
 	echo 'yes';
-}else{
+} else {
 	echo 'no';
 }
 ?>" id="isLogin">
-<!--网页主体-->
-<div class="main" >
+
+
+<div class="main">
 	<div class="topnav">
 		<div class="topnavin">
 			<div class="place" onclick="">
@@ -42,7 +48,7 @@ if (isset($_SESSION['id'])){
 			<div class="nav">
 				<ul class="topnavul">
 					<li>
-						<a href='index.php' target='_self' >返回主页</a>
+						<a href='index.php' target='_self'>返回首页</a>
 					</li>
 					<li style="color: rgb(157,157,157); font-weight: bold">
 						/
@@ -76,14 +82,14 @@ if (isset($_SESSION['id'])){
 					</li>
 					<li>
 						<?php
-						echo  date('Y-m-d', time());
+						echo date('Y-m-d' , time());
 						?>
 					</li>
 					<li style="color: rgb(157,157,157); font-weight: bold">
 						/
 					</li>
-					<li >
-						<a href="../PHP/indexLocation.php">  更多</a>
+					<li>
+						<a href="../PHP/indexLocation.php"> 更多</a>
 					</li>
 					<li style="color: rgb(157,157,157); font-weight: bold">
 						/
@@ -127,21 +133,6 @@ if (isset($_SESSION['id'])){
 								echo $result -> num_rows;
 							} ?></a>
 					</li>
-					<script>
-						$(document).ready(function () {
-							$('.shopcar').click(
-								function () {
-									if ($('#isLogin').val() == "no") {
-										if (confirm('进入购物车需要登录哦？是否前往登录？')) {
-											location.assign('../HTML/logoin.php');
-										}
-									} else {
-										location.assign('../HTML/shopcar.php');
-									}
-								}
-							);
-						});
-					</script>
 					<li style="color: rgb(157,157,157); font-weight: bold">
 						/
 					</li>
@@ -154,14 +145,14 @@ if (isset($_SESSION['id'])){
 					<li>
 						<?php
 						
-						if((isset($_SESSION['isadmin']))){
+						if ((isset($_SESSION['isadmin']))) {
 							echo "<a href=\"../PHP/indexLocation.php? id=index_user\" >{$_SESSION['name']},你好</a>
 										<img src=\"{$_SESSION['headimg']}\" width='20' height='20' alt='无头像' style='border-radius: 15px;'>
 										&nbsp;&nbsp;&nbsp;&nbsp;<a  target='_self' onclick=\"location.assign('../PHP/update_userinfo.php?exit=true');\" href='javascript:void(0)'>退出登录</a>
+
 						";
-						}
-						else{
-							echo '<a href="../PHP/indexLocation.php? id=index_logoin" >请登录</a>';
+						} else {
+							echo '<a href="../HTML/logoin.php" >请登录</a>';
 						}
 						?>
 					
@@ -171,101 +162,55 @@ if (isset($_SESSION['id'])){
 		</div>
 	</div>
 	
-	<div class="logo">
-		<img src="../IMG/logo.png" alt="沁柚" height="70" >
-		<div class="sublogo">
-			<img height="60"  width="100" src="../IMG/logo2.png" alt="沁柚">
-			<img height="60"  width="100" src="../IMG/logo3.png" alt="沁柚">
-			<img height="60" width="100" src="../IMG/logo4.png" alt="沁柚">
-		</div>
-	</div>
 	
-	<div class="update_tittle" >修改评论<a href="<?php echo $_SERVER['HTTP_REFERER'];?>" target="_self">返回评论</a></div>
-	
-	<!--	商品详情信息-->
-	<?php
-	if (isset($_GET['product_id'])){
-		$product_id=intval($_GET['product_id']);
-	}
-	$result=$conn->query("select * from {$_GET['type']} where id = $product_id");
-	$row=$result->fetch_assoc();
-	?>
-	<div class="product_information">
-		<div class="product_img">
-			<img src="<?php echo $row['img_addre'];?> "  width="350" height="450" class="old_img">
-			<img src="<?php echo $row['img_addre'];?> "  width="500" height="620" class="new_img" >
-		</div>
-		<div class="information">
-			<div class="product_title">
-				<?php echo $row['title'];?>
+	<!--	logo-->
+	<div style="width: 100%;height: 110px;">
+		<div class="logo_search">
+			<div class="logoleft">
+				<a href="#">
+					<img height="100" src="../IMG/logo.png" alt="唯品会">
+				</a>
 			</div>
-			
-			<!--			要修改的评论-->
-			<!--根据传过来的商品ID和是否是一级评论区的值来分别展示要修改的评论-->
-			<?php
-			$sql="";
-			if($_GET['reply']=='pinglun'){
-				$sql="select * from user,diary where user.id=diary.user_id and diary_id={$_GET['diary_id']}";
-			}
-			else{
-				$sql="select * from user,reply where user.id=reply.user_id  and reply_id={$_GET['reply_id']}";
-			}
-			$result=$conn->query($sql);
-			$row=$result->fetch_assoc();
-			?>
-<!--			要修改的评论-->
-				<!--				一级评论-->
-			<p style="margin-top: 5%">您要修改的评论为：</p>
-				<div class="Media">
-					<img class="Media-figure" src="<?php echo $row['img_addr']?>" alt="默认头像"width="100" height="100">
-<!--	            评论区楼层id-->
-					<font color="#808080"><?php echo "#{$_GET['floor_id']}&nbsp;&nbsp;&nbsp;&nbsp;";?></font>
-					<?php
-					//					检测是否为管理员
-					if($row['isadmin']=='true') {
-						if($row['user_id']==$_SESSION['id']){
-							echo "<font color='red' size='4'>[管理员]</font><font color='#8a2be2' size='4'>[自己]</font>{$row['name']}({$row['username']}):";
-						}
-						else{
-							echo "<font color='red' size='4'>[管理员]</font>{$row['name']}({$row['username']}):";
-						}
+			<div class="logoright">
+				<a href="#">
+					<img height="60" width="90" src="../IMG/logo2.png" alt="100%正品">
+				</a>
+				<a href="#">
+					<img height="60" width="90" src="../IMG/logo3.png" alt="七天放心">
+				</a>
+				<a href="#">
+					<img height="60" width="90" src="../IMG/logo4.png" alt="3亿会员">
+				</a>
+			</div>
+			<!--	        搜索框/购物车-->
+			<div style="margin-top: 25px">
+				<div class="search">
+					<div class="searchinput_shopcarinput">
+						<form action="../PHP/server.php" method="post">
+							<input type="text" max="10" placeholder="请输入你要查找的好友的名字" name="searchtext">
+							<input type="submit" name="search" value="">
+							<span class="shopcar">
+                        <a href="javascript:void(0)" class="shopcar">
+                            <span class="shopcar_img"><img src="../IMG/shopcar.png" width="25" height="25"> </span>
+                            <span class="shopcar_word">购物车</span>
+                            <span
+	                            class="shopcar_msg"><?php if (!isset($_SESSION['id'])) echo 0; elseif (isset($_SESSION['shopnum'])) echo $_SESSION['shopnum'];
+	                            else {
+		                            $sql = "select id from shopcar where user_id = {$_SESSION['id']}";
+		                            $result = $conn -> query($sql);
+		                            echo $result -> num_rows;
+	                            } ?></span>
+                        </a>
+                    </span>
 						
-					}
-//					检测是否为当前用户
-					elseif($row['user_id']==$_SESSION['id']){
-						echo "<font color='#8a2be2' size='4'>[自己]</font>{$row['name']}({$row['username']}):";
-					}
-					else{
-						echo "{$row['name']}({$row['username']}):";
-					}
-					?>
-					<p class="Media-body">
-						<?php if($_GET['reply']=="pinglun")echo $row['content'];else echo $row['reply_content'];?>
-						<br>
-						<br>
-						<br>
-						<span style="float: left">		<?php echo $row['time']?></span>
-					</p>
+						</form>
+					</div>
 				</div>
-				
-<!--				修改评论框-->
-			<div class="recommendTA pinglun">
-				<form
-					action="../PHP/updatePost_post.php?reply=<?php echo $_GET['reply'];?>&post_id=<?php if($_GET['reply']=='pinglun') echo $_GET['diary_id'];  else echo $_GET['reply_id'];?>&url=<?php echo urlencode($_SERVER['HTTP_REFERER']);?>"
-					method="post">
-					<textarea placeholder="请发表您的评论哦！" name="textarea"><?php if($_GET['reply']=="pinglun")echo $row['content'];else echo $row['reply_content'];?></textarea>
-					<input type="submit" name="submit" value="修改评论" class="submit">
-					<input type="reset" name="reset" value="重置评论" class="reset">
-				</form>
+			
 			</div>
-			
-			
 		</div>
 	</div>
-	
-	
-	
-	
+</div>
 </div>
 </body>
 </html>

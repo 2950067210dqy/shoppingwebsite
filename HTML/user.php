@@ -77,14 +77,20 @@ require('../PHP/conn.php');
 					<li style="color: rgb(157,157,157); font-weight: bold">
 						/
 					</li>
-					<li >
-						<a href="../PHP/indexLocation.php">   客户服务</a>
+					<li>
+						<a href="../PHP/indexLocation.php"> 客户服务</a>
 					</li>
 					<li style="color: rgb(157,157,157); font-weight: bold">
 						/
 					</li>
 					<li>
-						<a href="../BILIBILI/bilibili.php"> 会员俱乐部</a>
+						<?php
+						if ((isset($_SESSION['isadmin']))) {
+							echo "<a href='user_friend.php'>我的好友</a>";
+						} else {
+							echo "<a href='#'>会员俱乐部</a>";
+						}
+						?>
 					</li>
 					<li style="color: rgb(157,157,157); font-weight: bold">
 						/
@@ -196,18 +202,25 @@ require('../PHP/conn.php');
 		    </div>
 		    <div class="xinxi">
 			    <div class="touxiang">
-				    <img src="<?php if (isset($_SESSION['id']))  echo "{$_SESSION['headimg']}";?>" width="84" height="84" alt="无头像">
-                    <div class="touxiangword"><b><?php  if (isset($_SESSION['id']))  echo $_SESSION['name']."(".$_SESSION['phone'].")" ;      ?></b></div>
-                </div>
-                <form method="post" action="../PHP/update_userinfo.php">
-                <table>
-                    <tr>
-                        <td ><span>账号：</span></td>
-                        <td><input disabled="false" type="text" name="id" id="id" value="<?php if (isset($_SESSION['id'])) echo $_SESSION['username'] ;  ?>" maxlength="10" minlength="4"> </td>
-                    </tr>
-                    <tr>
-                        <td><span>邮箱：</span></td>
-                        <td><input  disabled="false" type="text" name="email"  id="email" value="<?php if (isset($_SESSION['id'])) echo $_SESSION['email'] ;  ?>"  minlength="7" maxlength="25"></td>
+				    <img src="<?php if (isset($_SESSION['id'])) echo "{$_SESSION['headimg']}"; ?>" width="84"
+				         height="84" alt="无头像">
+				    <div class="touxiangword">
+					    <b><?php if (isset($_SESSION['id'])) echo $_SESSION['name'] . "(" . $_SESSION['username'] . ")"; ?></b>
+				    </div>
+			    </div>
+			    <form method="post" action="../PHP/update_userinfo.php">
+				    <table>
+					    <tr>
+						    <td><span>账号：</span></td>
+						    <td><input disabled="false" type="text" name="id" id="id"
+						               value="<?php if (isset($_SESSION['id'])) echo $_SESSION['username']; ?>"
+						               maxlength="10" minlength="4"></td>
+					    </tr>
+					    <tr>
+						    <td><span>邮箱：</span></td>
+						    <td><input disabled="false" type="text" name="email" id="email"
+						               value="<?php if (isset($_SESSION['id'])) echo $_SESSION['email']; ?>"
+						               minlength="7" maxlength="25"></td>
                     </tr>
                     <tr>
                         <td><span>手机号码：</span></td>

@@ -102,7 +102,13 @@ $a_month_ago = date('Y-m-d' , time() - 60 * 60 * 24 * 30);
 						/
 					</li>
 					<li>
-						<a href="../BILIBILI/bilibili.php"> 会员俱乐部</a>
+						<?php
+						if ((isset($_SESSION['isadmin']))) {
+							echo "<a href='user_friend.php'>我的好友</a>";
+						} else {
+							echo "<a href='#'>会员俱乐部</a>";
+						}
+						?>
 					</li>
 					<li style="color: rgb(157,157,157); font-weight: bold">
 						/
@@ -255,11 +261,15 @@ $a_month_ago = date('Y-m-d' , time() - 60 * 60 * 24 * 30);
 				<div class="col-lg-2" style="font-size: 22px">
 					我的足迹
 				</div>
+				<div class="col-lg-1">
+					<a href="javascript:void(0)" class="btn btn-primary"
+					   onclick="if(confirm('确定要清空您的足迹吗?'))location.assign('../PHP/delete_history.php?allclean=true');">清空足迹</a>
+				</div>
 				<!--			留着之后查询字段-->
 				<div class="col-lg-1">
 					<button type="button" class="btn btn-default" id="batch_opreation">批量操作</button>
 				</div>
-				<div class="col-lg-1 col-lg-offset-5 text-left batch_checkbox" style="display: none">
+				<div class="col-lg-1 col-lg-offset-4 text-left batch_checkbox" style="display: none">
 					全选<input style="width: 20px;height: 20px" type='checkbox' id='batch_choose'
 					         class="checkbox-inline deletecheckbox">
 				</div>
@@ -273,7 +283,7 @@ $a_month_ago = date('Y-m-d' , time() - 60 * 60 * 24 * 30);
 					<a href="<?php echo $_SERVER['HTTP_REFERER'] ?>" class="btn btn-link">返回</a>
 				</div>
 			</div>
-			<div class="row">
+			<div class="row" style="margin-top: 3%">
 				<div class="col-lg-11">
 					<a href="javascript:void(0)" class="btn btn-success btn-block" id="today">今天</a>
 				</div>

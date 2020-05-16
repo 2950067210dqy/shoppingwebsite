@@ -128,11 +128,11 @@
 
 }
 .xinxi table input[type=text],input[type=number],input[type=password]{
-    width: 85%;
+    width: 250px;
     height: 40px;
-    border: 1px solid rgb(178,178,178);
+    border: 1px solid rgb(178, 178, 178);
     margin-left: -200px;
-}
+    }
 .xinxi table input[type=submit],input[type=button]{
     margin-top: 80px;
     width: 42%;

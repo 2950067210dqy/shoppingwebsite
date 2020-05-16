@@ -1,6 +1,10 @@
 <?php
 session_start();
 require 'conn.php';
+//清空该用户的足迹
+if (isset($_GET['allclean'])) {
+	deleteWhereOne("history" , "user_id" , $_SESSION['id'] , $conn);
+}
 //单个商品删除
 if (isset($_GET['id'])) {
 	if (deleteWhereOne("history" , "id" , $_GET['id'] , $conn)) {

@@ -138,14 +138,20 @@ if (isset($_GET['id'])){
 					<li style="color: rgb(157,157,157); font-weight: bold">
 						/
 					</li>
-					<li >
-						<a href="../PHP/indexLocation.php">   客户服务</a>
+					<li>
+						<a href="../PHP/indexLocation.php"> 客户服务</a>
 					</li>
 					<li style="color: rgb(157,157,157); font-weight: bold">
 						/
 					</li>
 					<li>
-						<a href="../BILIBILI/bilibili.php"> 会员俱乐部</a>
+						<?php
+						if ((isset($_SESSION['isadmin']))) {
+							echo "<a href='user_friend.php'>我的好友</a>";
+						} else {
+							echo "<a href='#'>会员俱乐部</a>";
+						}
+						?>
 					</li>
 					<li style="color: rgb(157,157,157); font-weight: bold">
 						/
@@ -518,28 +524,32 @@ if (isset($_GET['id'])){
 						</div>
 						<!--						一级评论头像图-->
 						<div class="col-lg-2">
-							<img src="<?php echo $row['img_addr'] ?>" alt="默认头像" width="100" height="100">
+							<a href="<?php if (isset($_SESSION['id']) && $_SESSION['id'] == $row['id']) echo 'user.php'; else echo "user_other.php?id={$row['id']}" ?>">
+								<img src="<?php echo $row['img_addr'] ?>" alt="默认头像" width="100" height="100">
+							</a>
 						</div>
 						<div class="col-lg-8">
 							<div class="row">
 								<!--								一级评论用户名-->
 								<div class="col-lg-6">
-									<?php
-									//					检测是否为管理员
-									if ($row['isadmin'] == 'true') {
-										if (isset($_SESSION['id']) && $row['user_id'] == $_SESSION['id']) {
-											echo "<a class='btn btn-success' href='javascript:void(0)'>管理员</a><a class='btn btn-warning' href='javascript:void(0)'>自己</a>{$row['name']}({$row['username']}):";
+									<a href="<?php if (isset($_SESSION['id']) && $_SESSION['id'] == $row['id']) echo 'user.php'; else echo "user_other.php?id={$row['id']}" ?>">
+										<?php
+										//					检测是否为管理员
+										if ($row['isadmin'] == 'true') {
+											if (isset($_SESSION['id']) && $row['user_id'] == $_SESSION['id']) {
+												echo "<span class='btn btn-success' >管理员</span><span class='btn btn-warning' href='javascript:void(0)'>自己</span>{$row['name']}({$row['username']}):";
+											} else {
+												echo "<span class='btn btn-success' >管理员</span>{$row['name']}({$row['username']}):";
+											}
+											
+										} //					检测是否为当前用户
+										elseif (isset($_SESSION['id']) && $row['user_id'] == $_SESSION['id']) {
+											echo "<span class='btn btn-warning' >自己</span>{$row['name']}({$row['username']}):";
 										} else {
-											echo "<a class='btn btn-success' href='javascript:void(0)'>管理员</a>{$row['name']}({$row['username']}):";
+											echo "{$row['name']}({$row['username']}):";
 										}
-										
-									} //					检测是否为当前用户
-									elseif (isset($_SESSION['id']) && $row['user_id'] == $_SESSION['id']) {
-										echo "<a class='btn btn-warning' href='javascript:void(0)'>自己</a>{$row['name']}({$row['username']}):";
-									} else {
-										echo "{$row['name']}({$row['username']}):";
-									}
-									?>
+										?>
+									</a>
 								</div>
 								<!--								一级评论删除评论和修改评论按钮-->
 								<div class="col-lg-offset-2 col-lg-4 text-right">
@@ -599,29 +609,33 @@ if (isset($_GET['id'])){
 										</div>
 										<!--						多级评论头像图-->
 										<div class="col-lg-2">
-											<img src="<?php echo $row['img_addr'] ?>" alt="默认头像" width="50" height="50">
+											<a href="<?php if (isset($_SESSION['id']) && $_SESSION['id'] == $row2['id']) echo 'user.php'; else echo "user_other.php?id={$row2['id']}" ?>">
+												<img src="<?php echo $row['img_addr'] ?>" alt="默认头像" width="50"
+												     height="50">
+											</a>
 										</div>
 										<div class="col-lg-8">
 											<div class="row">
 												<!--	多级评论用户名-->
 												<div class="col-lg-8 text-left">
-													<?php
-													//					检测是否为管理员
-													if ($row2['isadmin'] == 'true') {
-														if ($row2['user_id'] == $_SESSION['id']) {
-															echo "<a class='btn btn-success' href='javascript:void(0)'>管理员</a><a class='btn btn-warning' href='javascript:void(0)'>自己</a>{$row2['name']}({$row2['username']}):";
+													<a href="<?php if (isset($_SESSION['id']) && $_SESSION['id'] == $row2['id']) echo 'user.php'; else echo "user_other.php?id={$row2['id']}" ?>">
+														<?php
+														//					检测是否为管理员
+														if ($row2['isadmin'] == 'true') {
+															if ($row2['user_id'] == $_SESSION['id']) {
+																echo "<span class='btn btn-success' >管理员</span><span class='btn btn-warning' >自己</span>{$row2['name']}({$row2['username']}):";
+															} else {
+																echo "<span class='btn btn-success' >管理员</span>{$row2['name']}({$row2['username']}):";
+															}
+															
+														} //					检测是否为当前用户
+														elseif ($row2['user_id'] == $_SESSION['id']) {
+															echo "<span class='btn btn-warning' >自己</span>{$row2['name']}({$row2['username']}):";
 														} else {
-															echo "<a class='btn btn-success' href='javascript:void(0)'>管理员</a>{$row2['name']}({$row2['username']}):";
+															echo "{$row2['name']}({$row2['username']}):";
 														}
-														
-													} //					检测是否为当前用户
-													elseif ($row2['user_id'] == $_SESSION['id']) {
-														echo "<a class='btn btn-warning' href='javascript:void(0)'>自己</a>{$row2['name']}({$row2['username']}):";
-													} else {
-														echo "{$row2['name']}({$row2['username']}):";
-													}
-													?>
-													
+														?>
+													</a>
 													<?php
 													if ($row2['last_id'] != 0) {
 														$sql3 = "select * from user where id = (select user_id from reply where reply_id={$row2['last_id']}) ";
@@ -629,20 +643,26 @@ if (isset($_GET['id'])){
 														
 														if ($result3 -> num_rows > 0) {
 															$row3 = $result3 -> fetch_assoc();
-															//检测是否为管理员
-															if ($row3['isadmin'] == 'true') {
-																if (isset($_SESSION['id']) && $row3['id'] == $_SESSION['id']) {
-																	echo "回复<a class='btn btn-success' href='javascript:void(0)'>管理员</a><a class='btn btn-warning' href='javascript:void(0)'>自己</a>@{$row3['name']}({$row3['username']}):";
+															?>
+															<a href="<?php if (isset($_SESSION['id']) && $_SESSION['id'] == $row3['id']) echo 'user.php'; else echo "user_other.php?id={$row3['id']}" ?>">
+																<?php
+																//检测是否为管理员
+																if ($row3['isadmin'] == 'true') {
+																	if (isset($_SESSION['id']) && $row3['id'] == $_SESSION['id']) {
+																		echo "回复<a class='btn btn-success' href='javascript:void(0)'>管理员</a><a class='btn btn-warning' href='javascript:void(0)'>自己</a>@{$row3['name']}({$row3['username']}):";
+																	} else {
+																		echo "回复<a class='btn btn-success' href='javascript:void(0)'>管理员</a>@{$row3['name']}({$row3['username']}):";
+																	}
+																} //					检测是否为当前用户
+																elseif (isset($_SESSION['id']) && $row3['id'] == $_SESSION['id']) {
+																	echo "回复<a class='btn btn-warning' href='javascript:void(0)'>自己</a>@{$row3['name']}({$row3['username']}):";
 																} else {
-																	echo "回复<a class='btn btn-success' href='javascript:void(0)'>管理员</a>@{$row3['name']}({$row3['username']}):";
+																	echo "回复@{$row3['name']}({$row3['username']}):";
 																}
-															} //					检测是否为当前用户
-															elseif (isset($_SESSION['id']) && $row3['id'] == $_SESSION['id']) {
-																echo "回复<a class='btn btn-warning' href='javascript:void(0)'>自己</a>@{$row3['name']}({$row3['username']}):";
-															} else {
-																echo "回复@{$row3['name']}({$row3['username']}):";
-															}
-															echo "";
+																echo "";
+																?>
+															</a>
+															<?php
 														} else {
 															echo '出错了！';
 														}

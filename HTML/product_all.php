@@ -99,14 +99,20 @@ if(!isset($_GET['price'])||$_GET['price']=="asc"){
 					<li style="color: rgb(157,157,157); font-weight: bold">
 						/
 					</li>
-					<li >
-						<a href="../PHP/indexLocation.php">   客户服务</a>
+					<li>
+						<a href="../PHP/indexLocation.php"> 客户服务</a>
 					</li>
 					<li style="color: rgb(157,157,157); font-weight: bold">
 						/
 					</li>
 					<li>
-						<a href="../BILIBILI/bilibili.php"> 会员俱乐部</a>
+						<?php
+						if ((isset($_SESSION['isadmin']))) {
+							echo "<a href='user_friend.php'>我的好友</a>";
+						} else {
+							echo "<a href='#'>会员俱乐部</a>";
+						}
+						?>
 					</li>
 					<li style="color: rgb(157,157,157); font-weight: bold">
 						/
