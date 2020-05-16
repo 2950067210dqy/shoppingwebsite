@@ -1,14 +1,19 @@
 <?php
 require '../PHP/conn.php';
-$row3=null;
-//切换数据库位置
-if(isset($_POST['online'])){
-	if($_POST['onlinevalue']=='false'){
-		$_SESSION['online']='true';
+$row3 = null;
+//如果用户登陆了 就把此商品加入到历史足迹中去
+if (isset($_SESSION['id'])) {
+	$sql = "select id from history where product_id={$_GET['id']} and product_type ='{$_GET['type']}' and user_id = {$_SESSION['id']}";
+	$result = $conn -> query($sql);
+	if ($result -> num_rows > 0) {
+		$row = $result -> fetch_assoc();
+		$sql = "update history set time = null where id ={$row['id']}";
+		$conn -> query($sql);
+	} else {
+		$sql = "insert into history values (null,{$_GET['id']},'{$_GET['type']}',{$_SESSION['id']},null)";
+		$conn -> query($sql);
 	}
-	else{
-		$_SESSION['online']='false';
-	}
+	
 }
 ?>
 <!DOCTYPE html>

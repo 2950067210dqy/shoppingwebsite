@@ -269,46 +269,51 @@ if (isset($_SESSION['id'])) {
 			</div>
 			<div class="row">
 				<?php
-				$sql = "select id,product_id,product_type from product_collected where user_id = {$_SESSION['id']} order by time desc";
-				$result = $conn -> query($sql);
-				while ($row = $result -> fetch_assoc()) {
-					if ($row) {
-						$sql2 = "select * from {$row['product_type']} where id = {$row['product_id']}";
-						$result2 = $conn -> query($sql2);
-						$row2 = $result2 -> fetch_assoc();
-						if ($row2) {
-							?>
-							<div class=" col-lg-2 text-left ">
-								<div class=" product_container thumbnail"
-								     style="position: relative;background-color: inherit">
-									<a href="product.php?id=<?php echo $row2['id']; ?>&type=<?php echo $row2['type']; ?>"><img
-												src="<?php echo $row2['img_addre']; ?>"></a>
-									<div class="caption">
-										<span style="font-size: 20px;color: #e4393c;">￥<?php echo $row2['price']; ?></span>
-										<p>
-											<a href="product.php?id=<?php echo $row2['id']; ?>&type=<?php echo $row2['type']; ?>"
-											   class="item_title"
-											   title="<?php echo $row2['title'] ?>"><?php if (strlen($row2['title']) > 14) echo substr($row2['title'] , 0 , 14) . '....'; else echo $row2['title']; ?></a>
-										</p>
-										<p><a href="<?php echo $row2['merchant_addre']; ?>"
-										      title="<?php echo $row2['merchant'] ?>" class="item_merchant"><font
-														color="#4d88ff">●店铺：</font><?php if (strlen($row2['merchant']) > 10) echo substr($row2['merchant'] , 0 , 10) . '....'; else echo $row2['merchant']; ?>
-											</a>
-										</p>
-										<span style="position: absolute;right: 0;top: 0">
+				//				登陆了才会显示
+				if (isset($_SESSION['id'])) {
+					$sql = "select id,product_id,product_type from product_collected where user_id = {$_SESSION['id']} order by time desc";
+					$result = $conn -> query($sql);
+					while ($row = $result -> fetch_assoc()) {
+						if ($row) {
+							$sql2 = "select * from {$row['product_type']} where id = {$row['product_id']}";
+							$result2 = $conn -> query($sql2);
+							$row2 = $result2 -> fetch_assoc();
+							if ($row2) {
+								?>
+								<div class=" col-lg-2 text-left ">
+									<div class=" product_container thumbnail"
+									     style="position: relative;background-color: inherit">
+										<a href="product.php?id=<?php echo $row2['id']; ?>&type=<?php echo $row2['type']; ?>"><img
+													src="<?php echo $row2['img_addre']; ?>"></a>
+										<div class="caption">
+											<span style="font-size: 20px;color: #e4393c;">￥<?php echo $row2['price']; ?></span>
+											<p>
+												<a href="product.php?id=<?php echo $row2['id']; ?>&type=<?php echo $row2['type']; ?>"
+												   class="item_title"
+												   title="<?php echo $row2['title'] ?>"><?php if (strlen($row2['title']) > 14) echo substr($row2['title'] , 0 , 14) . '....'; else echo $row2['title']; ?></a>
+											</p>
+											<p><a href="<?php echo $row2['merchant_addre']; ?>"
+											      title="<?php echo $row2['merchant'] ?>" class="item_merchant"><font
+															color="#4d88ff">●店铺：</font><?php if (strlen($row2['merchant']) > 10) echo substr($row2['merchant'] , 0 , 10) . '....'; else echo $row2['merchant']; ?>
+												</a>
+											</p>
+											<span style="position: absolute;right: 0;top: 0;opacity:0.8;">
 							<a href="../PHP/delete_product_collected.php?id=<?php echo $row['id'] ?>"
-							   class="btn btn-danger delete" style="display: none">删除商品</a>
+							   class="btn btn-danger delete" style="display: none;">删除商品</a>
 						</span>
-										<span style="position: absolute;left: 0;top: 0">
-							<input style="display: none;width: 30px;height: 30px" type='checkbox' id='choose'
+											<span style="position: absolute;left: 0;top: 0;opacity:0.8;">
+							<input style="display: none;width: 30px;height: 30px;" type='checkbox' id='choose'
 							       class="deletecheckbox checkbox " name='choose[]' value="<?php echo $row['id'] ?>">
 						</span>
+										</div>
 									</div>
 								</div>
-							</div>
-							<?php
+								<?php
+							}
 						}
 					}
+				} else {
+					echo "您暂未登录，登录后才能查看，快去<a href='logoin.php' class='btn btn-danger'>登录</a>吧";
 				}
 				?>
 			</div>
