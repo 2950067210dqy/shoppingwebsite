@@ -92,6 +92,12 @@ if (isset($_GET['id'])){
 			<div class="nav">
 				<ul class="topnavul">
 					<li>
+						<a href='../../index.html' target='_self'>返回网站导航</a>
+					</li>
+					<li style="color: rgb(157,157,157); font-weight: bold">
+						/
+					</li>
+					<li>
 						<a href='index.php' target='_self'>返回主页</a>
 					</li>
 					<li style="color: rgb(157,157,157); font-weight: bold">
@@ -132,14 +138,20 @@ if (isset($_GET['id'])){
 					<li style="color: rgb(157,157,157); font-weight: bold">
 						/
 					</li>
-					<li >
-						<a href="../PHP/indexLocation.php">  更多</a>
+					<li>
+						<a href="../PHP/indexLocation.php"> 更多</a>
 					</li>
 					<li style="color: rgb(157,157,157); font-weight: bold">
 						/
 					</li>
-					<li>
-						<a href="../PHP/indexLocation.php"> 客户服务</a>
+					<li id='message_num'>
+						<?php
+						if ((isset($_SESSION['isadmin']))) {
+							echo "<a href='user_message.php'><span >我的消息</span></a>";
+						} else {
+							echo "<a href='#'>客户服务</a>";
+						}
+						?>
 					</li>
 					<li style="color: rgb(157,157,157); font-weight: bold">
 						/
@@ -206,7 +218,7 @@ if (isset($_GET['id'])){
 			</div>
 		</div>
 	</div>
-	
+
 	
 	<a href="#" class="btn btn-danger text-center" style="position: sticky;z-index: 99;top: 50%;left: 100%;">返回顶部</a>
 	
@@ -857,6 +869,11 @@ if (isset($_GET['id'])){
 	</div>
 </div>
 <script src="../JS/product_vue.js" id="js6"></script>
+<?php
+if ((isset($_SESSION['isadmin']))) {
+	echo "<script src=\"../JS/refresh_message_num.js\"></script>";
+}
+?>
 <script src="../JS/product_jquery.js" id="js7"></script>
 </body>
 </html>

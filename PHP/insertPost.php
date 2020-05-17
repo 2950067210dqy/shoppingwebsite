@@ -20,6 +20,20 @@ alert('{$_POST['textarea']}');
 		//加入评论
 		$sql = "insert into reply values (null,{$diary_id},{$user_id},'$username','$textarea',null,{$last_id})";
 		if ($conn -> query($sql)) {
+//			发送消息
+			$sql = "select user_id,product_id,product_type from diary where diary_id={$diary_id}";
+			$result = $conn -> query($sql);
+			$row = $result -> fetch_assoc();
+			if ($last_id == 0) {
+				$sql = "insert into add_user_message values (null,{$row['user_id']},{$user_id},'reply',null,{$row['product_id']},'{$row['product_type']}')";
+				$conn -> query($sql);
+			} else {
+				$sql = "select  distinct r1.user_id from reply as r1,reply as r2  where r1.last_id={$last_id} and r1.last_id=r2.reply_id";
+				$result = $conn -> query($sql);
+				$row2 = $result -> fetch_assoc();
+				$sql = "insert into add_user_message values (null,{$row2['user_id']},{$user_id},'reply',null,{$row['product_id']},'{$row['product_type']}')";
+				$conn -> query($sql);
+			}
 			echo "<script>alert('评论成功！');location.assign('{$_SERVER['HTTP_REFERER']}'+'#refresh')</script>";
 		} else {
 			echo "<script>alert('评论失败！');location.assign('{$_SERVER['HTTP_REFERER']}'+'#refresh')</script>";

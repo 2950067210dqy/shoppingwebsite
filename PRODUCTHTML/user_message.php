@@ -1,3 +1,5 @@
+<!--用户之间聊天（将聊天消息插入对话数据库中）-->
+
 <?php
 session_start();
 require '../PHP/conn.php';
@@ -6,6 +8,9 @@ $reply_user_id = $_POST['reply_user_id'];
 if (isset($_POST['message'])) {
 	$message = $_POST['message'];
 	$sql = "insert into message values (null,$user_id,$reply_user_id,'$message',null)";
+	$conn -> query($sql);
+//	发送消息
+	$sql = "insert into add_user_message values (null,$user_id,$reply_user_id,'message',null,null,null)";
 	$conn -> query($sql);
 }
 ?>

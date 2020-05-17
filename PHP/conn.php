@@ -2,7 +2,6 @@
 if (!session_id()) session_start();
 date_default_timezone_set('PRC');//临时设置中国时区
 header("content-type:text/html;charset=utf8");
-global $conn;
 $url="localhost";
 $password="";
 $conn=mysqli_connect($url,"root",$password,"shopping",3306);

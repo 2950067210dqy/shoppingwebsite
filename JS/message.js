@@ -19,13 +19,15 @@ $(document).ready(function () {
 		if ($('#textarea').val() == "") {
 			alert('您输入为空！请重新输入')
 		} else {
+			let message = $('#textarea').val();
+			$('#textarea').val('');
 			$.ajax({
 				url: "../PRODUCTHTML/user_message.php",
 				type: "post",
 				data: {
 					"reply_user_id": $('#reply_user_id').val(),
 					"user_id": $('#user_id').val(),
-					"message": $('#textarea').val()
+					"message": message
 				},
 				success: function (result) {
 					$('#container').html(result);

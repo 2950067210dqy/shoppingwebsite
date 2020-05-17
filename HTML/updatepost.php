@@ -26,156 +26,23 @@ require '../PHP/conn.php';
 -->
 <!--用来存储登录的状态-->
 <input type="hidden" value="<?php
-if (isset($_SESSION['id'])){
+if (isset($_SESSION['id'])) {
 	echo 'yes';
-}else{
+} else {
 	echo 'no';
 }
 ?>" id="isLogin">
 <!--网页主体-->
-<div class="main" >
-	<div class="topnav">
-		<div class="topnavin">
-			<div class="place" onclick="">
-				<a href="#">九江市</a>
-			</div>
-			<div class="nav">
-				<ul class="topnavul">
-					<li>
-						<a href='index.php' target='_self' >返回主页</a>
-					</li>
-					<li style="color: rgb(157,157,157); font-weight: bold">
-						/
-					</li>
-					<li>
-						总访问量<span class="visitsum" id="visitsum">
-                            <?php
-                            $count = "";
-                            //数字输出网页计数器
-                            $row = selectAllNoWhere("count" , 1 , $conn);
-                            $count = (int)$row['num'];
-                            if (!isset($_SESSION['connected'])) {
-	                            $count ++;
-	                            updateOne("count" , "num" , (string)$count , "num" , $row['num'] , $conn);
-	                            $_SESSION['connected'] = true;
-                            }
-                            $countlen = strlen($count);
-                            $num = null;
-                            for ($i = 0; $i < $countlen; $i ++) {
-	                            $num = $num . "<img src='../IMG/" . substr($count , $i , 1) . ".png' width='17' height='20'>";
-                            }
-                            echo $num;
-
-                            ?>
-
-
-                        </span>
-					</li>
-					<li style="color: rgb(157,157,157); font-weight: bold">
-						/
-					</li>
-					<li>
-						<?php
-						echo  date('Y-m-d', time());
-						?>
-					</li>
-					<li style="color: rgb(157,157,157); font-weight: bold">
-						/
-					</li>
-					<li >
-						<a href="../PHP/indexLocation.php">  更多</a>
-					</li>
-					<li style="color: rgb(157,157,157); font-weight: bold">
-						/
-					</li>
-					<li>
-						<a href="../PHP/indexLocation.php"> 客户服务</a>
-					</li>
-					<li style="color: rgb(157,157,157); font-weight: bold">
-						/
-					</li>
-					<li>
-						<?php
-						if ((isset($_SESSION['isadmin']))) {
-							echo "<a href='user_friend.php'>我的好友</a>";
-						} else {
-							echo "<a href='#'>会员俱乐部</a>";
-						}
-						?>
-					</li>
-					<li style="color: rgb(157,157,157); font-weight: bold">
-						/
-					</li>
-					<li>
-						<a href="../../phpprojectplus/perinfor/index.php"> 我的订单</a>
-					</li>
-					<li style="color: rgb(157,157,157); font-weight: bold">
-						/
-					</li>
-					<li>
-						<a href="product_collected.php"> 我的收藏</a>
-					</li>
-					<li style="color: rgb(157,157,157); font-weight: bold">
-						/
-					</li>
-					<li>
-						<a href="javascript:void(0)" class="shopcar">
-							我的购物车<?php if (!isset($_SESSION['id'])) echo 0; elseif (isset($_SESSION['shopnum'])) echo $_SESSION['shopnum'];
-							else {
-								$sql = "select id from shopcar where user_id = {$_SESSION['id']}";
-								$result = $conn -> query($sql);
-								echo $result -> num_rows;
-							} ?></a>
-					</li>
-					<script>
-						$(document).ready(function () {
-							$('.shopcar').click(
-								function () {
-									if ($('#isLogin').val() == "no") {
-										if (confirm('进入购物车需要登录哦？是否前往登录？')) {
-											location.assign('../HTML/logoin.php');
-										}
-									} else {
-										location.assign('../HTML/shopcar.php');
-									}
-								}
-							);
-						});
-					</script>
-					<li style="color: rgb(157,157,157); font-weight: bold">
-						/
-					</li>
-					<li>
-						<a href="../PHP/indexLocation.php? id=index_signin"> 注册</a>
-					</li>
-					<li style="color: rgb(157,157,157); font-weight: bold">
-						/
-					</li>
-					<li>
-						<?php
-						
-						if((isset($_SESSION['isadmin']))){
-							echo "<a href=\"../PHP/indexLocation.php? id=index_user\" >{$_SESSION['name']},你好</a>
-										<img src=\"{$_SESSION['headimg']}\" width='20' height='20' alt='无头像' style='border-radius: 15px;'>
-										&nbsp;&nbsp;&nbsp;&nbsp;<a  target='_self' onclick=\"location.assign('../PHP/update_userinfo.php?exit=true');\" href='javascript:void(0)'>退出登录</a>
-						";
-						}
-						else{
-							echo '<a href="../PHP/indexLocation.php? id=index_logoin" >请登录</a>';
-						}
-						?>
-					
-					</li>
-				</ul>
-			</div>
-		</div>
-	</div>
+<div class="main">
+	<!--	获取网页顶部导航栏-->
+	<?php require 'top.php' ?>
+	<a href="#" class="btn btn-danger text-center" style="position: sticky;z-index: 99;top: 50%;left: 100%;">返回顶部</a>
 	
 	<div class="logo">
-		<img src="../IMG/logo.png" alt="沁柚" height="70" >
+		<img src="../IMG/logo.png" alt="沁柚" height="70">
 		<div class="sublogo">
-			<img height="60"  width="100" src="../IMG/logo2.png" alt="沁柚">
-			<img height="60"  width="100" src="../IMG/logo3.png" alt="沁柚">
+			<img height="60" width="100" src="../IMG/logo2.png" alt="沁柚">
+			<img height="60" width="100" src="../IMG/logo3.png" alt="沁柚">
 			<img height="60" width="100" src="../IMG/logo4.png" alt="沁柚">
 		</div>
 	</div>

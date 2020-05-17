@@ -22,143 +22,13 @@ require('../PHP/conn.php');
 	</script>
 </head>
 <body>
+<!--			存储该用户的id-->
+<input type="hidden" value="<?php echo $_GET['id']; ?>" id="user_id">
+<input type="hidden" value="<?php echo $_SESSION['id']; ?>" id="login_user_id">
 <div class="main">
-	<div class="topnav">
-		<div class="topnavin">
-			<div class="place" onclick="">
-				<a href="#">九江市</a>
-			</div>
-			<div class="nav">
-				<ul class="topnavul">
-					<li>
-						<a href='index.php' target='_self'>返回主页</a>
-					</li>
-					<li style="color: rgb(157,157,157); font-weight: bold">
-						/
-					</li>
-					<li>
-						总访问量<span class="visitsum" id="visitsum">
-                            <?php
-                            $count = "";
-                            //数字输出网页计数器
-                            $row = selectAllNoWhere("count" , 1 , $conn);
-                            $count = (int)$row['num'];
-                            if (!isset($_SESSION['connected'])) {
-	                            $count ++;
-	                            updateOne("count" , "num" , (string)$count , "num" , $row['num'] , $conn);
-	                            $_SESSION['connected'] = true;
-                            }
-                            $countlen = strlen($count);
-                            $num = null;
-                            for ($i = 0; $i < $countlen; $i ++) {
-	                            $num = $num . "<img src='../IMG/" . substr($count , $i , 1) . ".png' width='17' height='20'>";
-                            }
-                            echo $num;
-
-                            ?>
-
-
-                        </span>
-					</li>
-					<li style="color: rgb(157,157,157); font-weight: bold">
-						/
-					</li>
-					<li>
-						<?php
-						echo date('Y-m-d' , time());
-						?>
-					</li>
-					<li style="color: rgb(157,157,157); font-weight: bold">
-						/
-					</li>
-					<li>
-						<a href="../PHP/indexLocation.php"> 更多</a>
-					</li>
-					<li style="color: rgb(157,157,157); font-weight: bold">
-						/
-					</li>
-					<li>
-						<a href="../PHP/indexLocation.php"> 客户服务</a>
-					</li>
-					<li style="color: rgb(157,157,157); font-weight: bold">
-						/
-					</li>
-					<li>
-						<?php
-						if ((isset($_SESSION['isadmin']))) {
-							echo "<a href='user_friend.php'>我的好友</a>";
-						} else {
-							echo "<a href='#'>会员俱乐部</a>";
-						}
-						?>
-					</li>
-					<li style="color: rgb(157,157,157); font-weight: bold">
-						/
-					</li>
-					<li>
-						<a href="../../phpprojectplus/perinfor/index.php"> 我的订单</a>
-					</li>
-					<li style="color: rgb(157,157,157); font-weight: bold">
-						/
-					</li>
-					<li>
-						<a href="product_collected.php"> 我的收藏</a>
-					</li>
-					<li style="color: rgb(157,157,157); font-weight: bold">
-						/
-					</li>
-					<li>
-						<a href="javascript:void(0)" class="shopcar">
-							我的购物车<?php if (!isset($_SESSION['id'])) echo 0; elseif (isset($_SESSION['shopnum'])) echo $_SESSION['shopnum'];
-							else {
-								$sql = "select id from shopcar where user_id = {$_SESSION['id']}";
-								$result = $conn -> query($sql);
-								echo $result -> num_rows;
-							} ?></a>
-					</li>
-					<script>
-						$(document).ready(function () {
-							$('.shopcar').click(
-								function () {
-									if ($('#isLogin').val() == "no") {
-										if (confirm('进入购物车需要登录哦？是否前往登录？')) {
-											location.assign('../HTML/logoin.php');
-										}
-									} else {
-										location.assign('../HTML/shopcar.php');
-									}
-								}
-							);
-						});
-					</script>
-					<li style="color: rgb(157,157,157); font-weight: bold">
-						/
-					</li>
-					<li>
-						<a href="../PHP/indexLocation.php? id=index_signin"> 注册</a>
-					</li>
-					<li style="color: rgb(157,157,157); font-weight: bold">
-						/
-					</li>
-					<li>
-						<?php
-						
-						if ((isset($_SESSION['isadmin']))) {
-							echo "<a href=\"../PHP/indexLocation.php? id=index_user\" >{$_SESSION['name']},你好</a>
-										<img src=\"{$_SESSION['headimg']}\" width='20' height='20' alt='无头像' style='border-radius: 15px;'>
-										&nbsp;&nbsp;&nbsp;&nbsp;<a  target='_self' onclick=\"location.assign('../PHP/update_userinfo.php?exit=true');\" href='javascript:void(0)'>退出登录</a>
-
-						";
-						} else {
-							echo '<a href="../HTML/logoin.php" >请登录</a>';
-						}
-						?>
-					
-					</li>
-				</ul>
-			</div>
-		</div>
-	</div>
+	<!--	获取网页顶部导航栏-->
+	<?php require 'top.php' ?>
+	<a href="#" class="btn btn-danger text-center" style="position: sticky;z-index: 99;top: 50%;left: 100%;">返回顶部</a>
 	
 	
 	<div class="logo">
@@ -197,7 +67,15 @@ require('../PHP/conn.php');
 		                <a class=\"btn btn-success\" href=\"message.php?id={$_GET['id']}\">和他（她）聊天</a>
 		                ";
 						} else {
-							echo " <a class=\"btn btn-success\" href=\"message.php?id={$_GET['id']}\">和他（她）聊天</a>";
+//							<!--				查询 当前查询结果的用户是否已经是好友-->
+							
+							$sql = "select user_friend_list_id from user_friend where user_id={$_SESSION['id']} and user_friend_id={$_GET['id']}";
+							$result2 = $conn -> query($sql);
+							if ($result2 -> num_rows > 0) {
+								echo " <a class=\"btn btn-success\" href=\"message.php?id={$_GET['id']}\">和他（她）聊天</a>";
+							} else {
+								echo "<a class=\"btn btn-danger btn-block  add_user_friend_btn\" >加为好友</a>";
+							}
 						}
 						?>
 		              <a class="btn btn-link" href="<?php echo $_SERVER['HTTP_REFERER'] ?>">返回</a>

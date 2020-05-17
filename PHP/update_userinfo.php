@@ -44,6 +44,10 @@ if(isset($_POST['exit'])||isset($_GET['exit'])){
 	if (isset($_SESSION['shopnum'])) {
 		unset($_SESSION['shopnum']);
 	}
+	if (isset($_SESSION['message_num'])) {
+		unset($_SESSION['message_num']);
+	}
+	
 	unset($_SESSION['connected']);
 	
 	session_write_close();
