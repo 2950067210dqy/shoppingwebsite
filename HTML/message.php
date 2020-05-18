@@ -1,5 +1,7 @@
 <?php
+session_start();
 require('../PHP/conn.php');
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -40,7 +42,12 @@ require('../PHP/conn.php');
 			<img height="60" width="100" src="../IMG/logo4.png" alt="沁柚">
 		</div>
 	</div>
-	
+	<?php
+	//判断该用户是否是当前用户的好友，不是则不能聊天
+	$sql = "select user_friend_list_id from user_friend where user_friend_id={$_GET['id']} and user_id={$_SESSION['id']}";
+	$result = $conn -> query($sql);
+	if ($result -> num_rows > 0){
+	?>
 	<div class="container">
 		<div class="row text-center">
 			<div class="col-lg-12">
@@ -130,6 +137,8 @@ require('../PHP/conn.php');
 	</div>
 </div>
 <script src="../JS/message.js"></script>
-
+<?php } else {
+	echo "<span class=\"btn btn-warning btn-block\">您和他（她）暂不是好友哦，请成为好友再来聊天哦！<a class=\"btn btn-link\" href=\"{$_SERVER['HTTP_REFERER']}\">返回</a></span>";
+} ?>
 </body>
 </html>

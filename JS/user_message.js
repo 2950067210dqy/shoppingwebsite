@@ -73,9 +73,31 @@ $(document).ready(function () {
 	$('#container').on("mouseenter mouseleave", ".rowcontainer", function (event) {
 		if (event.type == "mouseenter") {
 			//鼠标悬浮
+			
 			$(this).find('.delete').show('fast');
 		} else if (event.type == "mouseleave") {
 			//鼠标离开
+			//将信息未读更新成已读
+			if ($(this).find('.isread').children('.btn-block').html() === "未读") {
+				$(this).find('.isread').children('.btn-block').text('已读');
+				$(this).find('.isread').children('.btn-block').removeClass('btn-danger');
+				$(this).find('.isread').children('.btn-block').addClass('btn-success');
+				//将信息的id传过去
+				let id = $(this).find('.add_user_message_id').val();
+				$.ajax({
+					url: "../PRODUCTHTML/refresh_user_message_isread.php",
+					type: "post",
+					data: {"id": id},
+					success: function (result) {
+						console.log(result);
+					},
+					error: function (xhr, status, p3) {
+						// var err = "Error:" + status + "/" + p3;
+						// alert(err);
+					}
+				});
+				
+			}
 			$(this).find('.delete').hide('fast');
 		}
 	});

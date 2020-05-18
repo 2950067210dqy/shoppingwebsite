@@ -16,7 +16,7 @@ if ($result -> num_rows > 0) {
 	$sql = "update add_user_message set time = null where add_user_message_id={$row['add_user_message_id']}";
 	$conn -> query($sql);
 } else {
-	$sql = "insert into add_user_message values (null,{$user_id},{$send_user_id},'{$type}',null,null,null)";
+	$sql = "insert into add_user_message values (null,{$user_id},{$send_user_id},'{$type}',null,null,null,'false')";
 	echo $sql;
 	$conn -> query($sql);
 }

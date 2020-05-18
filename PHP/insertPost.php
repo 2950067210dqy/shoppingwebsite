@@ -25,14 +25,16 @@ alert('{$_POST['textarea']}');
 			$result = $conn -> query($sql);
 			$row = $result -> fetch_assoc();
 			if ($last_id == 0) {
-				$sql = "insert into add_user_message values (null,{$row['user_id']},{$user_id},'reply',null,{$row['product_id']},'{$row['product_type']}')";
+				$sql = "insert into add_user_message values (null,{$row['user_id']},{$user_id},'reply',null,{$row['product_id']},'{$row['product_type']}','false')";
 				$conn -> query($sql);
+				echo "<script>alert('1！')</script>";
 			} else {
-				$sql = "select  distinct r1.user_id from reply as r1,reply as r2  where r1.last_id={$last_id} and r1.last_id=r2.reply_id";
+				$sql = "select  distinct r2.user_id from reply as r1,reply as r2  where r1.last_id={$last_id} and r1.last_id=r2.reply_id";
 				$result = $conn -> query($sql);
 				$row2 = $result -> fetch_assoc();
-				$sql = "insert into add_user_message values (null,{$row2['user_id']},{$user_id},'reply',null,{$row['product_id']},'{$row['product_type']}')";
+				$sql = "insert into add_user_message values (null,{$row2['user_id']},{$user_id},'reply',null,{$row['product_id']},'{$row['product_type']}','false')";
 				$conn -> query($sql);
+				
 			}
 			echo "<script>alert('评论成功！');location.assign('{$_SERVER['HTTP_REFERER']}'+'#refresh')</script>";
 		} else {
@@ -43,9 +45,9 @@ alert('{$_POST['textarea']}');
 		$textarea = $_POST['textarea'];
 		$username = $_GET['username'];
 		$product_id = $_GET['product_id'];
-		$type=$_GET['type'];
+		$type = $_GET['type'];
 		//加入评论
-		$sql = "insert into diary values (null,{$user_id},'$username','$textarea',null,{$product_id},'$type')";
+		$sql = "insert into diary values (null,{$user_id},'$username','$textarea',null,{$product_id},'$type','false')";
 		if ($conn -> query($sql)) {
 			echo "<script>alert('评论成功！');location.assign('{$_SERVER['HTTP_REFERER']}'+'#refresh')</script>";
 		} else {

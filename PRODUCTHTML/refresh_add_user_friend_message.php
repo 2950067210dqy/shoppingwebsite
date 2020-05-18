@@ -8,7 +8,17 @@ if ($user_friend_nums > 0) {
 	while ($row = $result -> fetch_assoc()) {
 		?>
 		<div class="row rowcontainer" style="border-bottom: 2px solid silver">
-			<div class="col-lg-4">
+			<div class="col-lg-1 text-right isread">
+				<!--										存储当前信息的id-->
+				<input type="hidden" value="<?php echo $row['add_user_message_id'] ?>"
+				       class="add_user_message_id">
+				<?php if ($row['isread'] === "false") { ?>
+					<span class="btn btn-danger btn-block">未读</span>
+				<?php } else { ?>
+					<span class="btn btn-success btn-block">已读</span>
+				<?php } ?>
+			</div>
+			<div class="col-lg-3">
 				<div class="row">
 					<div class="col-lg-12 text-center">
 						<a href="user_other.php?id=<?php echo $row['id']; ?>"><img
@@ -113,7 +123,10 @@ if ($user_friend_nums > 0) {
 							<a class="btn" href="user_other.php?id=<?php echo $row['id']; ?>">
 								<span><?php echo "{$row['name']}({$row['username']})"; ?></span>
 							</a>
-							已经同意了您的好友请求
+							<a class="btn btn-block btn-default"
+							   href="message.php?id=<?php echo $row['send_user_id'] ?>">
+								已经同意了您的好友请求,赶快和他（她）去认识下吧！
+							</a>
 						</div>
 					</div>
 				<?php } elseif ($row['type'] === "reply") { ?>
@@ -134,6 +147,26 @@ if ($user_friend_nums > 0) {
 							</a>
 							<a class="btn btn-block btn-default"
 							   href="message.php?id=<?php echo $row['send_user_id'] ?>">对您发消息了,快去查看吧</a>
+						</div>
+					</div>
+				<?php } elseif ($row['type'] === "delete_friend") { ?>
+					<div class="row">
+						<div class="col-lg-12 text-left">
+							<a class="btn" href="user_other.php?id=<?php echo $row['id']; ?>">
+								<span><?php echo "{$row['name']}({$row['username']})"; ?></span>
+							</a>
+							把您从他（她）的好友列表中删除了哦！！！
+						</div>
+					</div>
+				<?php } elseif ($row['type'] === "delete_message") { ?>
+					<div class="row">
+						<div class="col-lg-12 text-left">
+							<a class="btn" href="user_other.php?id=<?php echo $row['id']; ?>">
+								<span><?php echo "{$row['name']}({$row['username']})"; ?></span>
+							</a>
+							<a class="btn btn-block btn-default"
+							   href="message.php?id=<?php echo $row['send_user_id'] ?>">
+								把你们之间的聊天记录全部删除了哦，快去联系他看看怎么了！</a>
 						</div>
 					</div>
 				<?php } ?>

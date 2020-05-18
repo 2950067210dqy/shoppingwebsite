@@ -10,7 +10,7 @@ if (isset($_POST['message'])) {
 	$sql = "insert into message values (null,$user_id,$reply_user_id,'$message',null)";
 	$conn -> query($sql);
 //	发送消息
-	$sql = "insert into add_user_message values (null,$user_id,$reply_user_id,'message',null,null,null)";
+	$sql = "insert into add_user_message values (null,$user_id,$reply_user_id,'message',null,null,null,'false')";
 	$conn -> query($sql);
 }
 ?>

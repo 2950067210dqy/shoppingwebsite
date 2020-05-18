@@ -175,7 +175,7 @@ $a_month_ago = date('Y-m-d' , time() - 60 * 60 * 24 * 30);
 			</div>
 			<div class="row" id="today_row" style="display: block;border: 4px lightblue solid">
 				<?php
-				$sql = "select * FROM history where time between '$today 00:00:00' and '$today 23:59:59' order by time desc";
+				$sql = "select * FROM history where user_id={$_SESSION['id']} and time between '$today 00:00:00' and '$today 23:59:59' order by time desc";
 				$result = $conn -> query($sql);
 				if ($result -> num_rows > 0) {
 					while ($row = $result -> fetch_assoc()) {
@@ -221,6 +221,8 @@ $a_month_ago = date('Y-m-d' , time() - 60 * 60 * 24 * 30);
 							<?php
 						}
 					}
+				} else {
+					echo "<div class='col-lg-12 text-center' style='font-size: 22px;color: silver'>暂无足迹</div>";
 				}
 				?>
 			</div>
@@ -235,7 +237,7 @@ $a_month_ago = date('Y-m-d' , time() - 60 * 60 * 24 * 30);
 			</div>
 			<div class="row" id="yesterday_row" style="display: none;border: 4px lightblue solid">
 				<?php
-				$sql = "select * FROM history where time between '$three_days_ago 00:00:00' and '$yesterday 23:59:59' order by time desc";
+				$sql = "select * FROM history where user_id={$_SESSION['id']} and time between '$three_days_ago 00:00:00' and '$yesterday 23:59:59' order by time desc";
 				$result = $conn -> query($sql);
 				if ($result -> num_rows > 0) {
 					while ($row = $result -> fetch_assoc()) {
@@ -281,6 +283,8 @@ $a_month_ago = date('Y-m-d' , time() - 60 * 60 * 24 * 30);
 							<?php
 						}
 					}
+				} else {
+					echo "<div class='col-lg-12 text-center' style='font-size: 22px;color: silver'>暂无足迹</div>";
 				}
 				?>
 			</div>
@@ -295,7 +299,7 @@ $a_month_ago = date('Y-m-d' , time() - 60 * 60 * 24 * 30);
 			</div>
 			<div class="row" id="three_days_ago_row" style="display: none;border: 4px lightblue solid">
 				<?php
-				$sql = "select * FROM history where time between '$a_week_ago 00:00:00' and '$three_days_ago 23:59:59' order by time desc";
+				$sql = "select * FROM history where user_id={$_SESSION['id']} and time between '$a_week_ago 00:00:00' and '$three_days_ago 23:59:59' order by time desc";
 				$result = $conn -> query($sql);
 				if ($result -> num_rows > 0) {
 					while ($row = $result -> fetch_assoc()) {
@@ -341,6 +345,8 @@ $a_month_ago = date('Y-m-d' , time() - 60 * 60 * 24 * 30);
 							<?php
 						}
 					}
+				} else {
+					echo "<div class='col-lg-12 text-center' style='font-size: 22px;color: silver'>暂无足迹</div>";
 				}
 				?>
 			</div>
@@ -355,7 +361,7 @@ $a_month_ago = date('Y-m-d' , time() - 60 * 60 * 24 * 30);
 			</div>
 			<div class="row" id="a_week_ago_row" style="display: none;border: 4px lightblue solid">
 				<?php
-				$sql = "select * FROM history where time between '$a_month_ago 00:00:00' and '$a_week_ago 23:59:59' order by time desc";
+				$sql = "select * FROM history where user_id={$_SESSION['id']} and  time between '$a_month_ago 00:00:00' and '$a_week_ago 23:59:59' order by time desc";
 				$result = $conn -> query($sql);
 				if ($result -> num_rows > 0) {
 					while ($row = $result -> fetch_assoc()) {
@@ -401,6 +407,8 @@ $a_month_ago = date('Y-m-d' , time() - 60 * 60 * 24 * 30);
 							<?php
 						}
 					}
+				} else {
+					echo "<div class='col-lg-12 text-center' style='font-size: 22px;color: silver'>暂无足迹</div>";
 				}
 				?>
 			</div>
@@ -415,7 +423,7 @@ $a_month_ago = date('Y-m-d' , time() - 60 * 60 * 24 * 30);
 			</div>
 			<div class="row" id="a_month_ago_row" style="display: none;border: 4px lightblue solid">
 				<?php
-				$sql = "select * FROM history where time < '$a_month_ago 00:00:00'";
+				$sql = "select * FROM history where user_id={$_SESSION['id']} and  time < '$a_month_ago 00:00:00'";
 				$result = $conn -> query($sql);
 				if ($result -> num_rows > 0) {
 					while ($row = $result -> fetch_assoc()) {
@@ -461,6 +469,8 @@ $a_month_ago = date('Y-m-d' , time() - 60 * 60 * 24 * 30);
 							<?php
 						}
 					}
+				} else {
+					echo "<div class='col-lg-12 text-center' style='font-size: 22px;color: silver'>暂无足迹</div>";
 				}
 				?>
 				

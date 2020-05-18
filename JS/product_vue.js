@@ -89,7 +89,7 @@ var app = new Vue({
 		addCollected: function () {
 			if (this.iscollected) {
 				if ($('#isLogin').val() == "no") {
-					if (confirm("你暂未登录，无法加入购物车，是否登录？")) {
+					if (confirm("你暂未登录，无法加入收藏，是否登录？")) {
 						location.assign('../HTML/logoin.php');
 					}
 				} else {

@@ -480,7 +480,6 @@ if (isset($_GET['id'])){
 	<a href="javascript:void(0)" style="cursor: pointer" id="<?php echo $_GET['type']?>" onclick="loadXMLDoc(this.id)">点击刷新...</a>
 	</div>
 	<script>
-		
 		function loadXMLDoc(id) {
 			var xmlhttp;
 			if (window.XMLHttpRequest) {
@@ -498,7 +497,6 @@ if (isset($_GET['id'])){
 			xmlhttp.open("GET", "../PRODUCTHTML/product_like.php?type=" + id, true);
 			xmlhttp.send();
 		}
-	
 	</script>
 	
 	<!--	评论区-->
@@ -622,7 +620,7 @@ if (isset($_GET['id'])){
 										<!--						多级评论头像图-->
 										<div class="col-lg-2">
 											<a href="<?php if (isset($_SESSION['id']) && $_SESSION['id'] == $row2['id']) echo 'user.php'; else echo "user_other.php?id={$row2['id']}" ?>">
-												<img src="<?php echo $row['img_addr'] ?>" alt="默认头像" width="50"
+												<img src="<?php echo $row2['img_addr'] ?>" alt="默认头像" width="50"
 												     height="50">
 											</a>
 										</div>
@@ -868,12 +866,13 @@ if (isset($_GET['id'])){
 		</div>
 	</div>
 </div>
-<script src="../JS/product_vue.js" id="js6"></script>
 <?php
 if ((isset($_SESSION['isadmin']))) {
 	echo "<script src=\"../JS/refresh_message_num.js\"></script>";
 }
 ?>
+<script src="../JS/product_vue.js" id="js6"></script>
+
 <script src="../JS/product_jquery.js" id="js7"></script>
 </body>
 </html>
