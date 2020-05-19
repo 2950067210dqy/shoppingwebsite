@@ -40,10 +40,10 @@
 .place{
     float: left;
     padding-left: 10px;
-    width: 5%;
+    width: 8%;
     height: 100%;
-    background-color: rgb(245,245,245);
-}
+    background-color: rgb(245, 245, 245);
+    }
 .nav{
     float: right;
     width: 91%;

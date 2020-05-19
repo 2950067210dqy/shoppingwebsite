@@ -330,6 +330,7 @@ echo $_SESSION['id'];
 		</div>
 	</div>
 </div>
+<script src="../JS/index_jquery.js"></script>
 <script src="../JS/user_message.js"></script>
 </body>
 </html>

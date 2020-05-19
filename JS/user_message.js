@@ -73,10 +73,6 @@ $(document).ready(function () {
 	$('#container').on("mouseenter mouseleave", ".rowcontainer", function (event) {
 		if (event.type == "mouseenter") {
 			//鼠标悬浮
-			
-			$(this).find('.delete').show('fast');
-		} else if (event.type == "mouseleave") {
-			//鼠标离开
 			//将信息未读更新成已读
 			if ($(this).find('.isread').children('.btn-block').html() === "未读") {
 				$(this).find('.isread').children('.btn-block').text('已读');
@@ -98,6 +94,9 @@ $(document).ready(function () {
 				});
 				
 			}
+			$(this).find('.delete').show('fast');
+		} else if (event.type == "mouseleave") {
+			//鼠标离开
 			$(this).find('.delete').hide('fast');
 		}
 	});

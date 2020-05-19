@@ -65,7 +65,7 @@ require('../PHP/conn.php');
 			</div>
 		</div>
 	</div>
-	<div class="container" id="container" style="font-size: 17px;border: 5px solid silver;">
+	<div class="container-fluid" id="container" style="font-size: 17px;border: 20px solid silver;border-radius: 15px;">
 		<?php
 		
 		$sql = "select * from (select * from message where (reply_user_id={$_SESSION['id']} and user_id={$_GET['id']} ) or (reply_user_id={$_GET['id']} and user_id={$_SESSION['id']})) as m,user where m.reply_user_id = user.id order by m.time asc ";
@@ -73,9 +73,18 @@ require('../PHP/conn.php');
 		while ($row = $result -> fetch_assoc()) {
 			if ($row) {
 				?>
-				<div class="row" style="margin-bottom: 5%">
+				<div class="row rowcontainer" style="margin-bottom: 5%;border-left: ">
+					<!--							存储信息id-->
+					<input type="hidden" value="<?php echo $row['message_id'] ?>" class="message_id">
+					<!--					当前用户头像-->
 					<?php if ($row['reply_user_id'] == $_SESSION['id']) { ?>
 						<div class="col-lg-2 col-lg-offset-2 text-right">
+							<?php if ($row['isread'] == "false") {
+								echo "	<span  class=\"btn btn-danger\" >未读</span>";
+							} else {
+								echo "	<span  class=\"btn btn-success\" >已读</span>";
+							}
+							?>
 							<img src="<?php echo $row['img_addr'] ?>" width="50%" height="50%"
 							     style="max-width: 70px;max-height: 70px">
 						</div>
@@ -106,10 +115,17 @@ require('../PHP/conn.php');
 							</div>
 						</div>
 					</div>
+					<!--					发消息用户头像-->
 					<?php if ($row['reply_user_id'] != $_SESSION['id']) { ?>
 						<div class="col-lg-2  text-leftt">
 							<img src="<?php echo $row['img_addr'] ?>" width="50%" height="50%"
 							     style="max-width: 70px;max-height: 70px">
+							<?php if ($row['isread'] == "false") {
+								echo "	<span  class=\"btn btn-danger\" >未读</span>";
+							} else {
+								echo "	<span  class=\"btn btn-success\" >已读</span>";
+							}
+							?>
 						</div>
 					<?php } ?>
 				</div>
@@ -140,5 +156,6 @@ require('../PHP/conn.php');
 <?php } else {
 	echo "<span class=\"btn btn-warning btn-block\">您和他（她）暂不是好友哦，请成为好友再来聊天哦！<a class=\"btn btn-link\" href=\"{$_SERVER['HTTP_REFERER']}\">返回</a></span>";
 } ?>
+<script src="../JS/index_jquery.js"></script>
 </body>
 </html>

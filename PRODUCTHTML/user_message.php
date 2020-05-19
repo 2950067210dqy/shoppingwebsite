@@ -7,11 +7,23 @@ $user_id = $_POST['user_id'];
 $reply_user_id = $_POST['reply_user_id'];
 if (isset($_POST['message'])) {
 	$message = $_POST['message'];
-	$sql = "insert into message values (null,$user_id,$reply_user_id,'$message',null)";
+	$sql = "insert into message values (null,$user_id,$reply_user_id,'$message',null,'false')";
 	$conn -> query($sql);
 //	发送消息
 	$sql = "insert into add_user_message values (null,$user_id,$reply_user_id,'message',null,null,null,'false')";
 	$conn -> query($sql);
+}
+
+//如果对方用户发消息过来而当前用户正在聊天页面，则接收的提示消息自动变为已读。
+$sql = "select add_user_message_id,isread,type from add_user_message where user_id={$reply_user_id} and send_user_id={$user_id}";
+$result = $conn -> query($sql);
+if ($result -> num_rows > 0) {
+	while ($row = $result -> fetch_assoc()) {
+		if ($row['type'] === "message" && $row['isread'] === "false") {
+			$sql = "update add_user_message set isread='true' where add_user_message_id={$row['add_user_message_id']}";
+			$conn -> query($sql);
+		}
+	}
 }
 ?>
 
@@ -22,9 +34,17 @@ $result = $conn -> query($sql);
 while ($row = $result -> fetch_assoc()) {
 	if ($row) {
 		?>
-		<div class="row" style="margin-bottom: 5%">
+		<div class="row rowcontainer" style="margin-bottom: 5%">
+			<!--							存储信息id-->
+			<input type="hidden" value="<?php echo $row['message_id'] ?>" class="message_id">
 			<?php if ($row['reply_user_id'] == $reply_user_id) { ?>
 				<div class="col-lg-2 col-lg-offset-2 text-right">
+					<?php if ($row['isread'] == "false") {
+						echo "	<span  class=\"btn btn-danger\" >未读</span>";
+					} else {
+						echo "	<span  class=\"btn btn-success\" >已读</span>";
+					}
+					?>
 					<img src="<?php echo $row['img_addr'] ?>" width="50%" height="50%"
 					     style="max-width: 70px;max-height: 70px">
 				</div>
@@ -58,6 +78,12 @@ while ($row = $result -> fetch_assoc()) {
 				<div class="col-lg-2  text-leftt">
 					<img src="<?php echo $row['img_addr'] ?>" width="50%" height="50%"
 					     style="max-width: 70px;max-height: 70px">
+					<?php if ($row['isread'] == "false") {
+						echo "	<span  class=\"btn btn-danger\" >未读</span>";
+					} else {
+						echo "	<span  class=\"btn btn-success\" >已读</span>";
+					}
+					?>
 				</div>
 			<?php } ?>
 		</div>

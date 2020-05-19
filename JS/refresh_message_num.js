@@ -4,7 +4,7 @@ setInterval(function () {
 		type: "post",
 		success: function (result) {
 			$('#message_num').html(result);
-			console.log(1);
+			console.log(result);
 		},
 		error: function (xhr, status, p3) {
 			// var err = "Error:" + status + "/" + p3;

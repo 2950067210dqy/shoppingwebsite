@@ -4,8 +4,8 @@
 ?>
 <div class="topnav">
 	<div class="topnavin">
-		<div class="place" onclick="">
-			<a href="#">九江市</a>
+		<div class="place">
+			<a href="websitedir.php">网站目录文件</a>
 		</div>
 		<div class="nav">
 			<ul class="topnavul">
@@ -65,7 +65,13 @@
 				<li id='message_num'>
 					<?php
 					if ((isset($_SESSION['isadmin']))) {
-						echo "<a href='user_message.php'><span >我的消息</span></a>";
+						$sql = "select add_user_message_id from add_user_message where user_id ={$_SESSION['id']} and isread ='false'";
+						$result = $conn -> query($sql);
+						if ($result -> num_rows > 0) {
+							echo "<a href='user_message.php'><span class='btn btn-danger'>您有{$result->num_rows}条新消息!</span><audio src='../MUSIC/tip.mp3' autoplay></audio></a>";
+						} else {
+							echo "<a href='user_message.php'><span >我的消息</span></a>";
+						}
 					} else {
 						echo "<a href='#'>客户服务</a>";
 					}

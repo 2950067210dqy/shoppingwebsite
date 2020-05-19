@@ -47,7 +47,7 @@ alert('{$_POST['textarea']}');
 		$product_id = $_GET['product_id'];
 		$type = $_GET['type'];
 		//加入评论
-		$sql = "insert into diary values (null,{$user_id},'$username','$textarea',null,{$product_id},'$type','false')";
+		$sql = "insert into diary values (null,{$user_id},'$username','$textarea',null,{$product_id},'$type')";
 		if ($conn -> query($sql)) {
 			echo "<script>alert('评论成功！');location.assign('{$_SERVER['HTTP_REFERER']}'+'#refresh')</script>";
 		} else {
