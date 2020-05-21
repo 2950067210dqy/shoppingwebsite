@@ -1,5 +1,9 @@
 <?php
+session_start();
 require('../PHP/conn.php');
+if ($_GET['id'] == $_SESSION['id']) {
+	echo "<script>location.assign('user.php')</script>";
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -97,12 +101,12 @@ require('../PHP/conn.php');
 						<tr>
 							<td><span>账号：</span></td>
 							<td><input disabled="false" type="text" name="id" id="id"
-							           value="<?php echo $row['username']; ?>" maxlength="10" minlength="4"></td>
+							           value="<?php echo $row['username']; ?>" maxlength="30" minlength="4"></td>
 						</tr>
 						<tr>
 							<td><span>邮箱：</span></td>
 							<td><input disabled="false" type="text" name="email" id="email"
-							           value="<?php echo $row['email']; ?>" minlength="7" maxlength="25"></td>
+							           value="<?php echo $row['email']; ?>" minlength="7" maxlength="30"></td>
 						</tr>
 						<tr>
 							<td><span>手机号码：</span></td>
@@ -112,7 +116,7 @@ require('../PHP/conn.php');
 						<tr>
 							<td><span>用户名：</span></td>
 							<td><input disabled="false" type="text" id="name" name="name"
-							           value="<?php echo $row['name']; ?>" minlength="1" maxlength="10"></td>
+							           value="<?php echo $row['name']; ?>" minlength="1" maxlength="30"></td>
 						</tr>
 						<tr>
 							<td><span>性别：</span></td>
@@ -138,12 +142,12 @@ require('../PHP/conn.php');
 						<tr>
 							<td><span>密码：</span></td>
 							<td><input disabled="false" id="password" type="password" name="password"
-							           value="<?php echo $row['password']; ?>" maxlength="12" minlength="6"></td>
+							           value="<?php echo $row['password']; ?>" maxlength="30" minlength="6"></td>
 						</tr>
 						<tr>
 							<td><span>是否为管理员：</span></td>
 							<td><input readonly type="text" name="isadmin" value="<?php echo $row['isadmin']; ?>"
-							           maxlength="12" minlength="6"></td>
+							           maxlength="30" minlength="6"></td>
 						</tr>
 						<tr>
 							<td><span>职业：</span></td>
@@ -156,7 +160,7 @@ require('../PHP/conn.php');
 								}
 								
 								?>
-                        " maxlength="5" minlength="5">
+                        " maxlength="30" minlength="5">
 							</td>
 						</tr>
 						

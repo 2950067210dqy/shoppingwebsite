@@ -56,29 +56,30 @@ $(document).ready(function () {
 	//给动态添加的元素绑定事件(添加好友)
 	$('#search_result').on('click', '.add_user_friend', function () {
 		//获取动态元素的值
-		$(this).children('.add_user_friend_btn').removeClass('btn-danger');
-		$(this).children('.add_user_friend_btn').addClass('btn-success');
-		$(this).children('.add_user_friend_btn').html('好友申请已发送');
-		let user_id = $(this).children('.user_id').val();
-		let send_user_id = $('#login_user_id').val();
-		$.ajax({
-			url: "../PRODUCTHTML/add_user_friend_message.php",
-			type: "post",
-			data: {
-				"user_id": user_id,
-				"send_user_id": send_user_id,
-				"type": "add"
-			},
-			success: function (result) {
-				console.log(1);
-			},
-			error: function (xhr, status, p3) {
-				// var err = "Error:" + status + "/" + p3;
-				// alert(err);
-			}
-			
-		});
-		
+		if ($(this).children('.add_user_friend_btn').html() === "加为好友") {
+			$(this).children('.add_user_friend_btn').removeClass('btn-danger');
+			$(this).children('.add_user_friend_btn').addClass('btn-success');
+			$(this).children('.add_user_friend_btn').html('好友申请已发送');
+			let user_id = $(this).children('.user_id').val();
+			let send_user_id = $('#login_user_id').val();
+			$.ajax({
+				url: "../PRODUCTHTML/add_user_friend_message.php",
+				type: "post",
+				data: {
+					"user_id": user_id,
+					"send_user_id": send_user_id,
+					"type": "add"
+				},
+				success: function (result) {
+					console.log(1);
+				},
+				error: function (xhr, status, p3) {
+					// var err = "Error:" + status + "/" + p3;
+					// alert(err);
+				}
+				
+			});
+		}
 	});
 	
 	//当鼠标移入好友时，删除好友按钮显示

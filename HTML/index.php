@@ -1109,17 +1109,21 @@ if (isset($_SESSION['id'])) {
 				$result =$conn->query($sql);
 //				$result =$conn->query('select * from boy_clothes_product where type=\'boy_shirt\' limit 0,60');
 				$i=1;?>
-		<div class="row" >
-			<div class="col-lg-11 text-left" id="product_type" style=" color: white;background-color:  rgb(1,158,210);font-size: 25px;box-shadow:0px 0px  10px 5px #aaa;">
+		<div class="row">
+			<div class="col-lg-11 text-left" id="product_type"
+			     style=" color: white;background-color:  rgb(1,158,210);font-size: 25px;box-shadow:0px 0px  10px 5px #aaa;">
 				男士衬衫
 			</div>
-			<div class="col-lg-1 text-right"  style=" color: white;background-color:  rgb(1,158,210);font-size: 25px;box-shadow:10px 0px  10px 5px #aaa;">
-				<a href="product_all.php?type=boy_shirt" style="color: inherit">更多-</a>
+			<div class="col-lg-1 text-right"
+			     style=" color: white;background-color:  rgb(1,158,210);font-size: 25px;box-shadow:10px 0px  10px 5px #aaa;">
+				<a href="product_all.php?type=boy_shirt" style="color: inherit">更多</a>
 			</div>
 		</div>
 		<div class="row text-center">
 			<div class="col-lg-12">
-				<a  href="javascript:void(0)" style="cursor: pointer;background-color: transparent;font-size: 12px;color: #999999;margin-top: 5%" class="<?php echo $rows['type']?>" onclick="loadXMLDoc(this.className,1)" id="refresh">点击刷新...</a>
+				<a href="javascript:void(0)"
+				   style="cursor: pointer;background-color: transparent;font-size: 12px;color: #999999;margin-top: 5%"
+				   class="<?php echo $rows['type']?>" onclick="loadXMLDoc(this.className,1)" id="refresh">点击刷新...</a>
 			</div>
 		</div>
 		<?php

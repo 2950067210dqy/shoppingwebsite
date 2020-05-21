@@ -78,25 +78,29 @@ require('../PHP/conn.php');
 						    <td><span>账号：</span></td>
 						    <td><input disabled="false" type="text" name="id" id="id"
 						               value="<?php if (isset($_SESSION['id'])) echo $_SESSION['username']; ?>"
-						               maxlength="10" minlength="4"></td>
+						               maxlength="30" minlength="4"></td>
 					    </tr>
 					    <tr>
 						    <td><span>邮箱：</span></td>
 						    <td><input disabled="false" type="text" name="email" id="email"
 						               value="<?php if (isset($_SESSION['id'])) echo $_SESSION['email']; ?>"
-						               minlength="7" maxlength="25"></td>
-                    </tr>
-                    <tr>
-                        <td><span>手机号码：</span></td>
-                        <td><input  disabled="false" type="number"  id="phone" name="phone" value="<?php if (isset($_SESSION['id'])) echo $_SESSION['phone'] ;  ?>"  minlength="5" maxlength="11"></td>
-                    </tr>
-                    <tr>
-                        <td><span>用户名：</span></td>
-                        <td><input disabled="false" type="text"  id="name" name="name" value="<?php if (isset($_SESSION['id'])) echo $_SESSION['name'] ;  ?>" minlength="1" maxlength="10"></td>
-                    </tr>
-                    <tr>
-                        <td><span>性别：</span></td>
-                        <td >
+						               minlength="7" maxlength="30"></td>
+					    </tr>
+					    <tr>
+						    <td><span>手机号码：</span></td>
+						    <td><input disabled="false" type="number" id="phone" name="phone"
+						               value="<?php if (isset($_SESSION['id'])) echo $_SESSION['phone']; ?>"
+						               minlength="5" maxlength="11"></td>
+					    </tr>
+					    <tr>
+						    <td><span>用户名：</span></td>
+						    <td><input disabled="false" type="text" id="name" name="name"
+						               value="<?php if (isset($_SESSION['id'])) echo $_SESSION['name']; ?>"
+						               minlength="1" maxlength="30"></td>
+					    </tr>
+					    <tr>
+						    <td><span>性别：</span></td>
+						    <td>
                             <span style="position: relative;left: -200px;top: 0px;">
                             <?php
                             if (isset($_SESSION['id'])) {
@@ -108,37 +112,43 @@ require('../PHP/conn.php');
                             }
                             ?>
                             </span>
-                            </td>
-                    </tr>
-                    <tr>
-                        <td><span>邀请号：</span></td>
-                        <td><input disabled="false" type="text"  id="invitecode" name="invitecode" value="<?php if (isset($_SESSION['id'])) echo $_SESSION['invitecode'];?>" minlength="4" maxlength="4"></td>
-                    </tr>
-                    <tr>
-                        <td><span>密码：</span></td>
-                        <td><input disabled="false"  id="password" type="password" name="password" value="<?php if (isset($_SESSION['id'])) echo $_SESSION['password'] ;  ?>" maxlength="12" minlength="6"></td>
-                    </tr>
-	                <tr>
-		                <td><span>是否为管理员：</span></td>
-		                <td><input readonly type="text"  name="isadmin" value="<?php if (isset($_SESSION['id'])) echo $_SESSION['isadmin'] ;  ?>" maxlength="12" minlength="6"></td>
-	                </tr>
-                    <tr>
-                        <td><span>职业：</span></td>
-                        <td><input disabled="false" type="text" id="career" name="career" value="<?php
-	                        if (isset($_SESSION['id'])) {
-		                        if ($_SESSION['career'] == "") {
-			                        echo "未知";
-		                        } else {
-			                        echo $_SESSION['career'];
-		                        }
+						    </td>
+					    </tr>
+					    <tr>
+						    <td><span>邀请号：</span></td>
+						    <td><input disabled="false" type="text" id="invitecode" name="invitecode"
+						               value="<?php if (isset($_SESSION['id'])) echo $_SESSION['invitecode']; ?>"
+						               minlength="4" maxlength="4"></td>
+					    </tr>
+					    <tr>
+						    <td><span>密码：</span></td>
+						    <td><input disabled="false" id="password" type="password" name="password"
+						               value="<?php if (isset($_SESSION['id'])) echo $_SESSION['password']; ?>"
+						               maxlength="30" minlength="6"></td>
+					    </tr>
+					    <tr>
+						    <td><span>是否为管理员：</span></td>
+						    <td><input readonly type="text" name="isadmin"
+						               value="<?php if (isset($_SESSION['id'])) echo $_SESSION['isadmin']; ?>"
+						               maxlength="30" minlength="6"></td>
+					    </tr>
+					    <tr>
+						    <td><span>职业：</span></td>
+						    <td><input disabled="false" type="text" id="career" name="career" value="<?php
+							    if (isset($_SESSION['id'])) {
+								    if ($_SESSION['career'] == "") {
+									    echo "未知";
+								    } else {
+									    echo $_SESSION['career'];
+								    }
 	                        }
                             ?>
-                        " maxlength="5" minlength="5">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <?php
+                        " maxlength="30" minlength="5">
+						    </td>
+					    </tr>
+					    <tr>
+						    <td>
+							    <?php
                             //查找session存储的账号是不是管理员账号，是的话就显示到管理员界面信息
                            if($_SESSION['isadmin']=="false"){
                                echo '<input type="submit" name="update"  id="update" value="提交信息" disabled="false"></td>';

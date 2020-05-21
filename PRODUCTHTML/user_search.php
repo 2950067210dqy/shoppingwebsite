@@ -34,9 +34,13 @@ if ($result && $result -> num_rows > 0) {
 						$sql = "select user_friend_list_id from user_friend where user_id={$user_id} and user_friend_id={$row['id']}";
 						$result2 = $conn -> query($sql);
 						if ($result2 -> num_rows > 0) {
-							echo "<a class=\"btn btn-success btn-block \" >用户已是您的好友</a>";
+							echo "<a class=\"btn btn-success btn-block add_user_friend_btn\" >用户已是您的好友</a>";
 						} else {
-							echo "<a class=\"btn btn-danger btn-block  add_user_friend_btn\" >加为好友</a>";
+							if ($_SESSION['id'] == $row['id']) {
+								echo "<a class=\"btn btn-success btn-block add_user_friend_btn\" >自己</a>";
+							} else {
+								echo "<a class=\"btn btn-danger btn-block  add_user_friend_btn\" >加为好友</a>";
+							}
 						}
 						?>
 						<!--			存储该用户的id-->
