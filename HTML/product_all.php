@@ -32,7 +32,6 @@ if(!isset($_GET['price'])||$_GET['price']=="asc"){
 	
 	<link href="../CSS/index.css" rel="stylesheet" type="text/css">
 
-
 </head>
 <body>
 <a href="#" class="btn btn-danger text-center" style="position: fixed;z-index: 99;top: 30%;right: 3%;">返回顶部</a>
@@ -64,8 +63,8 @@ if(!isset($_GET['price'])||$_GET['price']=="asc"){
 				<a href="#" >
 					<img height="60"  width="90" src="../IMG/logo3.png" alt="七天放心">
 				</a>
-				<a href="#" >
-					<img height="60"  width="90" src="../IMG/logo4.png" alt="3亿会员">
+				<a href="#">
+					<img height="60" width="90" src="../IMG/logo4.png" alt="3亿会员">
 				</a>
 			
 			
@@ -74,9 +73,64 @@ if(!isset($_GET['price'])||$_GET['price']=="asc"){
 			<div style="margin-top: 25px">
 				<div class="search">
 					<div class="searchinput_shopcarinput">
-						<form action="../PHP/server.php" method="post">
-							<input type="text" max="10" placeholder="请输入你要查找的商品" name="searchtext">
-							<input type="submit" name="search" value="">
+						<form action="<?php echo "{$_SERVER['PHP_SELF']}" ?>" id="search_form">
+							<input type="hidden" value="<?php echo $_GET['type']; ?>" name="type">
+							<input type="text" placeholder="搜索商品" name="searchtext" style="display: inline;width: 30%"
+							       id="search_text">
+							<select id="search_sel" name="search_sel">
+								<option value="product_name">商品名</option>
+								<option value="product_price">价钱</option>
+							</select>
+							<span id="product_price" style="display: none">￥<input disabled type="number"
+							                                                       name="from_price" id="from_price"
+							                                                       style="width: 10%"><b>——</b>￥<input
+										disabled type="number" name="to_price" id="to_price" style="width: 10%"></span>
+							<input type="image" name="search" src="../IMG/search.png"
+							       style="width: 50px;height:30px;display: inline" id="search_btn">
+							<script>
+								$(document).ready(function () {
+									
+									//点击价钱select时，价钱的input显示
+									$('#search_sel').on("change", function () {
+										document.getElementById('search_text').toggleAttribute("disabled");
+										document.getElementById('from_price').toggleAttribute("disabled");
+										document.getElementById('to_price').toggleAttribute("disabled");
+										$('#search_text').toggle('fast');
+										$('#product_price').toggle('fast');
+										$('#product_price').css("display", "inline");
+									});
+									
+									//检测输入框得值是否违法
+									$('#search_form').on('submit', function () {
+										if ($('#search_text').css("display") === "none") {
+											var from_price = parseInt($('#from_price').val());
+											var to_price = parseInt($('#to_price').val());
+											if (from_price && to_price) {
+												if (from_price >= 0 && to_price >= 0) {
+													return true;
+												} else {
+													alert("价格不能为负数！");
+													$('#from_price').val('');
+													$('#to_price').val('')
+													return false;
+												}
+											} else {
+												alert("价格不能为空！");
+												return false;
+											}
+										} else {
+											var search_text = $('#search_text').val();
+											if (search_text) {
+												return true;
+											} else {
+												return false;
+											}
+										}
+										
+									});
+								});
+							</script>
+							
 							<span class="shopcar">
                         <a href="javascript:void(0)" class="shopcar">
                             <span class="shopcar_img"><img src="../IMG/shopcar.png" width="25" height="25"> </span>
@@ -88,59 +142,15 @@ if(!isset($_GET['price'])||$_GET['price']=="asc"){
 		                            echo $result -> num_rows;
 	                            } ?></span>
                         </a>
-                    </span>
-						
+                        </span>
 						</form>
 					</div>
-				</div>
-				<!-- recommend 为推荐的意思-->
-				<div class="recommend">
-					<ul>
-						<li>
-							<a href="#">
-								女靴
-							</a>
-						</li>
-						<li>
-							|
-						</li>
-						<li>
-							<a href="#">
-								皮衣/皮草
-							</a>
-						</li>
-						<li>
-							|
-						</li>
-						<li>
-							<a href="#">
-								女士羽绒服
-							</a>
-						</li>
-						<li>
-							|
-						</li>
-						<li>
-							<a href="#"  style="color:  rgb(250,42,131)">
-								斯维奇
-							</a>
-						</li>
-						<li>
-							|
-						</li>
-						<li >
-							<a href="#" style="color: rgb(250,42,131)">
-								年终预付&nbsp;&nbsp;一件免邮
-							</a>
-						</li>
-					
-					</ul>
 				</div>
 			</div>
 		</div>
 	</div>
 	
-<!--	商品排列方式菜单-->
+	<!--	商品排列方式菜单-->
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-2 text-center">
@@ -162,61 +172,102 @@ if(!isset($_GET['price'])||$_GET['price']=="asc"){
 					case    "boy_xifu":$typeName="男西服套装";	break;
 					case	"boy_txue":$typeName="男T恤";	break;
 					case	"boy_xiuxianku":$typeName="男休闲裤";	break;
-					case	"girl_lianyiqun":$typeName="女连衣裙";	break;
-					case    "girl_banshenqun":$typeName="女半身裙";	break;
-					case    "girl_duanwaitao":$typeName="女短外套";	break;
-					case    "girl_xiaoxizhuang":$typeName="女小西装";	break;
-					case    "girl_yangrongshan":$typeName="女羊绒衫";	break;
-					case    "girl_hunsha":$typeName="女婚纱";	break;
-					default:break;
+					case    "girl_lianyiqun":
+						$typeName = "女连衣裙";
+						break;
+					case    "girl_banshenqun":
+						$typeName = "女半身裙";
+						break;
+					case    "girl_duanwaitao":
+						$typeName = "女短外套";
+						break;
+					case    "girl_xiaoxizhuang":
+						$typeName = "女小西装";
+						break;
+					case    "girl_yangrongshan":
+						$typeName = "女羊绒衫";
+						break;
+					case    "girl_hunsha":
+						$typeName = "女婚纱";
+						break;
+					default:
+						break;
 				}
 				?>
-				<div class="col-lg-12 text-left" id="product_type" style=" color: white;background-color:  rgb(1,158,210);font-size: 25px;box-shadow:0px 0px  10px 5px #aaa;">
-				<?php echo $typeName;?>
+				<div class="col-lg-12 text-left" id="product_type"
+				     style=" color: white;background-color:  rgb(1,158,210);font-size: 25px;box-shadow:0px 0px  10px 5px #aaa;">
+					<?php
+					echo $typeName;
+					if (isset($_GET["searchtext"]) || (isset($_GET["from_price"]) && isset($_GET['to_price']))) {
+						echo "<a class='btn btn-default' href='{$_SERVER['PHP_SELF']}?type={$_GET['type']}'>返回</a>";
+					}
+					?>
 				</div>
-<!--			商品信息容器-->
+				<!--			商品信息容器-->
 				<?php
-			$pageSize=96;
-			if(isset($_GET['Page'])&&(int)$_GET['Page']>0){
-				$page=$_GET['Page'];
-			}
-			else{
-				$page=1;
-			}
-			$sql="select id from {$_GET['type']}";
-			$result=$conn->query($sql);
-			$RecordCount=$result->num_rows;
-			$page==1?$limitindex=0:$limitindex=($page-1)*$pageSize;
-			if(!isset($_GET['price'])||$_GET['price']=="asc")
-				$sql="select id,type,img_addre,title,merchant_addre,merchant,merchant_place,price from {$_GET['type']} limit $limitindex,$pageSize";
-			elseif($_GET['price']=="desc")
-				$sql="select id,type,img_addre,title,merchant_addre,merchant,merchant_place,price from {$_GET['type']} order by price asc limit $limitindex,$pageSize";
-			else{
-				$sql="select id,type,img_addre,title,merchant_addre,merchant,merchant_place,price from {$_GET['type']} order by price desc limit $limitindex,$pageSize";
-			}
-			$result=$conn->query($sql);
-			while($row=$result->fetch_assoc()){
-			if ($row){
-				?>
-				<div class="col-sm-4 col-xs-6 col-md-2">
-					<div class="thumbnail" style="height: 380px">
-						<a href="product.php?id=<?php echo $row['id']; ?>&type=<?php echo $row['type']; ?>"><img
-									src="<?php echo $row['img_addre']; ?>"></a>
-						<div class="caption">
-							<span style="font-size: 20px;color: #e4393c;">￥<?php echo $row['price']; ?></span>
-							<p><a href="product.php?id=<?php echo $row['id']; ?>&type=<?php echo $row['type']; ?>"
-							      class="item_title"><?php if(strlen($row['title'])>150) echo substr($row['title'],0,150).'....';else echo $row['title']; ?></a></p>
-							<p><a href="<?php echo $row['merchant_addre']; ?>" class="item_merchant"><font
-											color="#4d88ff">●</font><?php echo $row['merchant']; ?></a>
-								<span class="item_merchant_place"> <?php echo $row['merchant_place']; ?></span>
-							</p>
-						</div>
-					</div>
-				</div>
-				
-				
-				<?php
-				}}
+				$pageSize = 96;
+				if (isset($_GET['Page']) && (int)$_GET['Page'] > 0) {
+					$page = $_GET['Page'];
+				} else {
+					$page = 1;
+				}
+				$sql = "select id from {$_GET['type']}";
+				//			根据搜索结果查询
+				if (isset($_GET['searchtext'])) {
+					$sql = $sql . " where title like '%{$_GET['searchtext']}%' ";
+				} elseif (isset($_GET['from_price']) && isset($_GET['to_price'])) {
+					$sql = $sql . " where price >= {$_GET['from_price']} and price <= {$_GET['to_price']}";
+				}
+				$result = $conn -> query($sql);
+				$RecordCount = $result -> num_rows;
+				$page == 1 ? $limitindex = 0 : $limitindex = ($page - 1) * $pageSize;
+				//			根据是否选择价钱排序查询
+				if (!isset($_GET['price']) || $_GET['price'] == "asc") {
+					//			根据搜索结果查询
+					$sql = "select id,type,img_addre,title,merchant_addre,merchant,merchant_place,price from {$_GET['type']}";
+					if (isset($_GET['searchtext'])) {
+						$sql = $sql . " where title like '%{$_GET['searchtext']}%' ";
+						echo " <div class=\"col-lg-12 text-center\" style='font-size: 25px'>您查询到的商品名为'{$_GET['searchtext']}',共查询到{$RecordCount}条记录 </div>";
+					} elseif (isset($_GET['from_price']) && isset($_GET['to_price'])) {
+						$sql = $sql . " where price >= {$_GET['from_price']} and price <= {$_GET['to_price']} order by price asc";
+						echo " <div class=\"col-lg-12 text-center\" style='font-size: 25px'>您查询的商品价格区间为￥{$_GET['from_price']}-￥{$_GET['to_price']},共查询到{$RecordCount}条记录 </div>";
+					}
+					$sql = $sql . "  limit $limitindex,$pageSize";
+				} elseif ($_GET['price'] == "desc")
+					$sql = "select id,type,img_addre,title,merchant_addre,merchant,merchant_place,price from {$_GET['type']} order by price asc limit $limitindex,$pageSize";
+				elseif ($_GET['price'] == "random") {
+					$sql = "select id,type,img_addre,title,merchant_addre,merchant,merchant_place,price from {$_GET['type']} order by price desc limit $limitindex,$pageSize";
+				}
+				$result = $conn -> query($sql);
+				if ($result -> num_rows > 0) {
+					while ($row = $result -> fetch_assoc()) {
+						if ($row) {
+							?>
+							<div class="col-sm-4 col-xs-6 col-md-2">
+								<div class="thumbnail" style="height: 380px">
+									<a href="product.php?id=<?php echo $row['id']; ?>&type=<?php echo $row['type']; ?>"><img
+												src="<?php echo $row['img_addre']; ?>"></a>
+									<div class="caption">
+										<span style="font-size: 20px;color: #e4393c;">￥<?php echo $row['price']; ?></span>
+										<p>
+											<a href="product.php?id=<?php echo $row['id']; ?>&type=<?php echo $row['type']; ?>"
+											   class="item_title"><?php if (strlen($row['title']) > 150) echo substr($row['title'] , 0 , 150) . '....'; else echo $row['title']; ?></a>
+										</p>
+										<p><a href="<?php echo $row['merchant_addre']; ?>" class="item_merchant"><font
+														color="#4d88ff">●</font><?php echo $row['merchant']; ?></a>
+											<span class="item_merchant_place"> <?php echo $row['merchant_place']; ?></span>
+										</p>
+									</div>
+								</div>
+							</div>
+							
+							
+							<?php
+						}
+					}
+				} else {
+					echo "<div class=\"col-lg-12 text-center\" style='font-size: 27px'>暂无结果，请换个关键词查询把！</div>";
+				}
 			$result->free_result();
 			?>
 			</div>
@@ -225,10 +276,17 @@ if(!isset($_GET['price'])||$_GET['price']=="asc"){
 		<nav class="text-center">
 			<ul class="pagination">
 				<?php
-				if($RecordCount>0){
-					$url=$_SERVER['PHP_SELF'].'?type='.$_GET['type'];//获取当前页的URL
-					page($RecordCount,$pageSize,$page,$url);
-					$PageCount=ceil($RecordCount/$pageSize);
+				if($RecordCount>0) {
+					$url = $_SERVER['PHP_SELF'] . '?type=' . $_GET['type'];//获取当前页的URL
+					if (isset($_GET['searchtext'])) {
+						page($RecordCount , $pageSize , $page , $url , $_GET['searchtext']);
+					} elseif (isset($_GET['from_price']) && isset($_GET['to_price'])) {
+						page($RecordCount , $pageSize , $page , $url , null , null , $_GET['from_price'] , $_GET['to_price']);
+					} else {
+						page($RecordCount , $pageSize , $page , $url);
+					}
+					
+					$PageCount = ceil($RecordCount / $pageSize);
 					echo " &nbsp;共{$RecordCount}条记录 &nbsp;  <input type='number' id='goPage' value='$page' style='width: 50px' onblur=\"goPage(this.value,'{$url}','{$page}','{$PageCount}')\">/$PageCount 页";
 				}
 				?>

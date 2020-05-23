@@ -149,26 +149,28 @@ function updateTwo($table,$index,$string,$index2,$string2,$indexwhere,$stringwhe
 }
 
 //分页
-function page($RecordCount,$PageSize,$Page,$url,$keyword=null,$sel=null){
-	$PageCount=ceil($RecordCount/$PageSize);//总页数
-	$page_previous=($Page<=1)?1:$Page-1;//计算上一页的页数
-	$page_next=($Page>=$PageCount)?$PageCount:$Page+1;//计算下一页的页数
-	$page_start=($Page-5>0)?$Page-5:0;//只显示本页的前5页的页面
-	$page_end=($page_start+10<$PageCount)?$page_start+10:$PageCount;//后五页
-	$page_start=$page_end-10;
-	if ($page_start<0){
-		$page_start=0;//若当前页面不合法，更正
-	}
-	$parse_url=parse_url($url);//判断url是否含有字符串
-	if(empty($parse_url['query'])){
-		$url=$url.'?';//若不存在，在url后面添加?
-	}
-	else{
-		$url=$url.'&';//若存在，在后面添加&
-	}
-	
-		if($Page==1){
-			$str="<li class=\"disabled\">
+function page($RecordCount , $PageSize , $Page , $url , $searchtext = null , $sel = null , $from_price = null , $to_price = null)
+{
+	$PageCount = ceil($RecordCount / $PageSize);//总页数
+	$page_previous = ($Page <= 1) ? 1 : $Page - 1;//计算上一页的页数
+	$page_next = ($Page >= $PageCount) ? $PageCount : $Page + 1;//计算下一页的页数
+	$page_start = ($Page - 5 > 0) ? $Page - 5 : 0;//只显示本页的前5页的页面
+	$page_end = ($page_start + 10 < $PageCount) ? $page_start + 10 : $PageCount;//后五页
+	$page_start = $page_end - 10;
+//	有搜索内容
+	if (!is_null($searchtext)) {
+		if ($page_start < 0) {
+			$page_start = 0;//若当前页面不合法，更正
+		}
+		$parse_url = parse_url($url);//判断url是否含有字符串
+		if (empty($parse_url['query'])) {
+			$url = $url . '?';//若不存在，在url后面添加?
+		} else {
+			$url = $url . '&';//若存在，在后面添加&
+		}
+		
+		if ($Page == 1) {
+			$str = "<li class=\"disabled\">
 					<a href=\"javascript:void(0)\" >
 						首页
 					</a>
@@ -181,23 +183,23 @@ function page($RecordCount,$PageSize,$Page,$url,$keyword=null,$sel=null){
 			";
 		}
 		else
-			$str="<li >
-					<a href=\"{$url}Page=1#refresh\" >
+			$str= "<li >
+					<a href=\"{$url}Page=1&searchtext={$searchtext}&sel={$sel}#refresh\" >
 						首页
 					</a>
 				</li>
 					<li>
-					<a href=\"{$url}Page={$page_previous}#refresh\" aria-label=\"Previous\">
+					<a href=\"{$url}Page={$page_previous}&searchtext={$searchtext}&sel={$sel}#refresh\" aria-label=\"Previous\">
 						<span aria-hidden=\"true\">&laquo;</span>
 					</a>
 				</li>";
-		for ($i=$page_start;$i<$page_end;$i++){
-			$j=$i+1;
-			if($Page==$j){
-				$str=$str."<li class='active'><a href=\"javascript:void(0)\">$Page</a></li>";
+		for ($i=$page_start;$i<$page_end;$i++) {
+			$j = $i + 1;
+			if ($Page == $j) {
+				$str = $str . "<li class='active'><a href=\"javascript:void(0)\">$Page</a></li>";
 				continue;
 			}
-			$str=$str."<li><a href=\"{$url}Page={$j}#refresh\">$j</a></li>";
+			$str = $str . "<li><a href=\"{$url}Page={$j}&searchtext={$searchtext}&sel={$sel}#refresh\">$j</a></li>";
 		}
 		if ($Page==$PageCount)
 			$str=$str."<li class='disabled'>
@@ -212,7 +214,143 @@ function page($RecordCount,$PageSize,$Page,$url,$keyword=null,$sel=null){
 				</li>
 				";
 		else
-			$str=$str."<li>
+			$str=$str. "<li>
+					<a href=\"{$url}Page={$page_next}&searchtext={$searchtext}&sel={$sel}#refresh\" aria-label=\"Next\">
+						<span aria-hidden=\"true\">&raquo;</span>
+					</a>
+				</li>
+				<li>
+					<a href=\"{$url}Page={$PageCount}&searchtext={$searchtext}&sel={$sel}#refresh\" >
+						末页
+					</a>
+				</li>
+				";
+		echo $str;
+	} //	有价格区间
+	elseif (!is_null($from_price) && !is_null($to_price)) {
+		if ($page_start < 0) {
+			$page_start = 0;//若当前页面不合法，更正
+		}
+		$parse_url = parse_url($url);//判断url是否含有字符串
+		if (empty($parse_url['query'])) {
+			$url = $url . '?';//若不存在，在url后面添加?
+		} else {
+			$url = $url . '&';//若存在，在后面添加&
+		}
+		
+		if ($Page == 1) {
+			$str = "<li class=\"disabled\">
+					<a href=\"javascript:void(0)\" >
+						首页
+					</a>
+				</li>
+				<li class=\"disabled\">
+					<a href=\"javascript:void(0)\" aria-label=\"Previous\">
+						<span aria-hidden=\"true\">&laquo;</span>
+					</a>
+				</li>
+			";
+		} else
+			$str = "<li >
+					<a href=\"{$url}Page=1&from_price={$from_price}&to_price={$to_price}#refresh\" >
+						首页
+					</a>
+				</li>
+					<li>
+					<a href=\"{$url}Page={$page_previous}&from_price={$from_price}&to_price={$to_price}#refresh\" aria-label=\"Previous\">
+						<span aria-hidden=\"true\">&laquo;</span>
+					</a>
+				</li>";
+		for ($i = $page_start; $i < $page_end; $i ++) {
+			$j = $i + 1;
+			if ($Page == $j) {
+				$str = $str . "<li class='active'><a href=\"javascript:void(0)\">$Page</a></li>";
+				continue;
+			}
+			$str = $str . "<li><a href=\"{$url}Page={$j}&from_price={$from_price}&to_price={$to_price}#refresh\">$j</a></li>";
+		}
+		if ($Page == $PageCount)
+			$str = $str . "<li class='disabled'>
+					<a href=\"javascript:void(0)\" aria-label=\"Next\">
+						<span aria-hidden=\"true\">&raquo;</span>
+					</a>
+				</li>
+				<li class='disabled'>
+					<a href=\"javascript:void(0)\" >
+						末页
+					</a>
+				</li>
+				";
+		else
+			$str = $str . "<li>
+					<a href=\"{$url}Page={$page_next}&from_price={$from_price}&to_price={$to_price}#refresh\" aria-label=\"Next\">
+						<span aria-hidden=\"true\">&raquo;</span>
+					</a>
+				</li>
+				<li>
+					<a href=\"{$url}Page={$PageCount}&from_price={$from_price}&to_price={$to_price}#refresh\" >
+						末页
+					</a>
+				</li>
+				";
+		echo $str;
+	} //	默认
+	else {
+		if ($page_start < 0) {
+			$page_start = 0;//若当前页面不合法，更正
+		}
+		$parse_url = parse_url($url);//判断url是否含有字符串
+		if (empty($parse_url['query'])) {
+			$url = $url . '?';//若不存在，在url后面添加?
+		} else {
+			$url = $url . '&';//若存在，在后面添加&
+		}
+		
+		if ($Page == 1) {
+			$str = "<li class=\"disabled\">
+					<a href=\"javascript:void(0)\" >
+						首页
+					</a>
+				</li>
+				<li class=\"disabled\">
+					<a href=\"javascript:void(0)\" aria-label=\"Previous\">
+						<span aria-hidden=\"true\">&laquo;</span>
+					</a>
+				</li>
+			";
+		} else
+			$str = "<li >
+					<a href=\"{$url}Page=1#refresh\" >
+						首页
+					</a>
+				</li>
+					<li>
+					<a href=\"{$url}Page={$page_previous}#refresh\" aria-label=\"Previous\">
+						<span aria-hidden=\"true\">&laquo;</span>
+					</a>
+				</li>";
+		for ($i = $page_start; $i < $page_end; $i ++) {
+			$j = $i + 1;
+			if ($Page == $j) {
+				$str = $str . "<li class='active'><a href=\"javascript:void(0)\">$Page</a></li>";
+				continue;
+			}
+			$str = $str . "<li><a href=\"{$url}Page={$j}#refresh\">$j</a></li>";
+		}
+		if ($Page == $PageCount)
+			$str = $str . "<li class='disabled'>
+					<a href=\"javascript:void(0)\" aria-label=\"Next\">
+						<span aria-hidden=\"true\">&raquo;</span>
+					</a>
+				</li>
+				<li class='disabled'>
+					<a href=\"javascript:void(0)\" >
+						末页
+					</a>
+				</li>
+				";
+		else
+			$str = $str . "<li>
 					<a href=\"{$url}Page={$page_next}#refresh\" aria-label=\"Next\">
 						<span aria-hidden=\"true\">&raquo;</span>
 					</a>
@@ -223,7 +361,8 @@ function page($RecordCount,$PageSize,$Page,$url,$keyword=null,$sel=null){
 					</a>
 				</li>
 				";
-	echo $str;
+		echo $str;
+	}
 }
 
 function getTOP()

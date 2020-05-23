@@ -53,37 +53,32 @@ if(isset($_GET['id'])){
 <input type="hidden" value="
 <?php
 //一级评论数
-$RecordCount=null;
-if (isset($_GET['id'])){
-	$sql="select diary_id from diary where product_id = {$_GET['id']} and product_type='{$_GET['type']}'";
-	$result=$conn->query($sql);
+$RecordCount = null;
+if (isset($_GET['id'])) {
+	$sql = "select diary_id from diary where product_id = {$_GET['id']} and product_type='{$_GET['type']}'";
+	$result = $conn -> query($sql);
 	$RecordCount = $result -> num_rows;
 	echo $RecordCount;
 }
 ?>" id="singleNums">
+<!--用来存储登录的状态-->
+<input type="hidden" value="<?php
+if (isset($_SESSION['id'])) {
+	echo 'yes';
+} else {
+	echo 'no';
+}
+?>" id="isLogin">
+<!--用来存储当前商品的ID-->
+<input type="hidden" value="<?php echo $_GET['id'] ?>" id="productid">
+<!--用来存储当前商品的类型-->
+<input type="hidden" value="<?php echo $_GET['type'] ?>" id="producttype">
 <!--用来存储评论的从哪显示-->
 <!--<input type="hidden" value="5" id="postNum">-->
 
 
 <!--网页主体-->
 <div class="main">
-	<!--
-			存储数据
--->
-	<!--用来存储登录的状态-->
-	<input type="hidden" value="<?php
-	if (isset($_SESSION['id'])) {
-		echo 'yes';
-	} else {
-		echo 'no';
-	}
-	?>" id="isLogin">
-	<!--用来存储当前商品的ID-->
-	<input type="hidden" v-model="product.product_id=<?php echo $_GET['id'] ?>" id="productid">
-	<!--用来存储当前商品的类型-->
-	<input type="hidden" v-model="product.product_type='<?php echo $_GET['type'] ?>'" id="producttype">
-	
-	
 	<div class="topnav">
 		<div class="topnavin">
 			<div class="place" onclick="">
@@ -183,12 +178,12 @@ if (isset($_GET['id'])){
 					<li>
 						<a href="javascript:void(0)" class="shopcar">
 							我的购物车<span
-									class="shopcar_msg">{{shopnum+<?php if (!isset($_SESSION['id'])) echo 0; elseif (isset($_SESSION['shopnum'])) echo $_SESSION['shopnum'];
+								class="shopcar_msg"><?php if (!isset($_SESSION['id'])) echo 0; elseif (isset($_SESSION['shopnum'])) echo $_SESSION['shopnum'];
 								else {
 									$sql = "select id from shopcar where user_id = {$_SESSION['id']}";
 									$result = $conn -> query($sql);
 									echo $result -> num_rows;
-								} ?>}}</span></a>
+								} ?></span></a>
 					</li>
 					<li style="color: rgb(157,157,157); font-weight: bold">
 						/
@@ -246,69 +241,21 @@ if (isset($_GET['id'])){
 			<div style="margin-top: 25px">
 				<div class="search">
 					<div class="searchinput_shopcarinput">
-						<form action="../PHP/server.php" method="post">
-							<input type="text" max="10" placeholder="请输入你要查找的商品" name="searchtext">
-							<input type="submit" name="search" value="">
 							<span class="shopcar">
                         <a href="javascript:void(0)" class="shopcar">
                             <span class="shopcar_img"><img src="../IMG/shopcar.png" width="25" height="25"> </span>
                             <span class="shopcar_word">购物车</span>
 	                        <span class="shopcar_msg">
-		                       {{shopnum+<?php if (!isset($_SESSION['id'])) echo 0; elseif (isset($_SESSION['shopnum'])) echo $_SESSION['shopnum'];
-		                        else {
-			                        $sql = "select id from shopcar where user_id = {$_SESSION['id']}";
-			                        $result = $conn -> query($sql);
-			                        echo $result -> num_rows;
-		                        } ?>}}
+		                      <?php if (!isset($_SESSION['id'])) echo 0; elseif (isset($_SESSION['shopnum'])) echo $_SESSION['shopnum'];
+		                      else {
+			                      $sql = "select id from shopcar where user_id = {$_SESSION['id']}";
+			                      $result = $conn -> query($sql);
+			                      echo $result -> num_rows;
+		                      } ?>
 	                        </span>
                         </a>
                     </span>
-						
-						</form>
 					</div>
-				</div>
-				<!-- recommend 为推荐的意思-->
-				<div class="recommend">
-					<ul>
-						<li>
-							<a href="#">
-								女靴
-							</a>
-						</li>
-						<li>
-							|
-						</li>
-						<li>
-							<a href="#">
-								皮衣/皮草
-							</a>
-						</li>
-						<li>
-							|
-						</li>
-						<li>
-							<a href="#">
-								女士羽绒服
-							</a>
-						</li>
-						<li>
-							|
-						</li>
-						<li>
-							<a href="#"  style="color:  rgb(250,42,131)">
-								斯维奇
-							</a>
-						</li>
-						<li>
-							|
-						</li>
-						<li >
-							<a href="#" style="color: rgb(250,42,131)">
-								年终预付&nbsp;&nbsp;一件免邮
-							</a>
-						</li>
-					
-					</ul>
 				</div>
 			</div>
 		</div>
@@ -352,7 +299,7 @@ if (isset($_GET['id'])){
 					if ($isCollected) {
 						echo "<a href=\"javascript:void(0)\" class=\"btn btn-warning\" id='isCollected' >已收藏</a>";
 					} else {
-						echo "<a href=\"javascript:void(0)\" class=\"btn btn-success\" @click=\"addCollected\" id='isCollected'>收藏</a>";
+						echo "<a href=\"javascript:void(0)\" class=\"btn btn-success\"  id='isCollect'>收藏</a>";
 					}
 					?>
 					<!--				判断是否已经被加入购物车-->
@@ -382,14 +329,13 @@ if (isset($_GET['id'])){
 				</div>
 				<div class="product_title">
 					<font size="2px" color="#999999"><a
-								href="<?php echo $row['merchant_addre'] ?>">❥<?php echo $row['merchant']; ?></a></font>
+							href="<?php echo $row['merchant_addre'] ?>">❥<?php echo $row['merchant']; ?></a></font>
 				</div>
 				<div class="sale_price">
 					<div class="price">
 						<font size="2px" color="#999999">沁&nbsp;&nbsp;柚&nbsp;&nbsp;价</font>
-						<font style="margin-left: 2%;" color="#e4393c" size="6px" id="price">
-							￥
-							{{product.price=<?php echo intval($row['price']); ?>}}
+						<font style="margin-left: 2%;" color="#e4393c" size="6px">
+							￥<font id="price"><?php echo intval($row['price']); ?></font>
 						</font>
 					</div>
 					<div class="sale">
@@ -401,21 +347,21 @@ if (isset($_GET['id'])){
 				
 				<div class="num" id="inshopcar">
 					<font size="2px" color="#999999">数&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;量</font>
-					<input type="button" value="-" @click="cutCount" :disabled="isabled[0]">
-					<input type="tel" v-model="product.count" @keyup="check" @blur="checkAnother">
-					<input type="button" value="+" @click="addCount" :disabled="isabled[1]">
+					<input type="button" value="-" id="cut">
+					<input type="tel" value="1" id="product_num">
+					<input type="button" value="+" id="add">
 					<br>
 					<br>
 					<br>
 					<font size="2px" color="#999999">总&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;价</font>
 					<font style="margin-left: 2%;" color="#e4393c" size="6px">
-						￥{{product.price*product.count}}
+						￥<font id="all_price"><?php echo intval($row['price']); ?></font>
 					</font>
 				</div>
 				
 				<div class="buy_shopcar">
 					<button type="submit">立即购买</button>
-					<button type="button" @click="addShopNum">加入购物车</button>
+					<button type="button" id="addShopCar">加入购物车</button>
 				</div>
 				
 				<div class="tip">
@@ -871,7 +817,7 @@ if ((isset($_SESSION['isadmin']))) {
 	echo "<script src=\"../JS/refresh_message_num.js\"></script>";
 }
 ?>
-<script src="../JS/product_vue.js" id="js6"></script>
+<!--<script src="../JS/product_vue.js" id="js6"></script>-->
 
 <script src="../JS/product_jquery.js" id="js7"></script>
 </body>

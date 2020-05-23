@@ -92,20 +92,25 @@ if (isset($_SESSION['id'])) {
                     <img height="60"  width="90" src="../IMG/logo2.png" alt="100%正品">
                 </a>
                 <a href="#" >
-                    <img height="60"  width="90" src="../IMG/logo3.png" alt="七天放心">
+	                <img height="60" width="90" src="../IMG/logo3.png" alt="七天放心">
                 </a>
-                <a href="#" >
-                    <img height="60"  width="90" src="../IMG/logo4.png" alt="3亿会员">
-                </a>
+	            <a href="#">
+		            <img height="60" width="90" src="../IMG/logo4.png" alt="3亿会员">
+	            </a>
             </div>
-	        <!--	        搜索框/购物车-->
-	        <div style="margin-top: 25px">
-		        <div class="search">
-			        <div class="searchinput_shopcarinput">
-				        <form action="../PHP/server.php" method="post">
-					        <input type="text" max="10" placeholder="请输入你要查找的商品" name="searchtext">
-					        <input type="submit" name="search" value="">
-					        <span class="shopcar">
+			<!--	        搜索框/购物车-->
+			<div style="margin-top: 25px">
+				<div class="search">
+					<div class="searchinput_shopcarinput">
+						<form action="index_select.php" method="get">
+							<input type="text" max="10" placeholder="请输入你要查找的关键字,用空格隔开" name="searchtext"
+							       style="width: 50%">
+							<select id="search_sel" name="sel">
+								<option value="title">商品名</option>
+								<option value="merchant">店铺名</option>
+							</select>
+							<input type="submit" name="search" value="">
+							<span class="shopcar">
                         <a href="javascript:void(0)" class="shopcar">
                             <span class="shopcar_img"><img src="../IMG/shopcar.png" width="25" height="25"> </span>
                             <span class="shopcar_word">购物车</span>

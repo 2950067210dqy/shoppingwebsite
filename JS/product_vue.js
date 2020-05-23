@@ -1,3 +1,4 @@
+//舍弃
 var app = new Vue({
 	el:'.main',
 	data:function(){
@@ -50,6 +51,7 @@ var app = new Vue({
 			if (parseInt(this.product.count) > 99) {
 				this.count = 99;
 			}
+			
 		},
 		//检查购买数量是否为空
 		checkAnother:function() {
