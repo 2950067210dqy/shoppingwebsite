@@ -115,17 +115,36 @@ if (!isset($_GET['price']) || $_GET['price'] == "asc") {
 			} else {
 				$page = 1;
 			}
-			$sql = "select id from products where ";
-			$arr = explode(" " , $_GET['searchtext']);
-			for ($i = 0; $i < count($arr); $i ++) {
-				if ($i == (count($arr) - 1)) {
-					$sql .= " {$_GET['sel']} like '%{$arr[$i]}%'";
-				} else {
-					$sql .= " {$_GET['sel']} like '%{$arr[$i]}%' and ";
+			$table = array(
+				"boy_shirt" ,
+				"boy_yurongfu" ,
+				"boy_jiake" ,
+				"boy_xifu" ,
+				"boy_txue" ,
+				"boy_xiuxianku" ,
+				"girl_lianyiqun" ,
+				"girl_banshenqun" ,
+				"girl_duanwaitao" ,
+				"girl_xiaoxizhuang" ,
+				"girl_yangrongshan" ,
+				"girl_hunsha"
+			);
+			$allresultnum = 0;
+			foreach ($table as $value) {
+				$sql = "select id from {$value} where ";
+				$arr = explode(" " , $_GET['searchtext']);
+				for ($i = 0; $i < count($arr); $i ++) {
+					if ($i == (count($arr) - 1)) {
+						$sql .= " {$_GET['sel']} like '%{$arr[$i]}%'";
+					} else {
+						$sql .= " {$_GET['sel']} like '%{$arr[$i]}%' and ";
+					}
 				}
+				$result = $conn -> query($sql);
+				$allresultnum += $result -> num_rows;;
 			}
-			$result = $conn -> query($sql);
-			$RecordCount = $result -> num_rows;
+			
+			$RecordCount = $allresultnum;
 			$page == 1 ? $limitindex = 0 : $limitindex = ($page - 1) * $pageSize;
 			if ($_GET['sel'] == "merchant") {
 				echo "
@@ -142,50 +161,54 @@ if (!isset($_GET['price']) || $_GET['price'] == "asc") {
 			}
 			
 			//			根据是否选择价钱排序查询
-			$sql = "select id,type,img_addre,title,merchant_addre,merchant,merchant_place,price from products where ";
-			for ($i = 0; $i < count($arr); $i ++) {
-				if ($i == (count($arr) - 1)) {
-					$sql .= " {$_GET['sel']} like '%{$arr[$i]}%'";
-				} else {
-					$sql .= " {$_GET['sel']} like '%{$arr[$i]}%' and ";
-				}
-			}
-			if (!isset($_GET['price']) || $_GET['price'] == "asc") {
-				//			根据搜索结果查询
-				$sql .= "  limit $limitindex,$pageSize";
-			} elseif ($_GET['price'] == "desc")
-				$sql .= "  order by price asc limit $limitindex,$pageSize";
-			elseif ($_GET['price'] == "random") {
-				$sql .= "  order by price desc limit $limitindex,$pageSize";
-			}
-			$result = $conn -> query($sql);
-			if ($result -> num_rows > 0) {
-				while ($row = $result -> fetch_assoc()) {
-					if ($row) {
-						?>
-						<div class="col-sm-4 col-xs-6 col-md-2">
-							<div class="thumbnail" style="height: 380px">
-								<a href="product.php?id=<?php echo $row['id']; ?>&type=<?php echo $row['type']; ?>"><img
-										src="<?php echo $row['img_addre']; ?>"></a>
-								<div class="caption">
-									<span style="font-size: 20px;color: #e4393c;">￥<?php echo $row['price']; ?></span>
-									<p>
-										<a href="product.php?id=<?php echo $row['id']; ?>&type=<?php echo $row['type']; ?>"
-										   class="item_title"><?php if (strlen($row['title']) > 150) echo substr($row['title'] , 0 , 150) . '....'; else echo $row['title']; ?></a>
-									</p>
-									<p><a href="<?php echo $row['merchant_addre']; ?>" class="item_merchant"><font
-												color="#4d88ff">●</font><?php echo $row['merchant']; ?></a>
-										<span class="item_merchant_place"> <?php echo $row['merchant_place']; ?></span>
-									</p>
-								</div>
-							</div>
-						</div>
-						
-						
-						<?php
+			foreach ($table as $value) {
+				$sql = "select id,type,img_addre,title,merchant_addre,merchant,merchant_place,price from {$value} where ";
+				for ($i = 0; $i < count($arr); $i ++) {
+					if ($i == (count($arr) - 1)) {
+						$sql .= " {$_GET['sel']} like '%{$arr[$i]}%'";
+					} else {
+						$sql .= " {$_GET['sel']} like '%{$arr[$i]}%' and ";
 					}
 				}
-			} else {
+				if (!isset($_GET['price']) || $_GET['price'] == "asc") {
+					//			根据搜索结果查询
+					$sql .= "  limit $limitindex,$pageSize";
+				} elseif ($_GET['price'] == "desc")
+					$sql .= "  order by price asc limit $limitindex,$pageSize";
+				elseif ($_GET['price'] == "random") {
+					$sql .= "  order by price desc limit $limitindex,$pageSize";
+				}
+				$result = $conn -> query($sql);
+				if ($result -> num_rows > 0) {
+					while ($row = $result -> fetch_assoc()) {
+						if ($row) { ?>
+							<div class="col-sm-4 col-xs-6 col-md-2">
+								<div class="thumbnail" style="height: 380px">
+									<a href="product.php?id=<?php echo $row['id']; ?>&type=<?php echo $row['type']; ?>"><img
+											src="<?php echo $row['img_addre']; ?>"></a>
+									<div class="caption">
+										<span
+											style="font-size: 20px;color: #e4393c;">￥<?php echo $row['price']; ?></span>
+										<p>
+											<a href="product.php?id=<?php echo $row['id']; ?>&type=<?php echo $row['type']; ?>"
+											   class="item_title"><?php if (strlen($row['title']) > 150) echo substr($row['title'] , 0 , 150) . '....'; else echo $row['title']; ?></a>
+										</p>
+										<p><a href="<?php echo $row['merchant_addre']; ?>" class="item_merchant"><font
+													color="#4d88ff">●</font><?php echo $row['merchant']; ?></a>
+											<span
+												class="item_merchant_place"> <?php echo $row['merchant_place']; ?></span>
+										</p>
+									</div>
+								</div>
+							</div>
+							
+							
+							<?php
+						}
+					}
+				}
+			}
+			if ($allresultnum == 0) {
 				echo "<div class=\"col-lg-12 text-center\" style='font-size: 27px'>暂无结果，请换个关键词查询把！</div>";
 			}
 			$result -> free_result();

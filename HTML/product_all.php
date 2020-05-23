@@ -123,6 +123,7 @@ if(!isset($_GET['price'])||$_GET['price']=="asc"){
 											if (search_text) {
 												return true;
 											} else {
+												alert("输入不能为空！");
 												return false;
 											}
 										}

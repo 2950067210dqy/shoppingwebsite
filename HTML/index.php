@@ -102,8 +102,9 @@ if (isset($_SESSION['id'])) {
 			<div style="margin-top: 25px">
 				<div class="search">
 					<div class="searchinput_shopcarinput">
-						<form action="index_select.php" method="get">
+						<form action="index_select.php" method="get" id="search_form">
 							<input type="text" max="10" placeholder="请输入你要查找的关键字,用空格隔开" name="searchtext"
+							       id="search_text"
 							       style="width: 50%">
 							<select id="search_sel" name="sel">
 								<option value="title">商品名</option>
@@ -122,18 +123,33 @@ if (isset($_SESSION['id'])) {
 	                            } ?></span>
                         </a>
                     </span>
-				
-				        </form>
-			        </div>
-		        </div>
-		        <!-- recommend 为推荐的意思-->
-		        <div class="recommend">
-			        <ul>
-				        <li>
-                            <a href="#">
-                                女靴
-                            </a>
-                        </li>
+						
+						</form>
+						<script>
+							$(document).ready(function () {
+								//检测输入框得值是否违法
+								$('#search_form').on('submit', function () {
+									
+									var search_text = $('#search_text').val();
+									if (search_text) {
+										return true;
+									} else {
+										alert("输入不能为空！");
+										return false;
+									}
+								});
+							});
+						</script>
+					</div>
+				</div>
+				<!-- recommend 为推荐的意思-->
+				<div class="recommend">
+					<ul>
+						<li>
+							<a href="#">
+								女靴
+							</a>
+						</li>
                         <li>
                             |
                         </li>
