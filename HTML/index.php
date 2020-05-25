@@ -146,51 +146,51 @@ if (isset($_SESSION['id'])) {
 				<div class="recommend">
 					<ul>
 						<li>
-							<a href="#">
-								女靴
+							<a href="product_all.php?type=boy_txue">
+								T恤
 							</a>
 						</li>
-                        <li>
-                            |
-                        </li>
-                        <li>
-                            <a href="#">
-                                皮衣/皮草
-                            </a>
-                        </li>
-                        <li>
-                            |
-                        </li>
-                        <li>
-                            <a href="#">
-                                女士羽绒服
-                            </a>
-                        </li>
-                        <li>
-                            |
-                        </li>
-                        <li>
-                            <a href="#"  style="color:  rgb(250,42,131)">
-                                斯维奇
-                            </a>
-                        </li>
-                        <li>
-                            |
-                        </li>
-                        <li >
-                            <a href="#" style="color: rgb(250,42,131)">
-                                年终预付&nbsp;&nbsp;一件免邮
-                            </a>
-                        </li>
-
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-<!-- 菜单详情-->
+						<li>
+							|
+						</li>
+						<li>
+							<a href="product_all.php?type=boy_shirt">
+								衬衫
+							</a>
+						</li>
+						<li>
+							|
+						</li>
+						<li>
+							<a href="product_all.php?type=girl_lianyiqun">
+								女士连衣裙
+							</a>
+						</li>
+						<li>
+							|
+						</li>
+						<li>
+							<a href="product_all.php?type=girl_hunsha" style="color:  rgb(250,42,131)">
+								婚纱
+							</a>
+						</li>
+						<li>
+							|
+						</li>
+						<li>
+							<a href="product_all.php?type=boy_xifu" style="color: rgb(250,42,131)">
+								男士西服套装
+							</a>
+						</li>
+					
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	<!-- 菜单详情-->
     <div class="menu">
         <div style=" width: 70%;height: 100%;margin: 0 auto;">
             <a href="#" style=" background: rgb(241,1,128)">

@@ -133,9 +133,9 @@ float: left;
  }
  /*推荐recommend*/
 .recommend {
-    float:right;
-    margin-right: 120px;
-}
+    float: right;
+    margin-right: 16%;
+    }
 .recommend ul{
 
 }

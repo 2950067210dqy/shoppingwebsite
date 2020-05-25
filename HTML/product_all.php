@@ -279,34 +279,39 @@ if(!isset($_GET['price'])||$_GET['price']=="asc"){
 				<?php
 				if($RecordCount>0) {
 					$url = $_SERVER['PHP_SELF'] . '?type=' . $_GET['type'];//获取当前页的URL
+					$PageCount = ceil($RecordCount / $pageSize);//总页数
+					
 					if (isset($_GET['searchtext'])) {
 						page($RecordCount , $pageSize , $page , $url , $_GET['searchtext']);
+						echo " &nbsp;共{$RecordCount}条记录 &nbsp; ";
+						echo " <input type='number' id='goPage' value='$page' style='width: 50px' onblur=\"goPage(this.value,'{$url}','{$page}','{$PageCount}','{$_GET['searchtext']}')\">/$PageCount 页";
 					} elseif (isset($_GET['from_price']) && isset($_GET['to_price'])) {
 						page($RecordCount , $pageSize , $page , $url , null , null , $_GET['from_price'] , $_GET['to_price']);
+						echo " &nbsp;共{$RecordCount}条记录 &nbsp; ";
+						echo " <input type='number' id='goPage' value='$page' style='width: 50px' onblur=\"goPage(this.value,'{$url}','{$page}','{$PageCount}',null,'{$_GET['from_price']}','{$_GET['to_price']}')\">/$PageCount 页";
 					} else {
 						page($RecordCount , $pageSize , $page , $url);
+						echo " &nbsp;共{$RecordCount}条记录 &nbsp; ";
+						echo " <input type='number' id='goPage' value='$page' style='width: 50px' onblur=\"goPage(this.value,'{$url}','{$page}','{$PageCount}')\">/$PageCount 页";
 					}
-					
-					$PageCount = ceil($RecordCount / $pageSize);
-					echo " &nbsp;共{$RecordCount}条记录 &nbsp;  <input type='number' id='goPage' value='$page' style='width: 50px' onblur=\"goPage(this.value,'{$url}','{$page}','{$PageCount}')\">/$PageCount 页";
 				}
 				?>
 				<script>
-						function goPage(val,url,page,pagecount) {
-							if(parseInt(val)<=0){
-								document.getElementById('goPage').value=1;
-							}
-							if(parseInt(val)>pagecount){
-								document.getElementById('goPage').value=pagecount;
-							}
-							location.assign(url+'&Page='+document.getElementById('goPage').value);
+					function goPage(val, url, page, pagecount, searchtext = null, from_price = null, to_price = null) {
+						if (parseInt(val) <= 0) {
+							document.getElementById('goPage').value = 1;
 						}
+						if (parseInt(val) > pagecount) {
+							document.getElementById('goPage').value = pagecount;
+						}
+						location.assign(url + '&Page=' + document.getElementById('goPage').value + "&searchtext=" + searchtext + "&from_price=" + from_price + "&to_price=" + to_price);
+					}
 				</script>
 			</ul>
 		</nav>
 	
 	<div class="footer">
-		<div  style="color: #ababab;background-color:  rgb(246,249,250);text-align: center;margin: 0 auto;font-size: 13px">
+		<div style="color: #ababab;background-color:  rgb(246,249,250);text-align: center;margin: 0 auto;font-size: 13px">
 			Copyright &nbsp;© &nbsp;
 			2019-2020 &nbsp; qinyou.com， &nbsp;All &nbsp;Rights &nbsp; Reserved &nbsp;
 			使用本网站即表示接受 &nbsp; 沁柚用户协议。版权所有 &nbsp; 九江学院31栋503沁柚工作室 邓亲优

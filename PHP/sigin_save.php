@@ -16,7 +16,6 @@ else{
 	// 允许上传的图片后缀
 	$allowedExts = array("gif", "jpeg", "jpg", "png","PNG","JPG","JPEG","GIF");
 	$temp = explode(".", $_FILES["headimg"]["name"]);
-	echo $_FILES["headimg"]["size"];
 	$extension = end($temp);     // 获取文件后缀名
 	if ((($_FILES["headimg"]["type"] == "image/gif")
 			|| ($_FILES["headimg"]["type"] == "image/jpeg")
@@ -45,11 +44,12 @@ else{
 			}
 			else
 			{
-				$name=iconv("UTF-8", "GB2312", $_FILES["headimg"]["name"]);
-//				chmod("../headimg/" .$name,777);
-				// 如果 upload 目录不存在该文件则将文件上传到 upload 目录下
-				move_uploaded_file($_FILES["headimg"]["tmp_name"], "../headimg/" .$name);
-				echo "文件存储在: " . "../headimg/" . $_FILES["headimg"]["name"];
+				// 如果 upload 目录不存在该文件则将文件上传到 headimg 目录下
+				$ext = pathinfo($_FILES["headimg"]["name"] , PATHINFO_EXTENSION);//提取上传文件的拓展名
+				$uniName = md5(uniqid(microtime(true) , true)) . ".$ext";//md5加密，uniqid产生唯一id，microtime做前缀
+				chmod("../headimg/" , 777);
+				move_uploaded_file($_FILES["headimg"]["tmp_name"] , "../headimg/" . $uniName);
+				echo "文件存储在: " . "../headimg/" . $uniName;
 			}
 		}
 	}
@@ -57,8 +57,8 @@ else{
 	{
 		echo "<script>alert('头像上传错误：非法的文件格式')</script>";
 	}
-    $imgname="../headimg/" .$_FILES["headimg"]["name"];
-    siginok(insertAll("user",null,$_POST['id'],$_POST['email'],$_POST['sex'],$_POST['phone'],$_POST['name'],$_POST['invitecode'],$_POST['career'],$imgname,$_POST['password'],$_POST['admin'],$conn));
+	$imgname = "../headimg/" . $uniName;
+	siginok(insertAll("user" , null , $_POST['id'] , $_POST['email'] , $_POST['sex'] , $_POST['phone'] , $_POST['name'] , $_POST['invitecode'] , $_POST['career'] , $imgname , $_POST['password'] , $_POST['admin'] , $conn));
 }
 function siginok($bool){
     if($bool){

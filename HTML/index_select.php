@@ -223,18 +223,18 @@ if (!isset($_GET['price']) || $_GET['price'] == "asc") {
 			if ($RecordCount > 0) {
 				page($RecordCount , $pageSize , $page , $url , $_GET['searchtext'] , $_GET['sel']);
 				$PageCount = ceil($RecordCount / $pageSize);
-				echo " &nbsp;共{$RecordCount}条记录 &nbsp;  <input type='number' id='goPage' value='$page' style='width: 50px' onblur=\"goPage(this.value,'{$url}','{$page}','{$PageCount}')\">/$PageCount 页";
+				echo " &nbsp;共{$RecordCount}条记录 &nbsp;  <input type='number' id='goPage' value='$page' style='width: 50px' onblur=\"goPage(this.value,'{$url}','{$page}','{$PageCount}','{$_GET['searchtext']}','{$_GET['sel']}')\">/$PageCount 页";
 			}
 			?>
 			<script>
-				function goPage(val, url, page, pagecount) {
+				function goPage(val, url, page, pagecount, searchtext, sel) {
 					if (parseInt(val) <= 0) {
 						document.getElementById('goPage').value = 1;
 					}
 					if (parseInt(val) > pagecount) {
 						document.getElementById('goPage').value = pagecount;
 					}
-					location.assign(url + '&Page=' + document.getElementById('goPage').value);
+					location.assign(url + '?Page=' + document.getElementById('goPage').value + '&searchtext=' + searchtext + '&sel=' + sel);
 				}
 			</script>
 		</ul>
@@ -242,7 +242,7 @@ if (!isset($_GET['price']) || $_GET['price'] == "asc") {
 	
 	<div class="footer">
 		<div
-			style="color: #ababab;background-color:  rgb(246,249,250);text-align: center;margin: 0 auto;font-size: 13px">
+				style="color: #ababab;background-color:  rgb(246,249,250);text-align: center;margin: 0 auto;font-size: 13px">
 			Copyright &nbsp;© &nbsp;
 			2019-2020 &nbsp; qinyou.com， &nbsp;All &nbsp;Rights &nbsp; Reserved &nbsp;
 			使用本网站即表示接受 &nbsp; 沁柚用户协议。版权所有 &nbsp; 九江学院31栋503沁柚工作室 邓亲优

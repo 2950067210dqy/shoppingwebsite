@@ -93,7 +93,7 @@
 					/
 				</li>
 				<li>
-					<a href="../../phpprojectplus/perinfor/index.php"> 我的订单</a>
+					<a href="#"> 我的订单</a>
 				</li>
 				<li style="color: rgb(157,157,157); font-weight: bold">
 					/
