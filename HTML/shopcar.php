@@ -76,8 +76,8 @@ require '../PHP/conn.php';
 						</thead>
 						<tbody id="container">
 						<?php
-						$final_num = 0;
-						$final_price = 0;
+						//						$final_num = 0;
+						//						$final_price = 0;
 						$sql = "select id,product_id,product_type,product_num from shopcar where user_id = {$_SESSION['id']} order by time desc";
 						$result = $conn -> query($sql);
 						while ($row = $result -> fetch_assoc()) {
@@ -86,11 +86,11 @@ require '../PHP/conn.php';
 								$result2 = $conn -> query($sql2);
 								$row2 = $result2 -> fetch_assoc();
 								if ($row2) {
-									$final_num += $row['product_num'];
-									$final_price += ($row['product_num'] * $row2['price']);
+//									$final_num += $row['product_num'];
+//									$final_price += ($row['product_num'] * $row2['price']);
 									?>
 									<tr id="shopcar<?php echo $row['id'] ?>">
-										<td><input type='checkbox' id='choose' name='choose[]'
+										<td><input type='checkbox' id='choose' class="chooseProduct" name='choose[]'
 										           value="<?php echo $row['id'] ?>"></td>
 										<td>店铺：<a
 													href="<?php echo $row2['merchant_addre'] ?>"><?php echo $row2['merchant'] ?></a>
@@ -150,12 +150,12 @@ require '../PHP/conn.php';
 				<div class="col-lg-2 col-lg-offset-3" style="background-color: inherit">已选商品：<font color="#ff4500"
 				                                                                                   size="3"
 				                                                                                   style="background-color: inherit"
-				                                                                                   class="final_num"><?php echo $final_num ?></font>件
+				                                                                                   class="final_num">0</font>件
 				</div>
 				<div class="col-lg-2" style="background-color: inherit">合计：<font color="#ff4500" size="3"
 				                                                                 style="background-color: inherit">￥<font
 								color="#ff4500" size="3" style="background-color: inherit"
-								class="final_price"><?php echo $final_price ?></font></font>
+								class="final_price">0</font></font>
 				</div>
 				<div class="col-lg-2 text-right" style="background-color: inherit">
 					<button type="submit" class="close_account btn btn-danger btn-block">结&nbsp;&nbsp;算</button>
@@ -187,7 +187,7 @@ require '../PHP/conn.php';
 					已选商品：<font color="#ff4500"
 					           size="3"
 					           style="background-color: inherit"
-					           class="final_num"><?php echo $final_num ?></font>件
+					           class="final_num">0</font>件
 				</div>
 			</div>
 			<div class="row text-center" style="border-bottom: 1px silver solid">
@@ -195,7 +195,7 @@ require '../PHP/conn.php';
 					合计：<font color="#ff4500" size="3"
 					         style="background-color: inherit">￥<font
 								color="#ff4500" size="3" style="background-color: inherit"
-								class="final_price"><?php echo $final_price ?></font></font>
+								class="final_price">0</font></font>
 				</div>
 			</div>
 			<div class="row text-center" style="border-bottom: 1px silver solid">
