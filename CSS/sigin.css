@@ -40,14 +40,13 @@
 }
 .logoinformation{
     border-radius: 20px;
-    overflow:scroll;
     float: right;
-    width: 400px;
-    height: 550px;
+    width: 600px;
+    height: 600px;
     margin-right: 120px;
     margin-top: 70px;
-
-}
+    overflow: scroll;
+    }
 .logoinformation hr{
     color: rgb(224,224,224);
     background-color: rgb(224,224,224);

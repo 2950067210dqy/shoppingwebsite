@@ -1,14 +1,47 @@
 /**
  * Created by syzx on 2019/12/10.
  */
-function check(name){
-    switch (name){
+//验证码
+$(function () {
+    //验证码
+    let randomnum = [];
+    drawCodeImg(randomnum);
+    $(".security_code_img,#superadmin,#admin").on('click', function () {
+        drawCodeImg(randomnum);
+    });
+    
+    $("#form").on('submit', function () {
+        var inputcode = $('#security_code').val();
+        var savecode = randomnum.join("");
+        if (inputcode == savecode) {
+            $('#security_code').val('');
+            return true;
+        } else {
+            alert('验证码错误！');
+            $('#security_code').val('');
+            drawCodeImg(randomnum);
+            return false;
+        }
+    });
+    
+    function drawCodeImg(randomnums) {
+        $(".security_code_img").html('');
+        for (let i = 0; i < 4; i++) {
+            let num = Math.floor(Math.random() * 10);
+            randomnums[i] = num;
+            $(".security_code_img").html($(".security_code_img").html() + "<img src='../IMG/" + num + ".png' width='30' height='40'>");
+        }
+    }
+    
+});
+
+function check(name) {
+    switch (name) {
         case 'id':
-            var str=document.getElementById('id').value.toString();
-            if(document.getElementById('id').value==""){
-                document.getElementById('logoin').value='帐号不能为空！';
-            }
-            else{
+            var str = document.getElementById('id').value.toString();
+            if (document.getElementById('id').value == "") {
+                document.getElementById('logoin').value = '帐号不能为空！';
+            } else {
                 checkall('admin');
             }
             if(str.length==0){
@@ -97,6 +130,7 @@ function Alltab2() {
 function tab(name) {
     switch (name) {
         case "admin":
+    
             document.getElementById('isadmin').value='false';
             document.getElementById('superadmin').style.borderBottom="none";
             document.getElementById('admin').style.borderBottom=" 5px solid  rgb(241,1,128)";
