@@ -49,18 +49,18 @@ $a_month_ago = date('Y-m-d' , time() - 60 * 60 * 24 * 30);
 	<div style="width: 100%;height: 110px;">
 		<div class="logo_search">
 			<div class="logoleft">
-				<a href="#">
+				<a href="index.php">
 					<img height="100" src="../IMG/logo.png" alt="唯品会">
 				</a>
 			</div>
 			<div class="logoright">
-				<a href="#">
+				<a href="index.php">
 					<img height="60" width="90" src="../IMG/logo2.png" alt="100%正品">
 				</a>
-				<a href="#">
+				<a href="index.php">
 					<img height="60" width="90" src="../IMG/logo3.png" alt="七天放心">
 				</a>
-				<a href="#">
+				<a href="index.php">
 					<img height="60" width="90" src="../IMG/logo4.png" alt="3亿会员">
 				</a>
 			
@@ -70,9 +70,6 @@ $a_month_ago = date('Y-m-d' , time() - 60 * 60 * 24 * 30);
 			<div style="margin-top: 25px">
 				<div class="search">
 					<div class="searchinput_shopcarinput">
-						<form action="../PHP/server.php" method="post">
-							<input type="text" max="10" placeholder="请输入你要查找的商品" name="searchtext">
-							<input type="submit" name="search" value="">
 							<span class="shopcar">
                         <a href="javascript:void(0)" class="shopcar">
                             <span class="shopcar_img"><img src="../IMG/shopcar.png" width="25" height="25"> </span>
@@ -85,52 +82,7 @@ $a_month_ago = date('Y-m-d' , time() - 60 * 60 * 24 * 30);
 	                            } ?></span>
                         </a>
                     </span>
-						
-						</form>
 					</div>
-				</div>
-				<!-- recommend 为推荐的意思-->
-				<div class="recommend">
-					<ul>
-						<li>
-							<a href="#">
-								女靴
-							</a>
-						</li>
-						<li>
-							|
-						</li>
-						<li>
-							<a href="#">
-								皮衣/皮草
-							</a>
-						</li>
-						<li>
-							|
-						</li>
-						<li>
-							<a href="#">
-								女士羽绒服
-							</a>
-						</li>
-						<li>
-							|
-						</li>
-						<li>
-							<a href="#" style="color:  rgb(250,42,131)">
-								斯维奇
-							</a>
-						</li>
-						<li>
-							|
-						</li>
-						<li>
-							<a href="#" style="color: rgb(250,42,131)">
-								年终预付&nbsp;&nbsp;一件免邮
-							</a>
-						</li>
-					
-					</ul>
 				</div>
 			</div>
 		</div>

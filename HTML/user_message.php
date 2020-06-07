@@ -50,18 +50,18 @@ echo $_SESSION['id'];
 	<div style="width: 100%;height: 110px;">
 		<div class="logo_search">
 			<div class="logoleft">
-				<a href="#">
+				<a href="index.php">
 					<img height="100" src="../IMG/logo.png" alt="唯品会">
 				</a>
 			</div>
 			<div class="logoright">
-				<a href="#">
+				<a href="index.php">
 					<img height="60" width="90" src="../IMG/logo2.png" alt="100%正品">
 				</a>
-				<a href="#">
+				<a href="index.php">
 					<img height="60" width="90" src="../IMG/logo3.png" alt="七天放心">
 				</a>
-				<a href="#">
+				<a href="index.php">
 					<img height="60" width="90" src="../IMG/logo4.png" alt="3亿会员">
 				</a>
 			</div>

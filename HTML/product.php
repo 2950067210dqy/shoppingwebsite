@@ -164,7 +164,7 @@ if (isset($_SESSION['id'])) {
 						/
 					</li>
 					<li>
-						<a href="../../phpprojectplus/perinfor/index.php"> 我的订单</a>
+						<a href="#"> 我的订单</a>
 					</li>
 					<li style="color: rgb(157,157,157); font-weight: bold">
 						/
@@ -213,26 +213,26 @@ if (isset($_SESSION['id'])) {
 			</div>
 		</div>
 	</div>
-
+	
 	
 	<a href="#" class="btn btn-danger text-center" style="position: sticky;z-index: 99;top: 50%;left: 100%;">返回顶部</a>
 	
 	<div style="width: 100%;height: 110px;">
 		<div class="logo_search">
 			<div class="logoleft">
-				<a href="#" >
+				<a href="index.php">
 					<img height="100" src="../IMG/logo.png" alt="唯品会">
 				</a>
 			</div>
 			<div class="logoright">
-				<a href="#" >
-					<img height="60"  width="90" src="../IMG/logo2.png" alt="100%正品">
+				<a href="index.php">
+					<img height="60" width="90" src="../IMG/logo2.png" alt="100%正品">
 				</a>
-				<a href="#" >
-					<img height="60"  width="90" src="../IMG/logo3.png" alt="七天放心">
+				<a href="index.php">
+					<img height="60" width="90" src="../IMG/logo3.png" alt="七天放心">
 				</a>
-				<a href="#" >
-					<img height="60"  width="90" src="../IMG/logo4.png" alt="3亿会员">
+				<a href="index.php">
+					<img height="60" width="90" src="../IMG/logo4.png" alt="3亿会员">
 				</a>
 			
 			
