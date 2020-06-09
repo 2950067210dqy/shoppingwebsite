@@ -142,5 +142,6 @@ header("content-type:text/html;charset=utf8");
 	</div>
 
 </div>
+<script src="../JS/index_jquery.js"></script>
 </body>
 </html>

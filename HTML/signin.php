@@ -89,8 +89,13 @@
 			    <span style="13px;color: #999999;margin-left: 30px;">普通用户</span></pan><input type="radio" name="admin"
 			                                                                                 checked="checked"
 			                                                                                 value="false"> <span
-					    style="13px;color:#999999;margin-left: 45px;">管理员</span><input type="radio" name="admin"
-			                                                                           value="true"><br>
+				    style="13px;color:#999999;margin-left: 45px;">管理员</span><input type="radio" name="admin"
+			                                                                       value="true">
+			
+			    <span
+				    style="13px;color:#999999;margin-left: 45px;">商家</span><input type="radio" name="admin"
+			                                                                      value="merchant">
+			    <br>
 			    <input type="text" id="security_code" placeholder="请输入验证码" style="width: 50%">
 			    <div class="security_code_img" style="display: inline;cursor: pointer" title="看不清，更换一张">
 			

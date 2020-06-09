@@ -1,5 +1,4 @@
 <?php
-include '../CLASS/product.php';
 session_start();
 require '../PHP/conn.php';
 ?>
@@ -76,60 +75,66 @@ require '../PHP/conn.php';
 						</thead>
 						<tbody id="container">
 						<?php
-						//						$final_num = 0;
-						//						$final_price = 0;
-						$sql = "select id,product_id,product_type,product_num from shopcar where user_id = {$_SESSION['id']} order by time desc";
-						$result = $conn -> query($sql);
-						while ($row = $result -> fetch_assoc()) {
-							if ($row) {
-								$sql2 = "select * from {$row['product_type']} where id = {$row['product_id']}";
-								$result2 = $conn -> query($sql2);
-								$row2 = $result2 -> fetch_assoc();
-								if ($row2) {
+						//				登陆了才会显示
+						if (isset($_SESSION['id'])) {
+							//						$final_num = 0;
+							//						$final_price = 0;
+							$sql = "select id,product_id,product_type,product_num from shopcar where user_id = {$_SESSION['id']} order by time desc";
+							$result = $conn -> query($sql);
+							while ($row = $result -> fetch_assoc()) {
+								if ($row) {
+									$sql2 = "select * from {$row['product_type']} where id = {$row['product_id']}";
+									$result2 = $conn -> query($sql2);
+									$row2 = $result2 -> fetch_assoc();
+									if ($row2) {
 //									$final_num += $row['product_num'];
 //									$final_price += ($row['product_num'] * $row2['price']);
-									?>
-									<tr id="shopcar<?php echo $row['id'] ?>">
-										<td><input type='checkbox' id='choose' class="chooseProduct" name='choose[]'
-										           value="<?php echo $row['id'] ?>"></td>
-										<td>店铺：<a
+										?>
+										<tr id="shopcar<?php echo $row['id'] ?>">
+											<td><input type='checkbox' id='choose' class="chooseProduct" name='choose[]'
+											           value="<?php echo $row['id'] ?>"></td>
+											<td>店铺：<a
 													href="<?php echo $row2['merchant_addre'] ?>"><?php echo $row2['merchant'] ?></a>
-										</td>
-										<td>
-											<a href="../HTML/product.php?id=<?php echo $row2['id'] ?>&type=<?php echo $row2['type'] ?>"><img
-														src="<?php echo $row2['img_addre'] ?>" width="100" height="100"></a>
-										</td>
-										<td width="30%"><a
+											</td>
+											<td>
+												<a href="../HTML/product.php?id=<?php echo $row2['id'] ?>&type=<?php echo $row2['type'] ?>"><img
+														src="<?php echo $row2['img_addre'] ?>" width="100"
+														height="100"></a>
+											</td>
+											<td width="30%"><a
 													href="../HTML/product.php?id=<?php echo $row2['id'] ?>&type=<?php echo $row2['type'] ?>"><?php echo $row2['title'] ?></a>
-										</td>
-										<td><font color="black" size="3"><b>￥</b><b
+											</td>
+											<td><font color="black" size="3"><b>￥</b><b
 														class="price"><?php echo $row2['price'] ?></b></font></td>
-										<td class="text-center">
-											<a href="javascript:void(0)" class="btn btn-default subtract"
-											   title="<?php echo $row['id'] ?>">-</a>
-											<input type="text" value="<?php echo $row['product_num'] ?>"
-											       class="product_num"
-											       style="width: 10%" title="<?php echo $row['id'] ?>">
-											<a href="javascript:void(0)" class="btn btn-default add"
-											   title="<?php echo $row['id'] ?>">+</a>
-										</td>
-										<td><font color="#ff4500"
-										          size="3"><b>￥</b><b
+											<td class="text-center">
+												<a href="javascript:void(0)" class="btn btn-default subtract"
+												   title="<?php echo $row['id'] ?>">-</a>
+												<input type="text" value="<?php echo $row['product_num'] ?>"
+												       class="product_num"
+												       style="width: 10%" title="<?php echo $row['id'] ?>">
+												<a href="javascript:void(0)" class="btn btn-default add"
+												   title="<?php echo $row['id'] ?>">+</a>
+											</td>
+											<td><font color="#ff4500"
+											          size="3"><b>￥</b><b
 														class="allprice"><?php echo $row['product_num'] * $row2['price'] ?></b></font>
-										</td>
-										<td>
-											<p><a class="btn btn-danger"
-											      href="../PHP/delete_shopcar.php?id=<?php echo $row['id']; ?>">删除</a>
-											</p>
-											<p><a class="btn btn-success"
-											      href="../PHP/insert_collect_product.php?product_id=<?php echo $row['product_id']; ?>&product_type=<?php echo $row['product_type']; ?>&shopcar_id=<?php echo $row['id'] ?>">移入收藏</a>
-											</p>
-										</td>
-									</tr>
-									<?php
+											</td>
+											<td>
+												<p><a class="btn btn-danger"
+												      href="../PHP/delete_shopcar.php?id=<?php echo $row['id']; ?>">删除</a>
+												</p>
+												<p><a class="btn btn-success"
+												      href="../PHP/insert_collect_product.php?product_id=<?php echo $row['product_id']; ?>&product_type=<?php echo $row['product_type']; ?>&shopcar_id=<?php echo $row['id'] ?>">移入收藏</a>
+												</p>
+											</td>
+										</tr>
+										<?php
+									}
 								}
+							}
+						} else {
+							echo "您暂未登录，登录后才能查看，快去<a href='logoin.php' class='btn btn-danger'>登录</a>吧";
 						}
-					}
 					?>
 						</tbody>
 					</table>

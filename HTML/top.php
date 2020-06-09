@@ -22,7 +22,7 @@
 					/
 				</li>
 				<li>
-					总访问量<span class="visitsum" id="visitsum">
+					您是第<span class="visitsum" id="visitsum">
                             <?php
                             $count = "";
                             //数字输出网页计数器
@@ -44,6 +44,7 @@
 
 
                         </span>
+					位访客
 				</li>
 				<li style="color: rgb(157,157,157); font-weight: bold">
 					/
@@ -57,41 +58,43 @@
 					/
 				</li>
 				<li>
-					<a href="../PHP/indexLocation.php"> 更多</a>
-				</li>
-				<li style="color: rgb(157,157,157); font-weight: bold">
-					/
-				</li>
-				<li id='message_num'>
 					<?php
-					if ((isset($_SESSION['isadmin']))) {
-						$sql = "select add_user_message_id from add_user_message where user_id ={$_SESSION['id']} and isread ='false'";
-						$result = $conn -> query($sql);
-						if ($result -> num_rows > 0) {
-							echo "<a href='user_message.php'><span class='btn btn-danger'>您有{$result->num_rows}条新消息!</span><audio src='../MUSIC/tip.mp3' autoplay></audio></a>";
-						} else {
-							echo "<a href='user_message.php'><span >我的消息</span></a>";
-						}
+					if ((isset($_SESSION['isadmin'])) && $_SESSION['isadmin'] == 'merchant') {
+						echo "<a href=\"../Background/main.php\"> 后台管理</a>";
 					} else {
-						echo "<a href='#'>客户服务</a>";
+						echo "<a href=\"../PHP/indexLocation.php\"> 更多</a>";
 					}
 					?>
+				
 				</li>
 				<li style="color: rgb(157,157,157); font-weight: bold">
 					/
 				</li>
-				<li>
-					<?php
-					if ((isset($_SESSION['isadmin']))) {
-						echo "<a href='user_friend.php'>我的好友</a>";
+				
+				<?php
+				if ((isset($_SESSION['isadmin']))) {
+					$sql = "select add_user_message_id from add_user_message where user_id ={$_SESSION['id']} and isread ='false'";
+					$result = $conn -> query($sql);
+					if ($result -> num_rows > 0) {
+						echo "<li id='message_num'><a href='user_message.php'><span class='btn btn-danger'>您有{$result->num_rows}条新消息!</span><audio src='../MUSIC/tip.mp3' autoplay></audio></a></li>
+								<li style=\"color: rgb(157,157,157); font-weight: bold\">
+									/
+									</li>";
 					} else {
-						echo "<a href='#'>会员俱乐部</a>";
+						echo "<li id='message_num'><a href='user_message.php'><a href='user_message.php'><span >我的消息</span></a></li>	<li style=\"color: rgb(157,157,157); font-weight: bold\">
+									/
+									</li>";
 					}
-					?>
-				</li>
-				<li style="color: rgb(157,157,157); font-weight: bold">
+				}
+				?>
+				<?php
+				if ((isset($_SESSION['isadmin']))) {
+					echo "<li ><a href='user_friend.php'>我的好友</a></li><li style=\"color: rgb(157,157,157); font-weight: bold\">
 					/
-				</li>
+				</li>";
+				}
+					?>
+				
 				<li>
 					<a href="#"> 我的订单</a>
 				</li>
@@ -106,12 +109,13 @@
 				</li>
 				<li>
 					<a href="javascript:void(0)" class="shopcar">
-						我的购物车<?php if (!isset($_SESSION['id'])) echo 0; elseif (isset($_SESSION['shopnum'])) echo $_SESSION['shopnum'];
-						else {
-							$sql = "select id from shopcar where user_id = {$_SESSION['id']}";
-							$result = $conn -> query($sql);
-							echo $result -> num_rows;
-						} ?></a>
+						我的购物车<span
+							class="badge"><?php if (!isset($_SESSION['id'])) echo 0; elseif (isset($_SESSION['shopnum'])) echo $_SESSION['shopnum'];
+							else {
+								$sql = "select id from shopcar where user_id = {$_SESSION['id']}";
+								$result = $conn -> query($sql);
+								echo $result -> num_rows;
+							} ?></span></a>
 				</li>
 				<li style="color: rgb(157,157,157); font-weight: bold">
 					/

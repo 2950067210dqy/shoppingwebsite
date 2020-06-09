@@ -101,26 +101,32 @@ function selectOneWhereTwoAnd($table , $num , $index , $string , $index2 , $stri
 	}
 }
 
-function insertAll($table , $num1 , $num2 , $num3 , $num4 , $num5 , $num6 , $num7 , $num8 , $num9 , $num10 , $num11 , $conn)
+function insertAll($table , $num1 , $num2 , $num3 , $num4 , $num5 , $num6 , $num7 , $num8 , $num9 , $num10 , $num11 , $num12 , $conn)
 {
 	$sql = "insert into {$table} values ('" . $num1 . "','" . (string)$num2 .
 		"','" . (string)$num3 . "','" . (string)$num4 . "','" .
 		(string)$num5 . "','" . (string)$num6 . "','" .
 		(string)$num7 . "','" . (string)$num8 . "','" . (string)$num9 .
-        "','" . (string)$num10 . "','" . (string)$num11 ."')";
-    return mysqli_query($conn,$sql);
+		"','" . (string)$num10 . "','" . (string)$num11 . "','" . (string)$num12 . "')";
+	return mysqli_query($conn , $sql);
 }
-function deleteWhereOne($table,$index,$string,$conn){
-    $sql = "delete from {$table} where {$index}={$string}";
-    return mysqli_query($conn,$sql);
+
+function deleteWhereOne($table , $index , $string , $conn)
+{
+	$sql = "delete from {$table} where {$index}={$string}";
+	return mysqli_query($conn , $sql);
 }
-function deleteWhereOneAnd($table,$index,$string,$index2,$string2,$conn){
+
+function deleteWhereOneAnd($table , $index , $string , $index2 , $string2 , $conn)
+{
 	$sql = "delete from {$table} where {$index}={$string} and {$index2} = '{$string2}'";
-	return mysqli_query($conn,$sql);
+	return mysqli_query($conn , $sql);
 }
-function updateAllExcpetImgAddr($table,$index1,$string1,$index2,$string2,$index3,$string3,$index4,$string4,
-                                    $index5,$string5,$index6,$string6,$index7,$string7,$index8,$string8,
-                                $indexwhere,$stringwhere,$conn){
+
+function updateAllExcpetImgAddr($table , $index1 , $string1 , $index2 , $string2 , $index3 , $string3 , $index4 , $string4 ,
+                                $index5 , $string5 , $index6 , $string6 , $index7 , $string7 , $index8 , $string8 ,
+                                $indexwhere , $stringwhere , $conn)
+{
    
     $sql = "update {$table} set  {$index1}='{$string1}',
     {$index2}='{$string2}',{$index3}='{$string3}',

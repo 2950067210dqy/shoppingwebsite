@@ -5,60 +5,83 @@ require('conn.php');
 if($_POST['admin']=="false"){
     $result=selectAllWhereTwoOrOneAnd("user","username",$_POST['id'],"email",$_POST['email'],"phone",$_POST['phone'],"isadmin","false",0,$conn);
 }
-else if($_POST['admin']=="true"){
-    $result=selectAllWhereTwoOrOneAnd("user","username",$_POST['id'],"email",$_POST['email'],"phone",$_POST['phone'],"isadmin","true",0,$conn);
+else if ($_POST['admin'] == "true") {
+	$result = selectAllWhereTwoOrOneAnd("user" , "username" , $_POST['id'] , "email" , $_POST['email'] , "phone" , $_POST['phone'] , "isadmin" , "true" , 0 , $conn);
+} else if ($_POST['admin'] == "merchant") {
+	$result = selectAllWhereTwoOrOneAnd("user" , "username" , $_POST['id'] , "email" , $_POST['email'] , "phone" , $_POST['phone'] , "isadmin" , "merchant" , 0 , $conn);
 }
 
-if (mysqli_num_rows($result)>0){
-    echo "<script type='text/javascript'> alert('信息已被注册，请重新输入');  location.assign('../HTML/signin.php');</script>";
-}
-else{
-	// 允许上传的图片后缀
-	$allowedExts = array("gif", "jpeg", "jpg", "png","PNG","JPG","JPEG","GIF");
-	$temp = explode(".", $_FILES["headimg"]["name"]);
-	$extension = end($temp);     // 获取文件后缀名
-	if ((($_FILES["headimg"]["type"] == "image/gif")
-			|| ($_FILES["headimg"]["type"] == "image/jpeg")
-			|| ($_FILES["headimg"]["type"] == "image/jpg")
-			|| ($_FILES["headimg"]["type"] == "image/jpeg")
-			|| ($_FILES["headimg"]["type"] == "image/x-png")
-			|| ($_FILES["headimg"]["type"] == "image/png"))
-		&& ($_FILES["headimg"]["size"] < 204800*1024*6)   // 小于 12 Mb
-		&& in_array($extension, $allowedExts))
-	{
-		if ($_FILES["headimg"]["error"] > 0)
-		{
-			echo "<script>alert('头像上传错误{$_FILES["headimg"]["error"]}')</script>";
+if (mysqli_num_rows($result)>0) {
+	echo "<script type='text/javascript'> alert('信息已被注册，请重新输入'); location.assign('../HTML/signin.php');</script>";
+} else {
+	//接受文件，临时文件信息
+	$fileinfo = $_FILES["headimg"];//降维操作
+	$filename = $fileinfo["name"];
+	$tmp_name = $fileinfo["tmp_name"];
+	$size = $fileinfo["size"];
+	$error = $fileinfo["error"];
+	$type = $fileinfo["type"];
+
+//服务器端设定限制
+	$maxsize = 10485760;//10M,10*1024*1024
+	$allowExt = array('jpeg' , 'jpg' , 'png' , 'gif' , 'PNG' , 'JPG' , 'JPEG' , 'GIF');//允许上传的文件类型（拓展名
+	$ext = pathinfo($filename , PATHINFO_EXTENSION);//提取上传文件的拓展名
+//目标存放文件夹
+	$path = "../headimg";
+	if (!file_exists($path)) {  //当目录不存在，就创建目录
+		mkdir($path , 0777 , true);//创建目录
+		chmod($path , 0777);//改变文件模式,所有人都有执行权限、写权限、度权限
+	}
+//得到唯一的文件名！防止因为文件名相同而产生覆盖
+	$uniName = md5(uniqid(microtime(true) , true)) . ".$ext";
+//md5加密，uniqid产生唯一id，microtime做前缀
+
+//目标存放文件地址
+	$destination = $path . "/" . $uniName;
+//当文件上传成功，存入临时文件夹，服务器端开始判断
+	if ($error == 0) {
+		
+		if ($size > $maxsize) {
+			exit("上传文件过大！");
 		}
-		else
-		{
-			echo "上传文件名: " . $_FILES["file"]["name"] . "<br>";
-			echo "文件类型: " . $_FILES["file"]["type"] . "<br>";
-			echo "文件大小: " . ($_FILES["file"]["size"] / 1024) . " kB<br>";
-			echo "文件临时存储的位置: " . $_FILES["file"]["tmp_name"] . "<br>";
-			// 判断当前目录下的 upload 目录是否存在该文件
-			// 如果没有 upload 目录，你需要创建它，upload 目录权限为 777
-			if (file_exists("../headimg/" . $_FILES["headimg"]["name"]))
-			{
-				echo $_FILES["headimg"]["name"] . " 文件已经存在。 ";
-			}
-			else
-			{
-				// 如果 upload 目录不存在该文件则将文件上传到 headimg 目录下
-				$ext = pathinfo($_FILES["headimg"]["name"] , PATHINFO_EXTENSION);//提取上传文件的拓展名
-				$uniName = md5(uniqid(microtime(true) , true)) . ".$ext";//md5加密，uniqid产生唯一id，microtime做前缀
-				chmod("../headimg/" , 777);
-				move_uploaded_file($_FILES["headimg"]["tmp_name"] , "../headimg/" . $uniName);
-				echo "文件存储在: " . "../headimg/" . $uniName;
-			}
+		if (!in_array($ext , $allowExt)) {
+			exit("非法文件类型");
+		}
+		if (!is_uploaded_file($tmp_name)) {
+			exit("上传方式有误，请使用post方式");
+		}
+		//判断是否为真实图片（防止伪装成图片的病毒一类的
+		if (!getimagesize($tmp_name)) {//getimagesize真实返回数组，否则返回false
+			exit("不是真正的图片类型");
+		}
+		//move_uploaded_file($tmp_name, "uploads/".$filename);
+		if (@move_uploaded_file($tmp_name , $destination)) {//@错误抑制符，不让用户看到警告
+			echo "<script>alert('文件{$filename}上传成功!')</script>";
+			
+		} else {
+			echo "<script>alert('文件{$filename}上传失败!')</script>";
+		}
+	} else {
+		switch ($error) {
+			case 1:
+				echo "<script>alert('超过了上传文件的最大值，请上传10M以下文件');</script>";
+				break;
+			case 2:
+				echo "<script>alert('上传文件过多，请一次上传20个及以下文件！');</script>";
+				break;
+			case 3:
+				echo "<script>alert('文件并未完全上传，请再次尝试！');</script>";
+				break;
+			case 4:
+				echo "<script>alert('未选择上传文件！');</script>";
+				break;
+			case 7:
+				echo "<script>alert('没有临时文件夹');</script>";
+				break;
 		}
 	}
-	else
-	{
-		echo "<script>alert('头像上传错误：非法的文件格式')</script>";
-	}
-	$imgname = "../headimg/" . $uniName;
-	siginok(insertAll("user" , null , $_POST['id'] , $_POST['email'] , $_POST['sex'] , $_POST['phone'] , $_POST['name'] , $_POST['invitecode'] , $_POST['career'] , $imgname , $_POST['password'] , $_POST['admin'] , $conn));
+	$imgname = $destination;
+	siginok(insertAll("user" , null , $_POST['id'] , $_POST['email'] , $_POST['sex'] , $_POST['phone'] , $_POST['name'] , $_POST['invitecode'] , $_POST['career'] , $imgname , $_POST['password'] , $_POST['admin'] , null , $conn));
 }
 function siginok($bool){
     if($bool){

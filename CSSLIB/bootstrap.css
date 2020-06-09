@@ -4968,9 +4968,9 @@ a.label:focus {
   text-align: center;
   white-space: nowrap;
   vertical-align: middle;
-  background-color: #777;
+  background-color: rgb(241, 1, 128);
   border-radius: 10px;
-}
+  }
 .badge:empty {
   display: none;
 }
@@ -5294,11 +5294,11 @@ a.thumbnail.active {
 .list-group-item {
   position: relative;
   display: block;
-  padding: 10px 15px;
+  padding: 20px 20px;
   margin-bottom: -1px;
-  background-color: #fff;
-  border: 1px solid #ddd;
-}
+  background-color: rgb(60, 68, 77);
+  /*border: 1px solid #ddd;*/
+  }
 .list-group-item:first-child {
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
@@ -5310,12 +5310,12 @@ a.thumbnail.active {
 }
 a.list-group-item,
 button.list-group-item {
-  color: #555;
-}
+  color: white;
+  }
 a.list-group-item .list-group-item-heading,
 button.list-group-item .list-group-item-heading {
-  color: #333;
-}
+  color: white;
+  }
 a.list-group-item:hover,
 button.list-group-item:hover,
 a.list-group-item:focus,

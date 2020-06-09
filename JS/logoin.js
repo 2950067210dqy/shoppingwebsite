@@ -3,21 +3,21 @@
  */
 //验证码
 $(function () {
-    //验证码
-    let randomnum = [];
-    drawCodeImg(randomnum);
-    $(".security_code_img,#superadmin,#admin").on('click', function () {
-        drawCodeImg(randomnum);
-    });
-    
-    $("#form").on('submit', function () {
-        var inputcode = $('#security_code').val();
-        var savecode = randomnum.join("");
-        if (inputcode == savecode) {
-            $('#security_code').val('');
-            return true;
-        } else {
-            alert('验证码错误！');
+	//验证码
+	let randomnum = [];
+	drawCodeImg(randomnum);
+	$(".security_code_img,#superadmin,#admin,#merchant").on('click', function () {
+		drawCodeImg(randomnum);
+	});
+	
+	$("#form").on('submit', function () {
+		var inputcode = $('#security_code').val();
+		var savecode = randomnum.join("");
+		if (inputcode == savecode) {
+			$('#security_code').val('');
+			return true;
+		} else {
+			alert('验证码错误！');
             $('#security_code').val('');
             drawCodeImg(randomnum);
             return false;
@@ -110,41 +110,61 @@ function checkall(type) {
         if (id.length != 0 && document.getElementById('superlogoin').value == '登录' &&
             password.length != 0
         ) {
-
-            document.getElementById('superlogoin').value = "确定登录";
-            document.getElementById('superlogoin').removeAttribute("disabled");
-
+	
+	        document.getElementById('superlogoin').value = "确定登录";
+	        document.getElementById('superlogoin').removeAttribute("disabled");
+	
         } else {
-            document.getElementById('superlogoin').value = "登录";
+	        document.getElementById('superlogoin').value = "登录";
         }
     }
 }
 
-document.getElementById('superadmin').addEventListener('click',Alltab2);
+document.getElementById('superadmin').addEventListener('click', Alltab2);
+document.getElementById('merchant').addEventListener('click', Alltab3);
+
 function Alltab1() {
-    tab('admin');
+	tab('admin');
 }
+
 function Alltab2() {
-    tab('superadmin');
+	tab('superadmin');
 }
+
+function Alltab3() {
+	tab('merchant');
+}
+
 function tab(name) {
-    switch (name) {
-        case "admin":
-    
-            document.getElementById('isadmin').value='false';
-            document.getElementById('superadmin').style.borderBottom="none";
-            document.getElementById('admin').style.borderBottom=" 5px solid  rgb(241,1,128)";
-            document.getElementById('admin').removeEventListener('click',Alltab1);
-            document.getElementById('superadmin').addEventListener('click',Alltab2);
-            break;
-        case "superadmin":
-            document.getElementById('isadmin').value='true';
-            document.getElementById('admin').style.borderBottom="none";
-            document.getElementById('superadmin').style.borderBottom=" 5px solid  rgb(241,1,128)";
-            document.getElementById('superadmin').removeEventListener('click',Alltab2);
-            document.getElementById('admin').addEventListener('click',Alltab1);
-            break;
-    }
-
-
+	switch (name) {
+		case "admin":
+			
+			document.getElementById('isadmin').value = 'false';
+			document.getElementById('superadmin').style.borderBottom = "none";
+			document.getElementById('merchant').style.borderBottom = "none";
+			document.getElementById(name).style.borderBottom = " 5px solid  rgb(241,1,128)";
+			document.getElementById(name).removeEventListener('click', Alltab1);
+			document.getElementById('superadmin').addEventListener('click', Alltab2);
+			document.getElementById('merchant').addEventListener('click', Alltab3);
+			break;
+		case "superadmin":
+			document.getElementById('isadmin').value = 'true';
+			document.getElementById('admin').style.borderBottom = "none";
+			document.getElementById('merchant').style.borderBottom = "none";
+			document.getElementById(name).style.borderBottom = " 5px solid  rgb(241,1,128)";
+			document.getElementById(name).removeEventListener('click', Alltab2);
+			document.getElementById('admin').addEventListener('click', Alltab1);
+			document.getElementById('merchant').addEventListener('click', Alltab3);
+			break;
+		case "merchant":
+			document.getElementById('isadmin').value = 'merchant';
+			document.getElementById('admin').style.borderBottom = "none";
+			document.getElementById('superadmin').style.borderBottom = "none";
+			document.getElementById(name).style.borderBottom = " 5px solid  rgb(241,1,128)";
+			document.getElementById(name).removeEventListener('click', Alltab2);
+			document.getElementById('admin').addEventListener('click', Alltab1);
+			document.getElementById('superadmin').addEventListener('click', Alltab2);
+	}
+	
+	
 }

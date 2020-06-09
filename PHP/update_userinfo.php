@@ -41,6 +41,7 @@ if(isset($_POST['exit'])||isset($_GET['exit'])){
 	unset($_SESSION['career']);
 	unset($_SESSION['headimg']);
 	unset($_SESSION['isadmin']);
+	unset($_SESSION['sign_time']);
 	if (isset($_SESSION['shopnum'])) {
 		unset($_SESSION['shopnum']);
 	}

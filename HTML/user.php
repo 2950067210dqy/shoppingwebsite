@@ -150,12 +150,11 @@ require('../PHP/conn.php');
 						    <td>
 							    <?php
                             //查找session存储的账号是不是管理员账号，是的话就显示到管理员界面信息
-                           if($_SESSION['isadmin']=="false"){
-                               echo '<input type="submit" name="update"  id="update" value="提交信息" disabled="false"></td>';
-
-                           }
-                           else {
-                               echo '<input type="submit" name="watchall"  id="watchall" value="查看所有用户信息"></td>';
+                           if ($_SESSION['isadmin'] == "false") {
+	                           echo '<input type="submit" name="update"  id="update" value="提交信息" disabled="false"></td>';
+	
+                           } else if ($_SESSION['isadmin'] == "true") {
+	                           echo '<input type="submit" name="watchall"  id="watchall" value="查看所有用户信息"></td>';
                            }
                             ?>
                         <td>

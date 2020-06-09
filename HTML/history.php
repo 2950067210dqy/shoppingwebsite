@@ -449,7 +449,7 @@ $a_month_ago = date('Y-m-d' , time() - 60 * 60 * 24 * 30);
 		</div>
 	</div>
 </div>
-
+<script src="../JS/index_jquery.js"></script>
 </body>
 
 </html>

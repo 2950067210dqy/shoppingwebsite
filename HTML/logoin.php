@@ -46,6 +46,7 @@
 		
 		    <input name="admin" type="submit" id="admin" value="用户登录">
 		    <input name="superadmin" type="submit" id="superadmin" value="管理员登录" style="border-bottom: none;">
+		    <input name="merchant" type="submit" id="merchant" value="商家登录" style="border-bottom: none;">
 		    <form id="form" method="post"
 		          action="../PHP/login_check.php?beforeAddre=<?php echo urlencode($_SERVER['HTTP_REFERER']); ?>">
 			    <input type="hidden" value="false" id="isadmin" name="isadmin">

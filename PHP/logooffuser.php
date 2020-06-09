@@ -13,6 +13,7 @@ if(deleteWhereOne('user','id',$_SESSION['id'],$conn)){
 	unset($_SESSION['career']);
 	unset($_SESSION['headimg']);
 	unset($_SESSION['isadmin']);
+	unset($_SESSION['sign_time']);
 	echo "<script>location.assign('../HTML/index.php')</script>";
 }
 else{

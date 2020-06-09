@@ -939,80 +939,78 @@ if (isset($_SESSION['id'])) {
 		                </ul>
 	                </div>
 
-	                
-	                
+
                 </div>
             </a>
-            <ul class="menuul">
-                <li style="margin-left:40px;">
-                    <a href=" #" style="color: rgb(241,1,128); font-weight: bold" >
-                        首页
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        12.12预付
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        最后疯抢
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        唯品快抢
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        女装
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        母婴
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        家电
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        国际
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        美妆
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        鞋包
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        预告
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        更多
-                    </a>
-                </li>
-
-
-
-            </ul>
+	        <ul class="menuul">
+		        <li style="margin-left:40px;">
+			        <a href="index.php" style="color: rgb(241,1,128); font-weight: bold">
+				        首页
+			        </a>
+		        </li>
+		        <li>
+			        <a href="product_all.php?type=boy_shirt">
+				        男士衬衫
+			        </a>
+		        </li>
+		        <li>
+			        <a href="product_all.php?type=boy_yurongfu">
+				        男士羽绒服
+			        </a>
+		        </li>
+		        <li>
+			        <a href="product_all.php?type=boy_jiake">
+				        男士夹克
+			        </a>
+		        </li>
+		        <li>
+			        <a href="product_all.php?type=girl_lianyiqun">
+				        连衣裙
+			        </a>
+		        </li>
+		        <li>
+			        <a href="product_all.php?type=girl_banshenqun">
+				        半身裙
+			        </a>
+		        </li>
+		        <li>
+			        <a href="product_all.php?type=girl_duanwaitao">
+				        短外套
+			        </a>
+		        </li>
+		        <li>
+			        <a href="product_all.php?type=girl_xiaoxizhuang">
+				        女士小西装
+			        </a>
+		        </li>
+		        <li>
+			        <a href="product_all.php?type=girl_yangrongshan">
+				        女士羊绒衫
+			        </a>
+		        </li>
+		        <li>
+			        <a href="product_all.php?type=boy_xiuxianku">
+				        男士休闲裤
+			        </a>
+		        </li>
+		        <li>
+			        <a href="product_all.php?type=boy_txue">
+				        男士T恤
+			        </a>
+		        </li>
+		        <li>
+			        <a href="#">
+				        更多
+			        </a>
+		        </li>
+	
+	
+	        </ul>
         </div>
     </div>
-
-
-<!--轮播图-->
+	
+	
+	<!--轮播图-->
 	
 	<div class="container">
 		<div class="row">
