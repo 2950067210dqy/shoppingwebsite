@@ -131,13 +131,25 @@ if (isset($_SESSION['id'])) {
 						echo date('Y-m-d' , time());
 						?>
 					</li>
+					<?php
+					if (isset($_SESSION['isadmin'])) {
+						if ($_SESSION['isadmin'] == 'merchant') {
+							echo "<li style=\"color: rgb(157,157,157); font-weight: bold\">/</li><li><a href=\"merchant.php?id={$_SESSION['id']}\"> 我的店铺</a></li>";
+						}
+					}
+					
+					?>
 					<li style="color: rgb(157,157,157); font-weight: bold">
 						/
 					</li>
 					<li>
 						<?php
-						if ((isset($_SESSION['isadmin'])) && $_SESSION['isadmin'] == 'merchant') {
-							echo "<a href=\"../Background/main.php\"> 后台管理</a>";
+						if (isset($_SESSION['isadmin'])) {
+							if ($_SESSION['isadmin'] == 'merchant' || $_SESSION['isadmin'] == 'true') {
+								
+								echo "<a href=\"../Background/main.php\"> 后台管理</a>";
+								
+							}
 						} else {
 							echo "<a href=\"../PHP/indexLocation.php\"> 更多</a>";
 						}
@@ -267,11 +279,11 @@ if (isset($_SESSION['id'])) {
 	
 	<!--	商品详情信息-->
 	<?php
-	if (isset($_GET['id'])){
-		$id=intval($_GET['id']);
+	if (isset($_GET['id'])) {
+		$id = intval($_GET['id']);
 	}
-	$result=$conn->query("select * from {$_GET['type']} where id = $id");
-	$row=$result->fetch_assoc();
+	$result = $conn -> query("select * from  products,shop where id = $id and merchant_id =shop_id");
+	$row = $result -> fetch_assoc();
 	?>
 	<form action="../PHP/close_account.php" method="post">
 		<div class="product_information">
@@ -332,7 +344,7 @@ if (isset($_SESSION['id'])) {
 				</div>
 				<div class="product_title">
 					<font size="2px" color="#999999"><a
-							href="<?php echo $row['merchant_addre'] ?>">❥<?php echo $row['merchant']; ?></a></font>
+								href="shop.php?id=<?php echo $row['shop_id'] ?>">❥<?php echo $row['shop_name']; ?></a></font>
 				</div>
 				<div class="sale_price">
 					<div class="price">
@@ -385,40 +397,47 @@ if (isset($_SESSION['id'])) {
 				<th colspan="5">
 					<div class="text-center">猜你喜欢<a href="javascript:void(0)"
 					                                style="cursor: pointer;background-color: transparent;font-size: 12px;color: white"
-					                                id="<?php echo $_GET['type']?>" onclick="loadXMLDoc(this.id)">点击刷新...</a></div></th>
+					                                id="<?php echo $_GET['type'] ?>" onclick="loadXMLDoc(this.id)">点击刷新...</a>
+					</div>
+				</th>
 			</tr>
 			<?php
 			//随机生成10个推荐，并显示出来
-			$sql="select id from {$_GET['type']}";
-			$result =$conn->query($sql);
-			$num=$result->num_rows;
-			$random=mt_rand(0,$num-15);
-			$sql="select * from {$_GET['type']}  limit {$random},15";
-			$result =$conn->query($sql);
-			$i=1;
-			if ($result->num_rows> 0) {
-				while ($row = $result->fetch_assoc()) {
-					if($i%5==1){
+			$sql = "select id from products where type =  '{$_GET['type']}'";
+			$result = $conn -> query($sql);
+			$num = $result -> num_rows;
+			$random = mt_rand(0 , $num - 15);
+			$sql = "select products.id as p_id,user.id as u_id,img_addre,price,title,shop_id,img_addr,username,shop_name,type from products,shop,user where type='{$_GET['type']}' and shop_id=merchant_id and user.id=user_id  limit {$random},15";
+			$result = $conn -> query($sql);
+			$i = 1;
+			if ($result -> num_rows > 0) {
+				while ($row = $result -> fetch_assoc()) {
+					if ($i % 5 == 1) {
 						echo "<tr>";
 					}
 					?>
 					<td>
 						<div class="shopItem text-left">
-							<a href="product.php?id=<?php echo $row['id']; ?>&type=<?php echo $row['type']; ?>"><img src="<?php echo $row['img_addre']; ?>"></a>
+							<a href="product.php?id=<?php echo $row['p_id']; ?>&type=<?php echo $row['type']; ?>"><img
+										src="<?php echo $row['img_addre']; ?>"></a>
 							<span style="font-size: 20px;color: #e4393c;">￥&nbsp;&nbsp;<?php echo $row['price']; ?></span>
-							<p><a href="product.php?id=<?php echo $row['id']; ?>&type=<?php echo $row['type']; ?>"
-							      class="item_title"><?php if(strlen($row['title'])>80) echo substr($row['title'],0,80).'....';else echo $row['title']; ?></a></p>
-							<p><a href="<?php echo $row['merchant_addre']; ?>" class="item_merchant"><font
-										color="#4d88ff">●</font><?php echo $row['merchant']; ?></a>
-								<span class="item_merchant_place"> <?php echo $row['merchant_place']; ?></span>
+							<p><a href="product.php?id=<?php echo $row['p_id']; ?>&type=<?php echo $row['type']; ?>"
+							      class="item_title"><?php if (strlen($row['title']) > 80) echo substr($row['title'] , 0 , 80) . '....'; else echo $row['title']; ?></a>
+							</p>
+							<p><a href="shop.php?id=<?php echo $row['shop_id']; ?>" class="item_merchant"><font
+											color="#4d88ff">●</font><?php echo $row['shop_name']; ?></a><br>
+								<span class="item_merchant_place"><a
+											href="user_other.php?id=<?php echo $row['u_id'] ?>"> <img
+												src="<?php echo $row['img_addr'] ?>"
+												style="width: 30px;height: 30px;display: inline;border-radius: 50%"><?php echo $row['username'] ?></a></span>
 							</p>
 						</div>
 					</td>
 					<?php
-					if($i%10==0){
+					if ($i % 10 == 0) {
 						echo "</tr>";
 					}
-					$i++;
+					$i ++;
 				}}
 			?>
 		</table>

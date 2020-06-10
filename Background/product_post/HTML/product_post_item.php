@@ -84,7 +84,7 @@ $page == 1 ? $limitindex = 0 : $limitindex = ($page - 1) * $pageSize;
 				</button>
 				<?php
 				if (isset($_GET['searchtext']) && isset($_GET['sel'])) {
-					echo "<a href='productitem.php?id={$_GET['id']}' class='btn btn-default'>返回</a>";
+					echo "<a href='product_post_item.php?id={$_GET['id']}' class='btn btn-default'>返回</a>";
 				} else {
 					echo "<a href='product_post.php' class='btn btn-default'>返回</a>";
 				}

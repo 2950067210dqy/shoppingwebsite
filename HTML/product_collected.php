@@ -115,7 +115,7 @@ if (isset($_SESSION['id'])) {
 					$result = $conn -> query($sql);
 					while ($row = $result -> fetch_assoc()) {
 						if ($row) {
-							$sql2 = "select * from {$row['product_type']} where id = {$row['product_id']}";
+							$sql2 = "select products.id as p_id,user.id as u_id,img_addre,price,title,shop_id,img_addr,username,shop_name,type from products,shop,user where products.id='{$row['id']}' and shop_id=merchant_id and user.id=user_id";
 							$result2 = $conn -> query($sql2);
 							$row2 = $result2 -> fetch_assoc();
 							if ($row2) {
@@ -123,18 +123,18 @@ if (isset($_SESSION['id'])) {
 								<div class=" col-lg-2 text-left ">
 									<div class=" product_container thumbnail"
 									     style="position: relative;background-color: inherit">
-										<a href="product.php?id=<?php echo $row2['id']; ?>&type=<?php echo $row2['type']; ?>"><img
+										<a href="product.php?id=<?php echo $row2['p_id']; ?>&type=<?php echo $row2['type']; ?>"><img
 													src="<?php echo $row2['img_addre']; ?>"></a>
 										<div class="caption">
 											<span style="font-size: 20px;color: #e4393c;">￥<?php echo $row2['price']; ?></span>
 											<p>
-												<a href="product.php?id=<?php echo $row2['id']; ?>&type=<?php echo $row2['type']; ?>"
+												<a href="product.php?id=<?php echo $row2['p_id']; ?>&type=<?php echo $row2['type']; ?>"
 												   class="item_title"
 												   title="<?php echo $row2['title'] ?>"><?php if (strlen($row2['title']) > 50) echo substr($row2['title'] , 0 , 50) . '....'; else echo $row2['title']; ?></a>
 											</p>
-											<p><a href="<?php echo $row2['merchant_addre']; ?>"
-											      title="<?php echo $row2['merchant'] ?>" class="item_merchant"><font
-															color="#4d88ff">●店铺：</font><?php if (strlen($row2['merchant']) > 10) echo substr($row2['merchant'] , 0 , 10) . '....'; else echo $row2['merchant']; ?>
+											<p><a href="shop.php?id=<?php echo $row2['shop_id']; ?>"
+											      title="<?php echo $row2['shop_name'] ?>" class="item_merchant"><font
+															color="#4d88ff">●店铺：</font><?php if (strlen($row2['shop_name']) > 10) echo substr($row2['shop_name'] , 0 , 10) . '....'; else echo $row2['shop_name']; ?>
 												</a>
 											</p>
 											<span style="position: absolute;right: 0;top: 0;opacity:0.8;">

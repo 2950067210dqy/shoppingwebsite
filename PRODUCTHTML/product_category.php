@@ -21,9 +21,9 @@ switch ($type) {
 ?>
 
 <?php
-$result = $conn->query("select id from $type ");
-$random=mt_rand(0,($result->num_rows)-60);
-$sql="select * from $type limit {$random},60";
+$result = $conn -> query("select id from products where type= '$type' ");
+$random = mt_rand(0 , ($result -> num_rows) - 60);
+$sql = "select products.id as p_id,user.id as u_id,img_addre,price,title,shop_id,img_addr,username,shop_name,type from products,shop,user where type='$type' and shop_id=merchant_id and user.id=user_id limit {$random},60";
 
 //				$result =$conn->query('select * from boy_clothes_product where type=\'boy_shirt\' limit 0,60');
 $i=1;
@@ -47,27 +47,30 @@ if($_GET['flag']=="false"){
 $result =$conn->query($sql);
 if ($result->num_rows> 0) {
 	while ($row = $result->fetch_assoc()) {
-		if($i%6==0){
+		if ($i % 6 == 0) {
 			echo "<div class=\"row\" >";
 		}
 		?>
 		<div class="col-lg-2 col-md-3 col-ms-3 col-xs-6">
 			<div class="item">
-				<a href="product.php?id=<?php echo $row['id']; ?>&type=<?php echo $row['type']; ?>"><img
-						src="<?php echo $row['img_addre']; ?>"></a>
-				<span style="font-size: 20px;color: #e4393c;">￥&nbsp;&nbsp;<?php echo $row['price']; ?></span>
-				<p><a href="product.php?id=<?php echo $row['id']; ?>&type=<?php echo $row['type']; ?>"
-				      class="item_title"><?php if(strlen($row['title'])>100) echo substr($row['title'],0,100).'....';else echo $row['title']; ?></a></p>
-				<p><a href="<?php echo $row['merchant_addre']; ?>" class="item_merchant"><font
-							color="#4d88ff">●</font><?php echo $row['merchant']; ?></a>
-					<span class="item_merchant_place"> <?php echo $row['merchant_place']; ?></span>
+				<a href="product.php?id=<?php echo $row['p_id']; ?>&type=<?php echo $row['type']; ?>"><img
+							src="<?php echo $row['img_addre']; ?>"></a>
+				<span style="font-size: 20px;color: #e4393c;">￥<?php echo $row['price']; ?></span>
+				<p><a href="product.php?id=<?php echo $row['p_id']; ?>&type=<?php echo $row['type']; ?>"
+				      class="item_title"><?php if (strlen($row['title']) > 100) echo substr($row['title'] , 0 , 100) . '....'; else echo $row['title']; ?></a>
+				</p>
+				<p><a href="shop.php?id=<?php echo $row['shop_id'] ?>" class="item_merchant"><font
+								color="#4d88ff">●</font><?php echo $row['shop_name']; ?></a><br>
+					<span class="item_merchant_place"><a href="user_other.php?id=<?php echo $row['u_id'] ?>"> <img
+									src="<?php echo $row['img_addr'] ?>"
+									style="width: 30px;height: 30px;display: inline;border-radius: 50%"><?php echo $row['username'] ?></a></span>
 				</p>
 			</div>
 		</div>
 		<?php
-		if($i%6==0){
+		if ($i % 6 == 0) {
 			echo "</div>";
 		}
-		$i++;
+		$i ++;
 	}}
 ?>

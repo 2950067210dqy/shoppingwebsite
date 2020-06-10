@@ -212,12 +212,12 @@ if(!isset($_GET['price'])||$_GET['price']=="asc"){
 				} else {
 					$page = 1;
 				}
-				$sql = "select id from {$_GET['type']}";
+				$sql = "select id from products where type = '{$_GET['type']}'";
 				//			根据搜索结果查询
 				if (isset($_GET['searchtext'])) {
-					$sql = $sql . " where title like '%{$_GET['searchtext']}%' ";
+					$sql = $sql . " and title like '%{$_GET['searchtext']}%' ";
 				} elseif (isset($_GET['from_price']) && isset($_GET['to_price'])) {
-					$sql = $sql . " where price >= {$_GET['from_price']} and price <= {$_GET['to_price']}";
+					$sql = $sql . " and price >= {$_GET['from_price']} and price <= {$_GET['to_price']}";
 				}
 				$result = $conn -> query($sql);
 				$RecordCount = $result -> num_rows;
@@ -225,19 +225,19 @@ if(!isset($_GET['price'])||$_GET['price']=="asc"){
 				//			根据是否选择价钱排序查询
 				if (!isset($_GET['price']) || $_GET['price'] == "asc") {
 					//			根据搜索结果查询
-					$sql = "select id,type,img_addre,title,merchant_addre,merchant,merchant_place,price from {$_GET['type']}";
+					$sql = "select products.id as p_id,user.id as u_id,img_addre,price,title,shop_id,img_addr,username,shop_name,type from products,shop,user where type='{$_GET['type']}' and shop_id=merchant_id and user.id=user_id  ";
 					if (isset($_GET['searchtext'])) {
-						$sql = $sql . " where title like '%{$_GET['searchtext']}%' ";
+						$sql = $sql . " and title like '%{$_GET['searchtext']}%' ";
 						echo " <div class=\"col-lg-12 text-center\" style='font-size: 25px'>您查询到的商品名为'{$_GET['searchtext']}',共查询到{$RecordCount}条记录 </div>";
 					} elseif (isset($_GET['from_price']) && isset($_GET['to_price'])) {
-						$sql = $sql . " where price >= {$_GET['from_price']} and price <= {$_GET['to_price']} order by price asc";
+						$sql = $sql . " and price >= {$_GET['from_price']} and price <= {$_GET['to_price']} order by price asc";
 						echo " <div class=\"col-lg-12 text-center\" style='font-size: 25px'>您查询的商品价格区间为￥{$_GET['from_price']}-￥{$_GET['to_price']},共查询到{$RecordCount}条记录 </div>";
 					}
 					$sql = $sql . "  limit $limitindex,$pageSize";
 				} elseif ($_GET['price'] == "desc")
-					$sql = "select id,type,img_addre,title,merchant_addre,merchant,merchant_place,price from {$_GET['type']} order by price asc limit $limitindex,$pageSize";
+					$sql = "select products.id as p_id,user.id as u_id,img_addre,price,title,shop_id,img_addr,username,shop_name,type from products,shop,user where type='{$_GET['type']}' and shop_id=merchant_id and user.id=user_id  order by price asc limit $limitindex,$pageSize";
 				elseif ($_GET['price'] == "random") {
-					$sql = "select id,type,img_addre,title,merchant_addre,merchant,merchant_place,price from {$_GET['type']} order by price desc limit $limitindex,$pageSize";
+					$sql = "select products.id as p_id,user.id as u_id,img_addre,price,title,shop_id,img_addr,username,shop_name,type from products,shop,user where type='{$_GET['type']}' and shop_id=merchant_id and user.id=user_id  order by price desc limit $limitindex,$pageSize";
 				}
 				$result = $conn -> query($sql);
 				if ($result -> num_rows > 0) {
@@ -246,17 +246,22 @@ if(!isset($_GET['price'])||$_GET['price']=="asc"){
 							?>
 							<div class="col-sm-4 col-xs-6 col-md-2">
 								<div class="thumbnail" style="height: 380px">
-									<a href="product.php?id=<?php echo $row['id']; ?>&type=<?php echo $row['type']; ?>"><img
-												src="<?php echo $row['img_addre']; ?>"></a>
+									<a href="product.php?id=<?php echo $row['p_id']; ?>&type=<?php echo $row['type']; ?>"><img
+											src="<?php echo $row['img_addre']; ?>"></a>
 									<div class="caption">
-										<span style="font-size: 20px;color: #e4393c;">￥<?php echo $row['price']; ?></span>
+										<span
+											style="font-size: 20px;color: #e4393c;">￥<?php echo $row['price']; ?></span>
 										<p>
-											<a href="product.php?id=<?php echo $row['id']; ?>&type=<?php echo $row['type']; ?>"
+											<a href="product.php?id=<?php echo $row['p_id']; ?>&type=<?php echo $row['type']; ?>"
 											   class="item_title"><?php if (strlen($row['title']) > 150) echo substr($row['title'] , 0 , 150) . '....'; else echo $row['title']; ?></a>
 										</p>
-										<p><a href="<?php echo $row['merchant_addre']; ?>" class="item_merchant"><font
-														color="#4d88ff">●</font><?php echo $row['merchant']; ?></a>
-											<span class="item_merchant_place"> <?php echo $row['merchant_place']; ?></span>
+										<p><a href="shop.php?id=<?php echo $row['shop_id']; ?>"
+										      class="item_merchant"><font
+													color="#4d88ff">●</font><?php echo $row['shop_name']; ?></a><br>
+											<span class="item_merchant_place"> <a
+													href="user_other.php?id=<?php echo $row['u_id'] ?>"><img
+														src="<?php echo $row['img_addr'] ?>"
+														style="width: 30px;height: 30px;display: inline;border-radius: 50%"><?php echo $row['username'] ?></a></span>
 										</p>
 									</div>
 								</div>

@@ -131,7 +131,7 @@ if (!isset($_GET['price']) || $_GET['price'] == "asc") {
 			);
 			$allresultnum = 0;
 			foreach ($table as $value) {
-				$sql = "select id from {$value} where ";
+				$sql = "select id from products where type = '{$value}' and ";
 				$arr = explode(" " , $_GET['searchtext']);
 				for ($i = 0; $i < count($arr); $i ++) {
 					if ($i == (count($arr) - 1)) {
@@ -162,7 +162,7 @@ if (!isset($_GET['price']) || $_GET['price'] == "asc") {
 			
 			//			根据是否选择价钱排序查询
 			foreach ($table as $value) {
-				$sql = "select id,type,img_addre,title,merchant_addre,merchant,merchant_place,price from {$value} where ";
+				$sql = "select products.id as p_id,user.id as u_id,img_addre,price,title,shop_id,img_addr,username,shop_name,type from products,shop,user where type='{$value}' and shop_id=merchant_id and user.id=user_id and ";
 				for ($i = 0; $i < count($arr); $i ++) {
 					if ($i == (count($arr) - 1)) {
 						$sql .= " {$_GET['sel']} like '%{$arr[$i]}%'";
@@ -184,19 +184,23 @@ if (!isset($_GET['price']) || $_GET['price'] == "asc") {
 						if ($row) { ?>
 							<div class="col-sm-4 col-xs-6 col-md-2">
 								<div class="thumbnail" style="height: 380px">
-									<a href="product.php?id=<?php echo $row['id']; ?>&type=<?php echo $row['type']; ?>"><img
+									<a href="product.php?id=<?php echo $row['p_id']; ?>&type=<?php echo $row['type']; ?>"><img
 											src="<?php echo $row['img_addre']; ?>"></a>
 									<div class="caption">
 										<span
 											style="font-size: 20px;color: #e4393c;">￥<?php echo $row['price']; ?></span>
 										<p>
-											<a href="product.php?id=<?php echo $row['id']; ?>&type=<?php echo $row['type']; ?>"
+											<a href="product.php?id=<?php echo $row['p_id']; ?>&type=<?php echo $row['type']; ?>"
 											   class="item_title"><?php if (strlen($row['title']) > 150) echo substr($row['title'] , 0 , 150) . '....'; else echo $row['title']; ?></a>
 										</p>
-										<p><a href="<?php echo $row['merchant_addre']; ?>" class="item_merchant"><font
-													color="#4d88ff">●</font><?php echo $row['merchant']; ?></a>
+										<p><a href="shop.php?id=<?php echo $row['shop_id']; ?>"
+										      class="item_merchant"><font
+													color="#4d88ff">●</font><?php echo $row['shop_name']; ?></a><br>
 											<span
-												class="item_merchant_place"> <?php echo $row['merchant_place']; ?></span>
+												class="item_merchant_place"> <a
+													href="user_other.php?id=<?php echo $row['u_id'] ?>"> <img
+														src="<?php echo $row['img_addr'] ?>"
+														style="width: 30px;height: 30px;display: inline;border-radius: 50%"><?php echo $row['username'] ?></a></span>
 										</p>
 									</div>
 								</div>

@@ -53,6 +53,14 @@ require 'conn.php';
 	</tr>
 	<tr>
 		<td>
+			<span class="glyphicon glyphicon-user" aria-hidden="true"></span>用户类别:
+		</td>
+		<td>
+			<em><?php getadminType($rows['isadmin']); ?></em>
+		</td>
+	</tr>
+	<tr>
+		<td>
 			<span class="glyphicon glyphicon-user" aria-hidden="true"></span>用户头像:
 		</td>
 		<td>
@@ -64,7 +72,7 @@ require 'conn.php';
 			<span class="glyphicon glyphicon-user" aria-hidden="true"></span>用户账号:
 		</td>
 		<td>
-			<?php echo $rows['username'] ?>
+			<em><?php echo $rows['username'] ?></em>
 		</td>
 	</tr>
 	<tr>
@@ -72,7 +80,7 @@ require 'conn.php';
 			<span class="glyphicon glyphicon-user" aria-hidden="true"></span>用户名:
 		</td>
 		<Td>
-			<?php echo $rows['name'] ?>
+			<em><?php echo $rows['name'] ?></em>
 		</Td>
 	</tr>
 	<?php
@@ -92,10 +100,12 @@ require 'conn.php';
 			<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>店铺首次创建时间:
 		</td>
 		<td>
-			<?php if ($result -> num_rows > 0) {
-				$row3 = $result -> fetch_assoc();
-				echo $row3['shop_sign_time'];
-			} else echo "暂未创建" ?>
+			<em>
+				<?php if ($result -> num_rows > 0) {
+					$row3 = $result -> fetch_assoc();
+					echo $row3['shop_sign_time'];
+				} else echo "暂未创建" ?>
+			</em>
 		</td>
 	</tr>
 	<?php
@@ -115,10 +125,12 @@ require 'conn.php';
 			<span class="glyphicon glyphicon-euro" aria-hidden="true"></span>商品首次创建时间:
 		</td>
 		<td>
-			<?php if ($result -> num_rows > 0) {
-				$row4 = $result -> fetch_assoc();
-				echo $row4['time'];
-			} else echo "暂未创建" ?>
+			<em>
+				<?php if ($result -> num_rows > 0) {
+					$row4 = $result -> fetch_assoc();
+					echo $row4['time'];
+				} else echo "暂未创建" ?>
+			</em>
 		</td>
 	</tr>
 	<?php
@@ -154,7 +166,9 @@ require 'conn.php';
 			<span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>商品首次被评论时间:
 		</td>
 		<td>
-			<?php echo $time ?>
+			<em>
+				<?php echo $time ?>
+			</em>
 		</td>
 	</tr>
 	<tr>
@@ -162,7 +176,9 @@ require 'conn.php';
 			<span class="glyphicon glyphicon-user" aria-hidden="true"></span>用户注册时间:
 		</td>
 		<td>
-			<?php echo $rows['sign_time'] ?>
+			<em>
+				<?php echo $rows['sign_time'] ?>
+			</em>
 		</td>
 	</tr>
 </table>

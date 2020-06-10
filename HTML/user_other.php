@@ -1,6 +1,10 @@
 <?php
 session_start();
 require('../PHP/conn.php');
+if (!isset($_SESSION['id'])) {
+	echo "<script>alert('您暂未登录，请登录在查看他人的信息哦！');location.assign('logoin.php')</script>";
+	return;
+}
 if ($_GET['id'] == $_SESSION['id']) {
 	echo "<script>location.assign('user.php')</script>";
 }
@@ -79,6 +83,10 @@ if ($_GET['id'] == $_SESSION['id']) {
 								echo " <a class=\"btn btn-success\" href=\"message.php?id={$_GET['id']}\">和他（她）聊天</a>";
 							} else {
 								echo "<a class=\"btn btn-danger btn-block  add_user_friend_btn\" >加为好友</a>";
+							}
+							$row = selectAllWhereOne("user" , "id" , $_GET['id'] , 1 , $conn);
+							if ($row['isadmin'] == "merchant") {
+								echo "<a class=\"btn btn-success btn-block \" href='merchant.php?id={$row['id']}'>他的店铺</a>";
 							}
 						}
 						?>

@@ -47,24 +47,24 @@ if (isset($_SESSION['id'])) {
 		</div>
 	</div>
 	
-	<div class="update_tittle" >修改评论<a href="<?php echo $_SERVER['HTTP_REFERER'];?>" target="_self">返回评论</a></div>
+	<div class="update_tittle">修改评论<a href="<?php echo $_SERVER['HTTP_REFERER']; ?>" target="_self">返回评论</a></div>
 	
 	<!--	商品详情信息-->
 	<?php
-	if (isset($_GET['product_id'])){
-		$product_id=intval($_GET['product_id']);
+	if (isset($_GET['product_id'])) {
+		$product_id = intval($_GET['product_id']);
 	}
-	$result=$conn->query("select * from {$_GET['type']} where id = $product_id");
-	$row=$result->fetch_assoc();
+	$result = $conn -> query("select * from  products where id = $product_id");
+	$row = $result -> fetch_assoc();
 	?>
 	<div class="product_information">
 		<div class="product_img">
-			<img src="<?php echo $row['img_addre'];?> "  width="350" height="450" class="old_img">
-			<img src="<?php echo $row['img_addre'];?> "  width="500" height="620" class="new_img" >
+			<img src="<?php echo $row['img_addre']; ?> " width="350" height="450" class="old_img">
+			<img src="<?php echo $row['img_addre']; ?> " width="500" height="620" class="new_img">
 		</div>
 		<div class="information">
 			<div class="product_title">
-				<?php echo $row['title'];?>
+				<?php echo $row['title']; ?>
 			</div>
 			
 			<!--			要修改的评论-->

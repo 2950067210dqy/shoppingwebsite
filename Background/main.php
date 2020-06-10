@@ -3,6 +3,10 @@ session_start();
 if (!isset($_SESSION['username'])) {
 	echo "<script>location.assign('../HTML/logoin.php')</script>";
 }
+//管理员前往管理员后台管理
+if (isset($_SESSION['isadmin']) && $_SESSION['isadmin'] == 'true') {
+	echo "<script>location.assign('../BackgroundAdmin/main.php')</script>";
+}
 ?>
 <!DOCTYPE html>
 <html>

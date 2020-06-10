@@ -83,7 +83,7 @@ require '../PHP/conn.php';
 							$result = $conn -> query($sql);
 							while ($row = $result -> fetch_assoc()) {
 								if ($row) {
-									$sql2 = "select * from {$row['product_type']} where id = {$row['product_id']}";
+									$sql2 = "select products.id as p_id,user.id as u_id,img_addre,price,title,shop_id,img_addr,username,shop_name,type from products,shop,user where products.id='{$row['id']}' and shop_id=merchant_id and user.id=user_id ";
 									$result2 = $conn -> query($sql2);
 									$row2 = $result2 -> fetch_assoc();
 									if ($row2) {
@@ -94,18 +94,18 @@ require '../PHP/conn.php';
 											<td><input type='checkbox' id='choose' class="chooseProduct" name='choose[]'
 											           value="<?php echo $row['id'] ?>"></td>
 											<td>店铺：<a
-													href="<?php echo $row2['merchant_addre'] ?>"><?php echo $row2['merchant'] ?></a>
+														href="shop.php?id=<?php echo $row2['shop_id'] ?>"><?php echo $row2['shop_name'] ?></a>
 											</td>
 											<td>
-												<a href="../HTML/product.php?id=<?php echo $row2['id'] ?>&type=<?php echo $row2['type'] ?>"><img
-														src="<?php echo $row2['img_addre'] ?>" width="100"
-														height="100"></a>
+												<a href="../HTML/product.php?id=<?php echo $row2['p_id'] ?>&type=<?php echo $row2['type'] ?>"><img
+															src="<?php echo $row2['img_addre'] ?>" width="100"
+															height="100"></a>
 											</td>
 											<td width="30%"><a
-													href="../HTML/product.php?id=<?php echo $row2['id'] ?>&type=<?php echo $row2['type'] ?>"><?php echo $row2['title'] ?></a>
+														href="../HTML/product.php?id=<?php echo $row2['p_id'] ?>&type=<?php echo $row2['type'] ?>"><?php echo $row2['title'] ?></a>
 											</td>
 											<td><font color="black" size="3"><b>￥</b><b
-														class="price"><?php echo $row2['price'] ?></b></font></td>
+															class="price"><?php echo $row2['price'] ?></b></font></td>
 											<td class="text-center">
 												<a href="javascript:void(0)" class="btn btn-default subtract"
 												   title="<?php echo $row['id'] ?>">-</a>

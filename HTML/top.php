@@ -54,13 +54,23 @@
 					echo date('Y-m-d' , time());
 					?>
 				</li>
+				<?php
+				if (isset($_SESSION['isadmin'])) {
+					if ($_SESSION['isadmin'] == 'merchant') {
+						echo "<li style=\"color: rgb(157,157,157); font-weight: bold\">/</li><li><a href=\"merchant.php?id={$_SESSION['id']}\"> 我的店铺</a></li>";
+					}
+				}
+				
+				?>
 				<li style="color: rgb(157,157,157); font-weight: bold">
 					/
 				</li>
 				<li>
 					<?php
-					if ((isset($_SESSION['isadmin'])) && $_SESSION['isadmin'] == 'merchant') {
-						echo "<a href=\"../Background/main.php\"> 后台管理</a>";
+					if (isset($_SESSION['isadmin'])) {
+						if ($_SESSION['isadmin'] == 'merchant' || $_SESSION['isadmin'] == 'true') {
+							echo "<a href=\"../Background/main.php\"> 后台管理</a>";
+						}
 					} else {
 						echo "<a href=\"../PHP/indexLocation.php\"> 更多</a>";
 					}

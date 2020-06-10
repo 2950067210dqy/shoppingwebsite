@@ -1117,17 +1117,17 @@ if (isset($_SESSION['id'])) {
 			</div>
 		</div>
 	</div>
-<!--	商品容器-->
+	<!--	商品容器-->
 	<div class="container" id="container" style="margin-top: 2%">
-				<?php
-				$result = $conn->query("select id from boy_shirt ");
-				$random=mt_rand(0,($result->num_rows)-60);
-				$sql="select * from boy_shirt limit {$random},60";
-				$result =$conn->query($sql);
-				$rows = $result->fetch_assoc();
-				$result =$conn->query($sql);
-//				$result =$conn->query('select * from boy_clothes_product where type=\'boy_shirt\' limit 0,60');
-				$i=1;?>
+		<?php
+		$result = $conn -> query("select id from products where type='boy_shirt' ");
+		$random = mt_rand(0 , ($result -> num_rows) - 60);
+		$sql = "select products.id as p_id,user.id as u_id,img_addre,price,title,shop_id,img_addr,username,shop_name,type from products,shop,user where type='boy_shirt' and shop_id=merchant_id and user.id=user_id limit {$random},60";
+		$result = $conn -> query($sql);
+		$rows = $result -> fetch_assoc();
+		$result = $conn -> query($sql);
+		//				$result =$conn->query('select * from boy_clothes_product where type=\'boy_shirt\' limit 0,60');
+		$i = 1; ?>
 		<div class="row">
 			<div class="col-lg-11 text-left" id="product_type"
 			     style=" color: white;background-color:  rgb(1,158,210);font-size: 25px;box-shadow:0px 0px  10px 5px #aaa;">
@@ -1148,29 +1148,33 @@ if (isset($_SESSION['id'])) {
 		<?php
 				if ($result->num_rows> 0) {
 					while ($row = $result->fetch_assoc()) {
-						if($i%6==0){
+						if ($i % 6 == 0) {
 							echo "<div class=\"row\" >";
 						}
-							?>
-							<div class="col-lg-2 col-md-3 col-ms-3 col-xs-6">
-								<div class="item">
-									<a href="product.php?id=<?php echo $row['id']; ?>&type=<?php echo $row['type']; ?>"><img
+						?>
+						<div class="col-lg-2 col-md-3 col-ms-3 col-xs-6">
+							<div class="item">
+								<a href="product.php?id=<?php echo $row['p_id']; ?>&type=<?php echo $row['type']; ?>"><img
 											src="<?php echo $row['img_addre']; ?>"></a>
-									<span style="font-size: 20px;color: #e4393c;">￥<?php echo $row['price']; ?></span>
-									<p><a href="product.php?id=<?php echo $row['id']; ?>&type=<?php echo $row['type']; ?>"
-									      class="item_title"><?php if(strlen($row['title'])>100) echo substr($row['title'],0,100).'....';else echo $row['title']; ?></a></p>
-									<p><a href="<?php echo $row['merchant_addre']; ?>" class="item_merchant"><font
-												color="#4d88ff">●</font><?php echo $row['merchant']; ?></a>
-										<span class="item_merchant_place"> <?php echo $row['merchant_place']; ?></span>
-									</p>
-								</div>
+								<span style="font-size: 20px;color: #e4393c;">￥<?php echo $row['price']; ?></span>
+								<p><a href="product.php?id=<?php echo $row['p_id']; ?>&type=<?php echo $row['type']; ?>"
+								      class="item_title"><?php if (strlen($row['title']) > 100) echo substr($row['title'] , 0 , 100) . '....'; else echo $row['title']; ?></a>
+								</p>
+								<p><a href="shop.php?id=<?php echo $row['shop_id'] ?>" class="item_merchant"><font
+												color="#4d88ff">●</font><?php echo $row['shop_name']; ?></a><br>
+									<span class="item_merchant_place"><a
+												href="user_other.php?id=<?php echo $row['u_id'] ?>"> <img
+													src="<?php echo $row['img_addr'] ?>"
+													style="width: 30px;height: 30px;display: inline;border-radius: 50%"><?php echo $row['username'] ?></a></span>
+								</p>
 							</div>
-							<?php
-						if($i%6==0){
+						</div>
+						<?php
+						if ($i % 6 == 0) {
 							echo "</div>";
 						}
-						$i++;
-						}}
+						$i ++;
+					}}
 				?>
 		</div>
 	
@@ -1182,43 +1186,6 @@ if (isset($_SESSION['id'])) {
 			</div>
 		</div>
 	</div>
-
-<!--	异步更新数据-->
-	<script>
-		function getType() {
-			document.getElementById('reload').className = document.getElementById('refresh').className;
-		}
-		
-		function loadXMLDoc(id, flag) {
-			var xmlhttp;
-			if (window.XMLHttpRequest) {
-				//  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
-				xmlhttp = new XMLHttpRequest();
-			} else {
-				// IE6, IE5 浏览器执行代码
-				xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-			}
-			xmlhttp.onreadystatechange = function () {
-				if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-					if (flag == 1) {
-						document.getElementById("container").innerHTML = xmlhttp.responseText;
-					}
-					if (flag == 2) {
-						document.getElementById("container").innerHTML += xmlhttp.responseText;
-					}
-					
-				}
-			}
-			if (flag == 1) {
-				xmlhttp.open("GET", "../PRODUCTHTML/product_category.php?type=" + id + "&flag=false", true);
-			}
-			if (flag == 2) {
-				xmlhttp.open("GET", "../PRODUCTHTML/product_category.php?type=" + id + "&flag=true", true);
-			}
-			
-			xmlhttp.send();
-		}
-	</script>
 	
 	
 	<div class="footer">
@@ -1226,21 +1193,60 @@ if (isset($_SESSION['id'])) {
 			Copyright &nbsp;© &nbsp;
 			2019-2020 &nbsp; qinyou.com， &nbsp;All &nbsp;Rights &nbsp; Reserved &nbsp;
 			使用本网站即表示接受 &nbsp; 沁柚用户协议。版权所有 &nbsp; 九江学院31栋503沁柚工作室 邓亲优
-		        <br>
-		        九江学院 20180101981号 &nbsp;   赣ICP备（暂无） &nbsp;增值业务经营许可证： （暂无）&nbsp;网络文化经营许可证：（暂无）
-		        <br>
-		        自营主体经营证照（暂无） &nbsp; 风险监测信息（暂无） &nbsp; 互联网药品信息服务资格证书：（暂无）-学习性-（暂无）&nbsp; 网络交易第三方平台备案凭证：（暂无）
-		        <br>
-		        亲爱的学生老师，九江警方反诈劝阻电话“962110”系专门针对避免您财产被骗受损而设，请您一旦收到来电，立即接听。
-		        <br>
-		        公司名称：江西九江沁柚有限公司 | 公司地址：江西省九江市濂溪区九江学院主校区 | 电话：159-7067-4596
-		        <br>
-		        注明：本网站为学生于2019年12月制作的PHP大作业，未经本人同意请勿擅自将此网站商用,否则后果自负
-	        </div>
+			<br>
+			九江学院 20180101981号 &nbsp; 赣ICP备（暂无） &nbsp;增值业务经营许可证： （暂无）&nbsp;网络文化经营许可证：（暂无）
+			<br>
+			自营主体经营证照（暂无） &nbsp; 风险监测信息（暂无） &nbsp; 互联网药品信息服务资格证书：（暂无）-学习性-（暂无）&nbsp; 网络交易第三方平台备案凭证：（暂无）
+			<br>
+			亲爱的学生老师，九江警方反诈劝阻电话“962110”系专门针对避免您财产被骗受损而设，请您一旦收到来电，立即接听。
+			<br>
+			公司名称：江西九江沁柚有限公司 | 公司地址：江西省九江市濂溪区九江学院主校区 | 电话：159-7067-4596
+			<br>
+			注明：本网站为学生于2019年12月制作的PHP大作业，未经本人同意请勿擅自将此网站商用,否则后果自负
+		</div>
 	</div>
 
 
 </div>
+<!--	异步更新数据-->
+<script>
+	function getType() {
+		document.getElementById('reload').className = document.getElementById('refresh').className;
+	}
+	
+	function loadXMLDoc(id, flag) {
+		var xmlhttp;
+		if (window.XMLHttpRequest) {
+			//  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
+			xmlhttp = new XMLHttpRequest();
+		} else {
+			// IE6, IE5 浏览器执行代码
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function () {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				if (flag == 1) {
+					document.getElementById("container").innerHTML = xmlhttp.responseText;
+				}
+				if (flag == 2) {
+					document.getElementById("container").innerHTML += xmlhttp.responseText;
+				}
+				
+			}
+		}
+		if (flag == 1) {
+			xmlhttp.open("GET", "../PRODUCTHTML/product_category.php?type=" + id + "&flag=false", true);
+		}
+		if (flag == 2) {
+			xmlhttp.open("GET", "../PRODUCTHTML/product_category.php?type=" + id + "&flag=true", true);
+		}
+		
+		xmlhttp.send();
+	}
+
+
+</script>
+
 </body>
 
 

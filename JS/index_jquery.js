@@ -1,19 +1,24 @@
 $(document).scroll(function() {
-	var scroH = $(document).scrollTop();  //滚动高度
-	var viewH = $(window).height();  //可见高度
-	var contentH = $(document).height();  //内容高度
+	try {
+		var scroH = $(document).scrollTop();  //滚动高度
+		var viewH = $(window).height();  //可见高度
+		var contentH = $(document).height();  //内容高度
+		
+		if (scroH > 100) {  //距离顶部大于100px时
+			// alert("距离顶部大于100px");
+		}
+		if (contentH - (scroH + viewH) <= 40) {  //距离底部高度小于100px
+			// alert("距离底部小于100px");
+			loadXMLDoc(document.getElementById('reload').className, 2)
+			getType();
+		}
+		if (contentH == (scroH + viewH)) {  //滚动条滑到底部啦
+		
+		}
+	} catch (e) {
+		console.log(e)
+	}
 	
-	if(scroH >100){  //距离顶部大于100px时
-		// alert("距离顶部大于100px");
-	}
-	if (contentH - (scroH + viewH) <= 40){  //距离底部高度小于100px
-		// alert("距离底部小于100px");
-		loadXMLDoc(document.getElementById('reload').className,2)
-		getType();
-	}
-	if (contentH == (scroH + viewH)){  //滚动条滑到底部啦
-
-	}
 	
 });
 
