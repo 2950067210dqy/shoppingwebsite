@@ -69,18 +69,7 @@ echo $_SESSION['id'];
 			<div style="margin-top: 25px;width:100%">
 				<div class="search">
 					<div class="searchinput_shopcarinput">
-						<input type="text" placeholder="请输入用户名" name="searchtext" style="display: inline;width: 20%"
-						       id="search_text">
-						
-						<select id="search_sel" name="search_sel">
-							<option value="username">用户名</option>
-							<option value="email">邮箱</option>
-							<option value="name">名字</option>
-						</select>
-						普通用户<input type="radio" class="radios" name="radio" value="false" checked="checked">
-						管理员<input type="radio" class="radios" name="radio" value="true">
-						<input type="image" name="search" src="../IMG/search.png"
-						       style="width: 50px;height:30px;display: inline" id="search_btn">
+					
 						<span class="shopcar">
                         <a href="javascript:void(0)" class="shopcar">
                             <span class="shopcar_img"><img src="../IMG/shopcar.png" width="25" height="25"> </span>

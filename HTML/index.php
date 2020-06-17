@@ -1176,17 +1176,56 @@ if (isset($_SESSION['id'])) {
 						$i ++;
 					}}
 				?>
-		</div>
+	</div>
 	
 	<div class="container">
 		<div class="row text-center">
 			<div class="col-lg-12">
-				<a href="javascript:void(0)" style="cursor: pointer;background-color: transparent;font-size: 12px;color: #999999" class="<?php echo $rows['type']?>"
+				<a href="javascript:void(0)"
+				   style="cursor: pointer;background-color: transparent;font-size: 12px;color: #999999"
+				   class="<?php echo $rows['type']?>"
 				   onclick="getType();loadXMLDoc(this.className,2)" id="reload">点击加载更多...</a>
 			</div>
 		</div>
 	</div>
+	<!--	异步更新数据-->
+	<script>
+		function getType() {
+			document.getElementById('reload').className = document.getElementById('refresh').className;
+		}
+		
+		function loadXMLDoc(id, flag) {
+			var xmlhttp;
+			if (window.XMLHttpRequest) {
+				//  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
+				xmlhttp = new XMLHttpRequest();
+			} else {
+				// IE6, IE5 浏览器执行代码
+				xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+			}
+			xmlhttp.onreadystatechange = function () {
+				if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+					if (flag == 1) {
+						document.getElementById("container").innerHTML = xmlhttp.responseText;
+					}
+					if (flag == 2) {
+						document.getElementById("container").innerHTML += xmlhttp.responseText;
+					}
+					
+				}
+			}
+			if (flag == 1) {
+				xmlhttp.open("GET", "../PRODUCTHTML/product_category.php?type=" + id + "&flag=false", true);
+			}
+			if (flag == 2) {
+				xmlhttp.open("GET", "../PRODUCTHTML/product_category.php?type=" + id + "&flag=true", true);
+			}
+			
+			xmlhttp.send();
+		}
 	
+	
+	</script>
 	
 	<div class="footer">
 		<div style="color: #ababab;background-color:  rgb(246,249,250);text-align: center;margin: 0 auto;font-size: 13px">
@@ -1208,44 +1247,7 @@ if (isset($_SESSION['id'])) {
 
 
 </div>
-<!--	异步更新数据-->
-<script>
-	function getType() {
-		document.getElementById('reload').className = document.getElementById('refresh').className;
-	}
-	
-	function loadXMLDoc(id, flag) {
-		var xmlhttp;
-		if (window.XMLHttpRequest) {
-			//  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
-			xmlhttp = new XMLHttpRequest();
-		} else {
-			// IE6, IE5 浏览器执行代码
-			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-		}
-		xmlhttp.onreadystatechange = function () {
-			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-				if (flag == 1) {
-					document.getElementById("container").innerHTML = xmlhttp.responseText;
-				}
-				if (flag == 2) {
-					document.getElementById("container").innerHTML += xmlhttp.responseText;
-				}
-				
-			}
-		}
-		if (flag == 1) {
-			xmlhttp.open("GET", "../PRODUCTHTML/product_category.php?type=" + id + "&flag=false", true);
-		}
-		if (flag == 2) {
-			xmlhttp.open("GET", "../PRODUCTHTML/product_category.php?type=" + id + "&flag=true", true);
-		}
-		
-		xmlhttp.send();
-	}
 
-
-</script>
 
 </body>
 

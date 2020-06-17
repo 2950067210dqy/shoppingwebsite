@@ -69,11 +69,12 @@ $page == 1 ? $limitindex = 0 : $limitindex = ($page - 1) * $pageSize;
 	$sql = "select * from user where id={$_GET['user_id']}";
 	$result = $conn -> query($sql);
 	$row = $result -> fetch_assoc();
+	$user_id = $row['id'];
 	?>
 	<div class="admininformation" style="background-color: rgb(245,245,245)">
 		<form class="navbar-form navbar-left">
 			<span class="glyphicon glyphicon-euro" aria-hidden="true"></span>商品<span
-				class="badge"><?php echo $RecordCount ?></span>
+					class="badge"><?php echo $RecordCount ?></span>
 		</form>
 		<form class="navbar-form navbar-right" style="margin-right: 2%;" action="" method="get">
 			<div class="text-center" STYLE="position: relative">
@@ -227,32 +228,32 @@ $page == 1 ? $limitindex = 0 : $limitindex = ($page - 1) * $pageSize;
 									<em><?php echo $row['id'] ?></em>
 								</td>
 								<td>
-									<a href="product_post_items.php?id=<?php echo $row['id'] ?>&type=<?php echo $row['type'] ?>&shop_id=<?php echo $row['shop_id'] ?>"><img
-											src="<?php if (substr($row['img_addre'] , 0 , 1) == ".") echo "../../" . $row['img_addre']; else echo $row['img_addre'] ?>"
-											width="86" height="86" style="border-radius: 10%"></a>
+									<a href="product_post_items.php?id=<?php echo $row['id'] ?>&type=<?php echo $row['type'] ?>&shop_id=<?php echo $row['shop_id'] ?>&user_id=<?php echo $user_id ?>"><img
+												src="<?php if (substr($row['img_addre'] , 0 , 1) == ".") echo "../../" . $row['img_addre']; else echo $row['img_addre'] ?>"
+												width="86" height="86" style="border-radius: 10%"></a>
 								</td>
 								<td>
 									<span style="color: orangered">￥<?php echo $row['price'] ?></span>
 								</td>
 								<td>
-									<a href="product_post_items.php?id=<?php echo $row['id'] ?>&type=<?php echo $row['type'] ?>&shop_id=<?php echo $row['shop_id'] ?>"><?php echo $row['title'] ?></a>
+									<a href="product_post_items.php?id=<?php echo $row['id'] ?>&type=<?php echo $row['type'] ?>&shop_id=<?php echo $row['shop_id'] ?>&user_id=<?php echo $user_id ?>"><?php echo $row['title'] ?></a>
 								</td>
 								<td>
-									<a href="product_post_items.php?id=<?php echo $row['id'] ?>&type=<?php echo $row['type'] ?>&shop_id=<?php echo $row['shop_id'] ?>"><?php getNameByType($row['type']); ?></a>
+									<a href="product_post_items.php?id=<?php echo $row['id'] ?>&type=<?php echo $row['type'] ?>&shop_id=<?php echo $row['shop_id'] ?>&user_id=<?php echo $user_id ?>"><?php getNameByType($row['type']); ?></a>
 								</td>
 								<td>
-									<a href="product_post_items.php?id=<?php echo $row['id'] ?>&type=<?php echo $row['type'] ?>&shop_id=<?php echo $row['shop_id'] ?>"><?php echo $row['shop_name'] ?></a>
+									<a href="product_post_items.php?id=<?php echo $row['id'] ?>&type=<?php echo $row['type'] ?>&shop_id=<?php echo $row['shop_id'] ?>&user_id=<?php echo $user_id ?>"><?php echo $row['shop_name'] ?></a>
 								</td>
 								<td>
-									<a href="product_post_items.php?id=<?php echo $row['id'] ?>&type=<?php echo $row['type'] ?>&shop_id=<?php echo $row['shop_id'] ?>"><img
-											src="../../<?php echo $row['shop_img_addr'] ?>" width="86" height="86"
-											style="border-radius: 10%"></a></a>
+									<a href="product_post_items.php?id=<?php echo $row['id'] ?>&type=<?php echo $row['type'] ?>&shop_id=<?php echo $row['shop_id'] ?>&user_id=<?php echo $user_id ?>"><img
+												src="../../<?php echo $row['shop_img_addr'] ?>" width="86" height="86"
+												style="border-radius: 10%"></a></a>
 								</td>
 								<td>
 									<?php echo $row['time'] ?>
 								</td>
 								<td>
-									<a href="product_post_items.php?id=<?php echo $row['id'] ?>&type=<?php echo $row['type'] ?>&shop_id=<?php echo $row['shop_id'] ?>"
+									<a href="product_post_items.php?id=<?php echo $row['id'] ?>&type=<?php echo $row['type'] ?>&shop_id=<?php echo $row['shop_id'] ?>&user_id=<?php echo $user_id ?>"
 									   class="btn btn-success"><span class="glyphicon glyphicon-arrow-up"></span> 进入商品评论</a>
 								</td>
 							</tr>
@@ -276,7 +277,7 @@ $page == 1 ? $limitindex = 0 : $limitindex = ($page - 1) * $pageSize;
 						<ul class="pagination">
 							<?php
 							if ($RecordCount > 0) {
-								$url = $_SERVER['PHP_SELF'] . "?id=" . $_GET['id'];//获取当前页的URL
+								$url = $_SERVER['PHP_SELF'] . "?id=" . $_GET['id'] . "&user_id={$_GET['user_id']}";//获取当前页的URL
 								$PageCount = ceil($RecordCount / $pageSize);//总页数
 								
 								if (isset($_GET['searchtext']) && isset($_GET['sel'])) {
@@ -299,9 +300,9 @@ $page == 1 ? $limitindex = 0 : $limitindex = ($page - 1) * $pageSize;
 										document.getElementById('goPage').value = pagecount;
 									}
 									if (sel && searchtext) {
-										location.assign(url + '?Page=' + document.getElementById('goPage').value + '&sel=' + sel + '&searchtext=' + searchtext);
+										location.assign(url + '&Page=' + document.getElementById('goPage').value + '&sel=' + sel + '&searchtext=' + searchtext);
 									} else {
-										location.assign(url + '?Page=' + document.getElementById('goPage').value);
+										location.assign(url + '&Page=' + document.getElementById('goPage').value);
 									}
 								}
 							</script>

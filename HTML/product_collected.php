@@ -115,7 +115,7 @@ if (isset($_SESSION['id'])) {
 					$result = $conn -> query($sql);
 					while ($row = $result -> fetch_assoc()) {
 						if ($row) {
-							$sql2 = "select products.id as p_id,user.id as u_id,img_addre,price,title,shop_id,img_addr,username,shop_name,type from products,shop,user where products.id='{$row['id']}' and shop_id=merchant_id and user.id=user_id";
+							$sql2 = "select products.id as p_id,user.id as u_id,img_addre,price,title,shop_id,img_addr,username,shop_name,type from products,shop,user where products.id='{$row['product_id']}' and shop_id=merchant_id and user.id=user_id";
 							$result2 = $conn -> query($sql2);
 							$row2 = $result2 -> fetch_assoc();
 							if ($row2) {

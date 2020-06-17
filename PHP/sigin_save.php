@@ -98,11 +98,11 @@ function siginok($bool){
                                                                 \" 您的邀请码为{$_POST['invitecode']}\\n\"+
                                                                 \" 您的密码为{$_POST['password']}\\n\"+
                                                                \" 您的职业为{$_POST['career']}\\n\");
-              	    		    location.assign('../HTML/logoin.php'); </script>";
+              	    		    location.assign('../HTML/logoin.php?username={$_POST['id']}'); </script>";
 
     }
     else{
-        echo "<script>alert('添加失败')</script>";
+	    echo "<script>alert('添加失败');location.assign('../HTML/signin.php'); </script>\";</script>";
     }
 }
 

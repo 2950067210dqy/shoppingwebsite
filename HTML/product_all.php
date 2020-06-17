@@ -309,7 +309,13 @@ if(!isset($_GET['price'])||$_GET['price']=="asc"){
 						if (parseInt(val) > pagecount) {
 							document.getElementById('goPage').value = pagecount;
 						}
-						location.assign(url + '&Page=' + document.getElementById('goPage').value + "&searchtext=" + searchtext + "&from_price=" + from_price + "&to_price=" + to_price);
+						if (searchtext || from_price || to_price) {
+							location.assign(url + '&Page=' + document.getElementById('goPage').value + "&searchtext=" + searchtext + "&from_price=" + from_price + "&to_price=" + to_price);
+						} else {
+							location.assign(url + '&Page=' + document.getElementById('goPage').value);
+						}
+						
+						
 					}
 				</script>
 			</ul>

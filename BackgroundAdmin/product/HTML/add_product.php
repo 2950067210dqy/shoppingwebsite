@@ -34,7 +34,7 @@ require '../../conn.php';
 	     style="font-size: 25px;width: 100%;border-bottom: 3px silver solid;height: 50px;color: #5e5e5e;">
 		<span class="text-left"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>添加商品</span>
 		<span style="margin-left: 80%"><a style="display: inline" class=" btn btn-default text-right"
-		                                  href="productitem.php.php">返回</a></span>
+		                                  href="productitem.php?id=<?php echo $_GET['id'] ?>">返回</a></span>
 	</div>
 	
 	<div class="admininformation">

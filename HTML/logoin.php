@@ -51,7 +51,10 @@
 		          action="../PHP/login_check.php?beforeAddre=<?php echo urlencode($_SERVER['HTTP_REFERER']); ?>">
 			    <input type="hidden" value="false" id="isadmin" name="isadmin">
 			    <br>
-			    <input type="text" maxlength="50" name="id" placeholder="手机号/账号/邮箱" id="id" onkeyup="check(this.name)">
+			    <input type="text" maxlength="50" name="id" placeholder="手机号/账号/邮箱" id="id" onkeyup="check(this.name)"
+			           value="<?php if (isset($_GET['username'])) {
+				           echo $_GET['username'];
+			           } ?>">
 			    <br>
 			    <input type="password" maxlength="50" name="password" placeholder="密码（不大于10位）" id="password"
 			           onkeyup="check(this.name)">

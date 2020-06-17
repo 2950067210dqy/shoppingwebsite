@@ -74,6 +74,10 @@ if ($_GET['id'] == $_SESSION['id']) {
 		                <a class=\"btn btn-success\" href=\"history.php\">该用户的足迹</a>
 		                <a class=\"btn btn-success\" href=\"message.php?id={$_GET['id']}\">和他（她）聊天</a>
 		                ";
+							$row = selectAllWhereOne("user" , "id" , $_GET['id'] , 1 , $conn);
+							if ($row['isadmin'] == "merchant") {
+								echo "<a class=\"btn btn-success  \" href='merchant.php?id={$row['id']}'>他的店铺</a>";
+							}
 						} else {
 //							<!--				查询 当前查询结果的用户是否已经是好友-->
 							

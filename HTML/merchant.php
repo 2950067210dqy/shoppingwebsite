@@ -3,7 +3,7 @@ require("../PHP/conn.php");
 $url = "";
 
 
-$pageSize = 20;
+$pageSize = 24;
 if (isset($_GET['Page']) && (int)$_GET['Page'] > 0) {
 	$page = $_GET['Page'];
 } else {

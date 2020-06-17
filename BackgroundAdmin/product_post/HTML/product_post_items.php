@@ -143,7 +143,7 @@ if (isset($_GET['id'])) {
 				<button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span> 查询
 				</button>
 				<?php
-				echo "<a href='product_post_item.php?id={$shop_id}' class='btn btn-default'>返回</a>";
+				echo "<a href='product_post_item.php?id={$shop_id}&user_id={$_GET['user_id']}' class='btn btn-default'>返回</a>";
 				?>
 			</div>
 		</form>
@@ -194,26 +194,31 @@ if (isset($_GET['id'])) {
 									<em><?php echo $row['id'] ?></em>
 								</td>
 								<td>
-									<a href="../../../HTML/product.php?id=<?php echo $row['id'] ?>&type=<?php echo $row['type'] ?>"><img
-											src="<?php if (substr($row['img_addre'] , 0 , 1) == ".") echo "../../" . $row['img_addre']; else echo $row['img_addre'] ?>"
-											width="86" height="86" style="border-radius: 10%"></a>
+									<a target="_blank"
+									   href="../../../HTML/product.php?id=<?php echo $row['id'] ?>&type=<?php echo $row['type'] ?>"><img
+												src="<?php if (substr($row['img_addre'] , 0 , 1) == ".") echo "../../" . $row['img_addre']; else echo $row['img_addre'] ?>"
+												width="86" height="86" style="border-radius: 10%"></a>
 								</td>
 								<td>
 									<span style="color: orangered">￥<?php echo $row['price'] ?></span>
 								</td>
 								<td>
-									<a href="../../../HTML/product.php?id=<?php echo $row['id'] ?>&type=<?php echo $row['type'] ?>"><?php echo $row['title'] ?></a>
+									<a target="_blank"
+									   href="../../../HTML/product.php?id=<?php echo $row['id'] ?>&type=<?php echo $row['type'] ?>"><?php echo $row['title'] ?></a>
 								</td>
 								<td>
-									<a href="../../../HTML/product.php?id=<?php echo $row['id'] ?>&type=<?php echo $row['type'] ?>"><?php getNameByType($row['type']); ?></a>
+									<a target="_blank"
+									   href="../../../HTML/product.php?id=<?php echo $row['id'] ?>&type=<?php echo $row['type'] ?>"><?php getNameByType($row['type']); ?></a>
 								</td>
 								<td>
-									<a href="../../../HTML/product.php?id=<?php echo $row['id'] ?>&type=<?php echo $row['type'] ?>"><?php echo $row['shop_name'] ?></a>
+									<a target="_blank"
+									   href="../../../HTML/product.php?id=<?php echo $row['id'] ?>&type=<?php echo $row['type'] ?>"><?php echo $row['shop_name'] ?></a>
 								</td>
 								<td>
-									<a href="../../../HTML/product.php?id=<?php echo $row['id'] ?>&type=<?php echo $row['type'] ?>"><img
-											src="../../<?php echo $row['shop_img_addr'] ?>" width="86" height="86"
-											style="border-radius: 10%"></a></a>
+									<a target="_blank"
+									   href="../../../HTML/product.php?id=<?php echo $row['id'] ?>&type=<?php echo $row['type'] ?>"><img
+												src="../../<?php echo $row['shop_img_addr'] ?>" width="86" height="86"
+												style="border-radius: 10%"></a></a>
 								</td>
 								<td>
 									<?php echo $row['time'] ?>

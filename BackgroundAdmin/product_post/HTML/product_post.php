@@ -116,10 +116,10 @@ $page == 1 ? $limitindex = 0 : $limitindex = ($page - 1) * $pageSize;
 						<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>店铺<span
 							class="badge"><?php echo $RecordCount ?></span>
 					</div>
-					<form class="navbar-form navbar-left" method="get" action="product_post_item.php">
-						<input name="id" value="all" type="hidden">
-						<button type="submit" class="btn btn-default">所有商品</button>
-					</form>
+					<!--					<form class="navbar-form navbar-left" method="get" action="product_post_item.php">-->
+					<!--						<input name="id" value="all" type="hidden">-->
+					<!--						<button type="submit" class="btn btn-default">所有商品</button>-->
+					<!--					</form>-->
 					<form class="navbar-form navbar-right" style="margin-right: 2%;" action="" method="get">
 						<div class="text-center" STYLE="position: relative">
 							<input type="text" name="searchtext" class="form-control" placeholder="您输入要查找店铺字段的名字">
@@ -196,7 +196,8 @@ $page == 1 ? $limitindex = 0 : $limitindex = ($page - 1) * $pageSize;
 										<em><?php echo $row['shop_id'] ?></em>
 									</td>
 									<td>
-										<a href="../../../HTML/user_other.php?id=<?php echo $row['id'] ?>">
+										<a target="_blank"
+										   href="../../../HTML/user_other.php?id=<?php echo $row['id'] ?>">
 											<img src="../../<?php echo $row['img_addr'] ?>" width="50" height="50"
 											     style="border-radius: 10%">
 											<?php echo $row['name'] ?>(<?php echo $row['username'] ?>)
@@ -204,8 +205,8 @@ $page == 1 ? $limitindex = 0 : $limitindex = ($page - 1) * $pageSize;
 									</td>
 									<td>
 										<a href="product_post_item.php?id=<?php echo $row['shop_id'] ?>&user_id=<?php echo $row['id'] ?>"><img
-												src="../../<?php echo $row['shop_img_addr'] ?>" width="86"
-												height="86" style="border-radius: 10%"></a>
+													src="../../<?php echo $row['shop_img_addr'] ?>" width="86"
+													height="86" style="border-radius: 10%"></a>
 									</td>
 									<td>
 										<a href="product_post_item.php?id=<?php echo $row['shop_id'] ?>&user_id=<?php echo $row['id'] ?>"><?php echo $row['shop_name'] ?></a>
